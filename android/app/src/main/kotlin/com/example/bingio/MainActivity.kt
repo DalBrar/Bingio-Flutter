@@ -1,4 +1,4 @@
-package com.example.bingio
+package com.dalbrar.bingio
 
 import io.flutter.embedding.android.FlutterActivity
 
