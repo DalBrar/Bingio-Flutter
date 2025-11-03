@@ -1,4 +1,4 @@
-import 'package:bingio/constants.dart';
+import 'package:bingio/shared/constants.dart';
 import 'package:bingio/shared/gradientText.dart';
 import 'package:flutter/material.dart';
 
