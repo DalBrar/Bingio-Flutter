@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:bingio/shared/app_toast.dart';
 import 'package:bingio/shared/button_plain_text.dart';
 import 'package:bingio/shared/button_solid.dart';
