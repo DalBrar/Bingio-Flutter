@@ -1,3 +1,4 @@
+import 'package:bingio/shared/constants.dart';
 import 'package:flutter/material.dart';
 
 class GradientText extends StatelessWidget {
@@ -8,8 +9,8 @@ class GradientText extends StatelessWidget {
   const GradientText({
     super.key, 
     required this.text,
-    required this.style,
-    required this.gradient,
+    this.style = APPSTYLES.titleText,
+    this.gradient = APPCOLORS.gradient,
   });
 
   @override
