@@ -21,7 +21,9 @@ class _LoginPageState extends State<LoginPage> {
   final FocusNode loginButtonFocusNode = FocusNode();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  static const double verticalPadding = 10.0;
+
+  final String titleText = 'Welcome to ${STRINGS.appName}';
+  final double verticalPadding = 10.0;
 
   DateTime lastBackPressTime = DateTime.now();
 
@@ -73,6 +75,9 @@ class _LoginPageState extends State<LoginPage> {
   void dispose() {
     emailFocusNode.dispose();
     passwordFocusNode.dispose();
+    loginButtonFocusNode.dispose();
+    emailController.dispose();
+    passwordController.dispose();
     super.dispose();
   }
 
@@ -100,7 +105,7 @@ class _LoginPageState extends State<LoginPage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 SizedBox(height: 25),
-                GradientText(text: 'Welcome to ${STRINGS.appName}'),
+                GradientText(text: titleText),
 
                 SizedBox(height: 40),
                 Text(
@@ -113,9 +118,9 @@ class _LoginPageState extends State<LoginPage> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       InputField(
+                        hintText:  'Email',
                         autoFocus: true,
                         controller: emailController,
-                        hintText:  'Email',
                         focusNode: emailFocusNode,
                         nextFocus: passwordFocusNode,
                         paddingHorizontal: verticalPadding * 4,
@@ -123,8 +128,8 @@ class _LoginPageState extends State<LoginPage> {
                       ),
 
                       InputField(
-                        controller: passwordController,
                         hintText:  'Password',
+                        controller: passwordController,
                         focusNode: passwordFocusNode,
                         nextFocus: loginButtonFocusNode,
                         paddingHorizontal: verticalPadding * 4,
@@ -133,8 +138,8 @@ class _LoginPageState extends State<LoginPage> {
                       ),
 
                       SolidButton(
-                        focusNode: loginButtonFocusNode,
                         text: 'Log In',
+                        focusNode: loginButtonFocusNode,
                         onPressed: logUserIn,
                         paddingVertical: verticalPadding,
                       ),
