@@ -52,9 +52,7 @@ class _LoginPageState extends State<LoginPage> {
       showAppError('Exception: ${e.toString()}');
     }
     finally {
-      if (mounted) {
-        Navigator.pop(context);
-      }
+      Navigator.pop(context);
     }
   }
 
