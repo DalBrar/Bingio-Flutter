@@ -1,10 +1,10 @@
+import 'package:bingio/services/auth_service.dart';
 import 'package:bingio/shared/app_toast.dart';
 import 'package:bingio/shared/button_plain_text.dart';
 import 'package:bingio/shared/button_solid.dart';
 import 'package:bingio/shared/gradient_text.dart';
 import 'package:bingio/shared/constants.dart';
 import 'package:bingio/shared/input_field.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -25,6 +25,7 @@ class _LoginPageState extends State<LoginPage> {
   final FocusNode emailFocusNode = FocusNode();
   final FocusNode passwordFocusNode = FocusNode();
   final FocusNode loginButtonFocusNode = FocusNode();
+  final FocusNode googleSignInButtonFocusNode = FocusNode();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
@@ -43,32 +44,38 @@ class _LoginPageState extends State<LoginPage> {
           );
         }
       );
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: emailController.text,
-        password: passwordController.text
-      );
+      await AuthService().logInWithEmailAndPassword(emailController.text, passwordController.text);
     }
-    on FirebaseAuthException catch (e) {
-      switch(e.code) {
-        case 'channel-error':
-          showAppError('Must provide Email and Password');
-          break;
-        case 'invalid-email':
-          showAppError('Invalid email format');
-          break;
-        case 'user-not-found':
-        case 'wrong-password':
-        case 'invalid-credential':
-          showAppError('Incorrect Email or Password');
-          break;
-        case 'too-many-requests':
-          showAppError('Too many requests, please wait a bit and try again later', toastLength: Toast.LENGTH_LONG);
-        default:
-          showAppError('Auth Error: ${e.message}', toastLength: Toast.LENGTH_LONG);
-      }
+    on AuthServiceException catch (e) {
+      showAppError(e.message, toastLength: Toast.LENGTH_LONG);
     }
     on Exception catch (e) {
-      showAppError('Exception: ${e.toString()}');
+      showAppError('Exception: ${e.toString()}', toastLength: Toast.LENGTH_LONG);
+    }
+    finally {
+      if (mounted) {
+        Navigator.pop(context);
+      }
+    }
+  }
+
+  void googleSignIn() async {
+    try {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+      );
+      await AuthService().logInWithGoogle();
+    }
+    on AuthServiceException catch (e) {
+      showAppError(e.message, toastLength: Toast.LENGTH_LONG);
+    }
+    on Exception catch (e) {
+      showAppError('Exception: ${e.toString()}', toastLength: Toast.LENGTH_LONG);
     }
     finally {
       if (mounted) {
@@ -82,6 +89,7 @@ class _LoginPageState extends State<LoginPage> {
     emailFocusNode.dispose();
     passwordFocusNode.dispose();
     loginButtonFocusNode.dispose();
+    googleSignInButtonFocusNode.dispose();
     emailController.dispose();
     passwordController.dispose();
     super.dispose();
@@ -150,18 +158,20 @@ class _LoginPageState extends State<LoginPage> {
                         paddingVertical: verticalPadding,
                       ),
 
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            "Don't have an account? ",
-                            style: APPSTYLES.regularText,
-                          ),
-                          PlainTextButton(
-                            text: 'Sign Up',
-                            onPressed: widget.toggleLoginAndRegisterPages,
-                          ),
-                        ],
+                      Text('-- OR --'),
+
+                      SolidButton(
+                        text: 'Sign In with Google',
+                        image: 'assets/images/google_favicon.png',
+                        width: 250,
+                        focusNode: googleSignInButtonFocusNode,
+                        onPressed: googleSignIn,
+                        paddingVertical: verticalPadding,
+                      ),
+
+                      PlainTextButton(
+                        text: 'Sign Up with Email',
+                        onPressed: widget.toggleLoginAndRegisterPages,
                       ),
                     ],
                   ),

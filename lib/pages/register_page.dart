@@ -1,10 +1,10 @@
+import 'package:bingio/services/auth_service.dart';
 import 'package:bingio/shared/app_toast.dart';
 import 'package:bingio/shared/button_plain_text.dart';
 import 'package:bingio/shared/button_solid.dart';
 import 'package:bingio/shared/gradient_text.dart';
 import 'package:bingio/shared/constants.dart';
 import 'package:bingio/shared/input_field.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -43,37 +43,18 @@ class _RegisterPageState extends State<RegisterPage> {
         }
       );
       if (passwordController.text == confirmPasswordController.text) {
-        await FirebaseAuth.instance.createUserWithEmailAndPassword(
-          email: emailController.text,
-          password: passwordController.text
-        );
+        await AuthService().signUpWithEmailAndPassword(emailController.text, passwordController.text);
         widget.toggleLoginAndRegisterPages();
       }
       else {
-        showAppError('Passwords do not match!');
+        showAppError('Passwords do not match');
       }
     }
-    on FirebaseAuthException catch (e) {
-      switch(e.code) {
-        case 'channel-error':
-          showAppError('Must provide Email and Password');
-          break;
-        case 'invalid-email':
-          showAppError('Invalid email format');
-          break;
-        case 'user-not-found':
-        case 'wrong-password':
-        case 'invalid-credential':
-          showAppError('Incorrect Email or Password');
-          break;
-        case 'too-many-requests':
-          showAppError('Too many requests, please wait a bit and try again later', toastLength: Toast.LENGTH_LONG);
-        default:
-          showAppError('Auth Error: ${e.message}', toastLength: Toast.LENGTH_LONG);
-      }
+    on AuthServiceException catch (e) {
+      showAppError(e.message, toastLength: Toast.LENGTH_LONG);
     }
     on Exception catch (e) {
-      showAppError('Exception: ${e.toString()}');
+      showAppError('Exception: ${e.toString()}', toastLength: Toast.LENGTH_LONG);
     }
     finally {
       if (mounted) {
