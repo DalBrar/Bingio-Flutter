@@ -1,6 +1,6 @@
-import 'package:bingio/pages/home_page.dart';
 import 'package:bingio/pages/login_page.dart';
 import 'package:bingio/pages/register_page.dart';
+import 'package:bingio/pages/verify_email_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -28,7 +28,7 @@ class _AuthCheckState extends State<AuthCheck> {
         builder: (context, snapshot) {
           // User is Logged In
           if (snapshot.hasData) {
-            return HomePage();
+            return VerifyEmailPage();
           }
           // User is NOT Logged In
           else {

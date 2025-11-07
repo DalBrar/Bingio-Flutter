@@ -14,6 +14,6 @@ void showAppToast(String message, {Toast toastLength = Toast.LENGTH_SHORT, bool 
   return;
 }
 
-void showAppError(String message, {Toast toastLength = Toast.LENGTH_SHORT}) {
+void showAppError(String message, {Toast toastLength = Toast.LENGTH_LONG}) {
   showAppToast(message, toastLength: toastLength, isError: true);
 }

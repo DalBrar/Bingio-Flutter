@@ -7,7 +7,6 @@ import 'package:bingio/shared/constants.dart';
 import 'package:bingio/shared/input_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 class LoginPage extends StatefulWidget {
   final Function() toggleLoginAndRegisterPages;
@@ -47,10 +46,10 @@ class _LoginPageState extends State<LoginPage> {
       await AuthService().logInWithEmailAndPassword(emailController.text.trim(), passwordController.text.trim());
     }
     on AuthServiceException catch (e) {
-      showAppError(e.message, toastLength: Toast.LENGTH_LONG);
+      showAppError(e.message);
     }
     on Exception catch (e) {
-      showAppError('Exception: ${e.toString()}', toastLength: Toast.LENGTH_LONG);
+      showAppError('Exception: ${e.toString()}');
     }
     finally {
       if (mounted) {
@@ -72,10 +71,10 @@ class _LoginPageState extends State<LoginPage> {
       await AuthService().logInWithGoogle();
     }
     on AuthServiceException catch (e) {
-      showAppError(e.message, toastLength: Toast.LENGTH_LONG);
+      showAppError(e.message);
     }
     on Exception catch (e) {
-      showAppError('Exception: ${e.toString()}', toastLength: Toast.LENGTH_LONG);
+      showAppError('Exception: ${e.toString()}');
     }
     finally {
       if (mounted) {

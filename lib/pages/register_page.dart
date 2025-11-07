@@ -6,7 +6,6 @@ import 'package:bingio/shared/gradient_text.dart';
 import 'package:bingio/shared/constants.dart';
 import 'package:bingio/shared/input_field.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 class RegisterPage extends StatefulWidget {
   final Function() toggleLoginAndRegisterPages;
@@ -51,10 +50,10 @@ class _RegisterPageState extends State<RegisterPage> {
       }
     }
     on AuthServiceException catch (e) {
-      showAppError(e.message, toastLength: Toast.LENGTH_LONG);
+      showAppError(e.message);
     }
     on Exception catch (e) {
-      showAppError('Exception: ${e.toString()}', toastLength: Toast.LENGTH_LONG);
+      showAppError('Exception: ${e.toString()}');
     }
     finally {
       if (mounted) {
