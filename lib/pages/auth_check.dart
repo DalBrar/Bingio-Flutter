@@ -9,20 +9,18 @@ class AuthCheck extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: StreamBuilder<User?>(
-          stream: FirebaseAuth.instance.authStateChanges(),
-          builder: (context, snapshot) {
-            // User is Logged In
-            if (snapshot.hasData) {
-              return HomePage();
-            }
-            // User is NOT Logged In
-            else {
-              return LoginPage();
-            }
+      body: StreamBuilder<User?>(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (context, snapshot) {
+          // User is Logged In
+          if (snapshot.hasData) {
+            return HomePage();
           }
-        )
+          // User is NOT Logged In
+          else {
+            return LoginPage();
+          }
+        }
       )
     );
   }

@@ -27,10 +27,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: STRINGS.appName,
       home: const Scaffold(
-        backgroundColor: APPCOLORS.background,
-        body: SafeArea(
-          child: AuthCheck(),
-        ),
+        body: AuthCheck(),
       ),
     );
   }
