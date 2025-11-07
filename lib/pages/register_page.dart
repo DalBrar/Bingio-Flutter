@@ -6,34 +6,33 @@ import 'package:bingio/shared/constants.dart';
 import 'package:bingio/shared/input_field.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-class LoginPage extends StatefulWidget {
+class RegisterPage extends StatefulWidget {
   final Function() toggleLoginAndRegisterPages;
   
-  const LoginPage({
+  const RegisterPage({
     super.key,
     required this.toggleLoginAndRegisterPages,
   });
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _RegisterPageState extends State<RegisterPage> {
   final FocusNode emailFocusNode = FocusNode();
   final FocusNode passwordFocusNode = FocusNode();
-  final FocusNode loginButtonFocusNode = FocusNode();
+  final FocusNode confirmPasswordFocusNode = FocusNode();
+  final FocusNode signUpButtonFocusNode = FocusNode();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final TextEditingController confirmPasswordController = TextEditingController();
 
   final String titleText = 'Welcome to ${STRINGS.appName}';
   final double verticalPadding = 10.0;
 
-  DateTime lastBackPressTime = DateTime.now();
-
-  void logUserIn() async {
+  void signUp() async {
     try {
       showDialog(
         context: context,
@@ -43,10 +42,16 @@ class _LoginPageState extends State<LoginPage> {
           );
         }
       );
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: emailController.text,
-        password: passwordController.text
-      );
+      if (passwordController.text == confirmPasswordController.text) {
+        await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: emailController.text,
+          password: passwordController.text
+        );
+        widget.toggleLoginAndRegisterPages();
+      }
+      else {
+        showAppError('Passwords do not match!');
+      }
     }
     on FirebaseAuthException catch (e) {
       switch(e.code) {
@@ -81,9 +86,11 @@ class _LoginPageState extends State<LoginPage> {
   void dispose() {
     emailFocusNode.dispose();
     passwordFocusNode.dispose();
-    loginButtonFocusNode.dispose();
+    confirmPasswordFocusNode.dispose();
+    signUpButtonFocusNode.dispose();
     emailController.dispose();
     passwordController.dispose();
+    confirmPasswordController.dispose();
     super.dispose();
   }
 
@@ -93,14 +100,7 @@ class _LoginPageState extends State<LoginPage> {
       canPop: false,
       onPopInvokedWithResult: (bool didPop, dynamic result) {
         if (didPop) return;
-
-        DateTime now = DateTime.now();
-        if (now.difference(lastBackPressTime) > const Duration(seconds: 2)) {
-          lastBackPressTime = now;
-          showAppToast('Press back again to exit');
-          return;
-        }
-        SystemNavigator.pop();
+        widget.toggleLoginAndRegisterPages();
       },
       child: Scaffold(
         backgroundColor: APPCOLORS.background,
@@ -115,7 +115,7 @@ class _LoginPageState extends State<LoginPage> {
 
                 SizedBox(height: 40),
                 Text(
-                  'Please log in to continue.',
+                  'Please register to continue.',
                   style: APPSTYLES.regularText,
                 ),
                 
@@ -137,16 +137,26 @@ class _LoginPageState extends State<LoginPage> {
                         hintText:  'Password',
                         controller: passwordController,
                         focusNode: passwordFocusNode,
-                        nextFocus: loginButtonFocusNode,
+                        nextFocus: confirmPasswordFocusNode,
+                        paddingHorizontal: verticalPadding * 4,
+                        paddingVertical: verticalPadding,
+                        obscureText: true,
+                      ),
+
+                      InputField(
+                        hintText:  'Confirm Password',
+                        controller: confirmPasswordController,
+                        focusNode: confirmPasswordFocusNode,
+                        nextFocus: signUpButtonFocusNode,
                         paddingHorizontal: verticalPadding * 4,
                         paddingVertical: verticalPadding,
                         obscureText: true,
                       ),
 
                       SolidButton(
-                        text: 'Log In',
-                        focusNode: loginButtonFocusNode,
-                        onPressed: logUserIn,
+                        text: 'Sign Up',
+                        focusNode: signUpButtonFocusNode,
+                        onPressed: signUp,
                         paddingVertical: verticalPadding,
                       ),
 
@@ -154,11 +164,11 @@ class _LoginPageState extends State<LoginPage> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            "Don't have an account? ",
+                            "Already have an account? ",
                             style: APPSTYLES.regularText,
                           ),
                           PlainTextButton(
-                            text: 'Sign Up',
+                            text: 'Log In',
                             onPressed: widget.toggleLoginAndRegisterPages,
                           ),
                         ],

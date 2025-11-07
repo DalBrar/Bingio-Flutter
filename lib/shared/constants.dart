@@ -6,6 +6,7 @@ class APPCOLORS {
   static const Color hint = Color(0xFF8A8A8A);
   static const Color link = Color(0xFFC8C8FF);
   static const Color active = Color(0xFFA8FFA8);
+  static const Color error = Color(0xFFFFA8A8);
   static const LinearGradient gradient = LinearGradient(
     colors: [Color(0xFFFFC8C8), Color(0xFFC8FFC8)],
     begin: Alignment.topLeft,
