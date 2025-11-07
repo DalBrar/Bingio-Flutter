@@ -1,4 +1,4 @@
-import 'package:bingio/pages/login_page.dart';
+import 'package:bingio/pages/auth_check.dart';
 import 'package:bingio/shared/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
       home: const Scaffold(
         backgroundColor: APPCOLORS.background,
         body: SafeArea(
-          child: LoginPage(),
+          child: AuthCheck(),
         ),
       ),
     );

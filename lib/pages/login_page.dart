@@ -4,6 +4,7 @@ import 'package:bingio/shared/button_solid.dart';
 import 'package:bingio/shared/gradient_text.dart';
 import 'package:bingio/shared/constants.dart';
 import 'package:bingio/shared/input_field.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -25,14 +26,47 @@ class _LoginPageState extends State<LoginPage> {
   DateTime lastBackPressTime = DateTime.now();
 
   void logUserIn() async {
-    showAppToast('Log In not implemented yet.');
-    return;
-
-    await Future.delayed(const Duration(seconds: 5));
-    if (!mounted) return;
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(builder: (context) => const LoginPage()),
-    );
+    try {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+      );
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: emailController.text,
+        password: passwordController.text
+      ); 
+    }
+    on FirebaseAuthException catch (e) {
+      switch(e.code) {
+        case 'channel-error':
+          showAppToast('Must provide Email and Password');
+          break;
+        case 'invalid-email':
+          showAppToast('Invalid email format');
+          break;
+        case 'user-not-found':
+        case 'wrong-password':
+        case 'invalid-credential':
+          showAppToast('Incorrect Email or Password');
+          break;
+        case 'too-many-requests':
+          showAppToast('Too many requests, please wait a bit and try again later');
+        default:
+          showAppToast('Auth Error: ${e.code}');
+      }
+    }
+    on Exception catch (e) {
+      showAppToast('Exception: ${e.toString()}');
+    }
+    finally {
+      if (mounted) {
+        Navigator.pop(context);
+      }
+    }
   }
 
   @override
