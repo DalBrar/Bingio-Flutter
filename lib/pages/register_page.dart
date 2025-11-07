@@ -42,8 +42,8 @@ class _RegisterPageState extends State<RegisterPage> {
           );
         }
       );
-      if (passwordController.text == confirmPasswordController.text) {
-        await AuthService().signUpWithEmailAndPassword(emailController.text, passwordController.text);
+      if (passwordController.text.trim() == confirmPasswordController.text.trim()) {
+        await AuthService().signUpWithEmailAndPassword(emailController.text.trim(), passwordController.text.trim());
         widget.toggleLoginAndRegisterPages();
       }
       else {
@@ -106,6 +106,9 @@ class _RegisterPageState extends State<RegisterPage> {
                     children: [
                       InputField(
                         hintText:  'Email',
+                        textInputType: TextInputType.emailAddress,
+                        autofillHints: [AutofillHints.email],
+                        prefixIcon: Icon(Icons.mail),
                         autoFocus: true,
                         controller: emailController,
                         focusNode: emailFocusNode,
@@ -116,6 +119,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
                       InputField(
                         hintText:  'Password',
+                        prefixIcon: Icon(Icons.password),
                         controller: passwordController,
                         focusNode: passwordFocusNode,
                         nextFocus: confirmPasswordFocusNode,
@@ -126,6 +130,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
                       InputField(
                         hintText:  'Confirm Password',
+                        prefixIcon: Icon(Icons.password),
                         controller: confirmPasswordController,
                         focusNode: confirmPasswordFocusNode,
                         nextFocus: signUpButtonFocusNode,

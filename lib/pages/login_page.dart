@@ -44,7 +44,7 @@ class _LoginPageState extends State<LoginPage> {
           );
         }
       );
-      await AuthService().logInWithEmailAndPassword(emailController.text, passwordController.text);
+      await AuthService().logInWithEmailAndPassword(emailController.text.trim(), passwordController.text.trim());
     }
     on AuthServiceException catch (e) {
       showAppError(e.message, toastLength: Toast.LENGTH_LONG);
@@ -133,6 +133,9 @@ class _LoginPageState extends State<LoginPage> {
                     children: [
                       InputField(
                         hintText:  'Email',
+                        textInputType: TextInputType.emailAddress,
+                        autofillHints: [AutofillHints.email],
+                        prefixIcon: Icon(Icons.mail),
                         autoFocus: true,
                         controller: emailController,
                         focusNode: emailFocusNode,
@@ -143,6 +146,7 @@ class _LoginPageState extends State<LoginPage> {
 
                       InputField(
                         hintText:  'Password',
+                        prefixIcon: Icon(Icons.password),
                         controller: passwordController,
                         focusNode: passwordFocusNode,
                         nextFocus: loginButtonFocusNode,
