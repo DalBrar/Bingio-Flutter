@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "224930641005",
+    "project_id": "bingio-flutter",
+    "storage_bucket": "bingio-flutter.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:224930641005:android:bb93ead542e278731afb64",
+        "android_client_info": {
+          "package_name": "com.dalbrar.bingio"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "DO-NOT-UPLOAD-THIS-API-KEY-TO-REPO"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
