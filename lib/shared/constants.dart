@@ -14,10 +14,6 @@ class AppColors {
   );
 }
 
-class AppSharedPrefs {
-  static const String selectedProfileKey = 'selectedProfileID';
-}
-
 class AppStrings {
   static const String appName = 'Bingio';
 }
@@ -30,15 +26,38 @@ class AppStyles {
     fontFamily: 'Audiowide',
   );
 
+  static const TextStyle title2Text = TextStyle(
+    fontSize: 22,
+    color: AppColors.text,
+    fontWeight: FontWeight.bold,
+    fontFamily: 'Audiowide',
+  );
+
+  static const TextStyle largeText = TextStyle(
+    fontSize: 22,
+    color: AppColors.text,
+    fontWeight: FontWeight.bold,
+    fontFamily: 'Futura',
+  );
+
   static const TextStyle regularText = TextStyle(
     fontSize: 16,
     color: AppColors.text,
+    fontFamily: 'Futura',
   );
 
   static const TextStyle hintText = TextStyle(
     fontSize: 16,
     color: AppColors.hint,
     fontStyle: FontStyle.italic,
+    fontFamily: 'Futura',
+  );
+
+  static const TextStyle solidButtonText = TextStyle(
+    fontSize: 18,
+    color: AppColors.background,
+    fontWeight: FontWeight.bold,
+    fontFamily: 'Futura',
   );
 
   static ButtonStyle plainTextButtonStyle = ButtonStyle(
@@ -61,12 +80,6 @@ class AppStyles {
     padding: WidgetStateProperty.all<EdgeInsets>(
       EdgeInsets.symmetric(horizontal: 0, vertical: 0),
     ),
-  );
-
-  static const TextStyle solidButtonText = TextStyle(
-    fontSize: 18,
-    color: AppColors.background,
-    fontWeight: FontWeight.bold,
   );
 
   static ButtonStyle solidButtonStyle = ButtonStyle(

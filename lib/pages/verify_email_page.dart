@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:bingio/pages/home_page.dart';
+import 'package:bingio/pages/profiles_page.dart';
 import 'package:bingio/services/auth_service.dart';
 import 'package:bingio/shared/app_toast.dart';
 import 'package:bingio/shared/button_plain_text.dart';
@@ -66,7 +66,7 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
   @override
   Widget build(BuildContext context) {
     return _isEmailVerified
-      ? HomePage()
+      ? ProfilesPage()
       : Scaffold(
         backgroundColor: AppColors.background,
         appBar: AppBar(
