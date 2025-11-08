@@ -2,11 +2,11 @@ import 'package:bingio/services/auth_service.dart';
 import 'package:bingio/shared/app_toast.dart';
 import 'package:bingio/shared/button_plain_text.dart';
 import 'package:bingio/shared/button_solid.dart';
+import 'package:bingio/shared/exit_on_back_catcher.dart';
 import 'package:bingio/shared/gradient_text.dart';
 import 'package:bingio/shared/constants.dart';
 import 'package:bingio/shared/input_field.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 class LoginPage extends StatefulWidget {
   final Function() toggleLoginAndRegisterPages;
@@ -30,8 +30,6 @@ class _LoginPageState extends State<LoginPage> {
 
   final String titleText = 'Welcome to ${AppStrings.appName}';
   final double verticalPadding = 10.0;
-
-  DateTime lastBackPressTime = DateTime.now();
 
   void logUserIn() async {
     try {
@@ -94,19 +92,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    return PopScope(
-      canPop: false,
-      onPopInvokedWithResult: (bool didPop, dynamic result) {
-        if (didPop) return;
-
-        DateTime now = DateTime.now();
-        if (now.difference(lastBackPressTime) > const Duration(seconds: 2)) {
-          lastBackPressTime = now;
-          showAppToast('Press back again to exit');
-          return;
-        }
-        SystemNavigator.pop();
-      },
+    return ExitOnBackCatcher(
       child: Scaffold(
         backgroundColor: AppColors.background,
         body: SafeArea(
