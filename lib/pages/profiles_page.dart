@@ -55,28 +55,26 @@ class _ProfilesPageState extends State<ProfilesPage> {
                   style: AppStyles.title2Text,
                 ),
                 SizedBox(height: 50),
-                FocusScope(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      ProfileCard(
-                        name: 'Dal',
-                        bgColor: 2,
-                        picColor: 9,
-                        picNum: 0,
-                        autoFocus: (selectProfile == 'Dal'),
-                        onPressed: () => showAppToast('Dal pressed!'),
-                      ),
-                      ProfileCard(
-                        name: 'New User',
-                        bgColor: 1,
-                        picColor: 0,
-                        picNum: 99,
-                        autoFocus: (selectProfile == null),
-                        onPressed: () => showAppToast('new user pressed!'),
-                      ),
-                    ],
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ProfileCard(
+                      name: 'Dal',
+                      bgColor: 2,
+                      picColor: 9,
+                      picNum: 0,
+                      autoFocus: (selectProfile == 'Dal'),
+                      onPressed: () => showAppToast('Dal pressed!'),
+                    ),
+                    ProfileCard(
+                      name: 'New User',
+                      bgColor: 1,
+                      picColor: 0,
+                      picNum: 99,
+                      autoFocus: (selectProfile == null),
+                      onPressed: () => showAppToast('new user pressed!'),
+                    ),
+                  ],
                 )
               ]
             ),
