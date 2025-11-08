@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
         fontFamily: 'Arial',
       ),
       debugShowCheckedModeBanner: false,
-      title: STRINGS.appName,
+      title: AppStrings.appName,
       home: const Scaffold(
         body: AuthCheck(),
       ),

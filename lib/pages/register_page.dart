@@ -28,7 +28,7 @@ class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController confirmPasswordController = TextEditingController();
 
-  final String titleText = 'Welcome to ${STRINGS.appName}';
+  final String titleText = 'Welcome to ${AppStrings.appName}';
   final double verticalPadding = 10.0;
 
   void signUp() async {
@@ -83,7 +83,7 @@ class _RegisterPageState extends State<RegisterPage> {
         widget.toggleLoginAndRegisterPages();
       },
       child: Scaffold(
-        backgroundColor: APPCOLORS.background,
+        backgroundColor: AppColors.background,
         body: SafeArea(
           child: Center(
             child: Column(
@@ -96,7 +96,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 SizedBox(height: 40),
                 Text(
                   'Please register to continue.',
-                  style: APPSTYLES.regularText,
+                  style: AppStyles.regularText,
                 ),
                 
                 FocusScope(
@@ -150,7 +150,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         children: [
                           Text(
                             "Already have an account? ",
-                            style: APPSTYLES.regularText,
+                            style: AppStyles.regularText,
                           ),
                           PlainTextButton(
                             text: 'Log In',

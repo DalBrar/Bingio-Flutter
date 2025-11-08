@@ -28,7 +28,7 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
-  final String titleText = 'Welcome to ${STRINGS.appName}';
+  final String titleText = 'Welcome to ${AppStrings.appName}';
   final double verticalPadding = 10.0;
 
   DateTime lastBackPressTime = DateTime.now();
@@ -108,7 +108,7 @@ class _LoginPageState extends State<LoginPage> {
         SystemNavigator.pop();
       },
       child: Scaffold(
-        backgroundColor: APPCOLORS.background,
+        backgroundColor: AppColors.background,
         body: SafeArea(
           child: Center(
             child: Column(
@@ -121,7 +121,7 @@ class _LoginPageState extends State<LoginPage> {
                 SizedBox(height: 40),
                 Text(
                   'Please log in to continue.',
-                  style: APPSTYLES.regularText,
+                  style: AppStyles.regularText,
                 ),
                 
                 FocusScope(

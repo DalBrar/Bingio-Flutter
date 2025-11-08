@@ -35,7 +35,7 @@ class SolidButton extends StatelessWidget {
         child: ElevatedButton(
           focusNode: focusNode,
           onPressed: onPressed,
-          style: APPSTYLES.solidButtonStyle,
+          style: AppStyles.solidButtonStyle,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -45,10 +45,10 @@ class SolidButton extends StatelessWidget {
                   height: imageHeight,
                   width: imageHeight,
                 ),
-              if (image != null) Text(' ', style: APPSTYLES.solidButtonText,),
+              if (image != null) Text(' ', style: AppStyles.solidButtonText,),
               Text(
                 text,
-                style: APPSTYLES.solidButtonText,
+                style: AppStyles.solidButtonText,
               ),
             ],
           ),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class APPCOLORS {
+class AppColors {
   static const Color background = Color(0xFF050505);
   static const Color text = Color(0xFFCDCDCD);
   static const Color hint = Color(0xFF8A8A8A);
@@ -14,22 +14,30 @@ class APPCOLORS {
   );
 }
 
-class APPSTYLES {
+class AppSharedPrefs {
+  static const String selectedProfileKey = 'selectedProfileID';
+}
+
+class AppStrings {
+  static const String appName = 'Bingio';
+}
+
+class AppStyles {
   static const TextStyle titleText = TextStyle(
     fontSize: 32,
-    color: APPCOLORS.text,
+    color: AppColors.text,
     fontWeight: FontWeight.bold,
     fontFamily: 'Audiowide',
   );
 
   static const TextStyle regularText = TextStyle(
     fontSize: 16,
-    color: APPCOLORS.text,
+    color: AppColors.text,
   );
 
   static const TextStyle hintText = TextStyle(
     fontSize: 16,
-    color: APPCOLORS.hint,
+    color: AppColors.hint,
     fontStyle: FontStyle.italic,
   );
 
@@ -37,7 +45,7 @@ class APPSTYLES {
     backgroundColor: WidgetStateProperty.resolveWith<Color>(
       (Set<WidgetState> states) {
         if (states.contains(WidgetState.hovered) || states.contains(WidgetState.focused)) {
-          return APPCOLORS.active;
+          return AppColors.active;
         }
         return Colors.transparent;
       },
@@ -45,9 +53,9 @@ class APPSTYLES {
     foregroundColor: WidgetStateProperty.resolveWith<Color>(
       (Set<WidgetState> states) {
         if (states.contains(WidgetState.hovered) || states.contains(WidgetState.focused)) {
-          return APPCOLORS.background;
+          return AppColors.background;
         }
-        return APPCOLORS.link;
+        return AppColors.link;
       },
     ),
     padding: WidgetStateProperty.all<EdgeInsets>(
@@ -57,7 +65,7 @@ class APPSTYLES {
 
   static const TextStyle solidButtonText = TextStyle(
     fontSize: 18,
-    color: APPCOLORS.background,
+    color: AppColors.background,
     fontWeight: FontWeight.bold,
   );
 
@@ -65,9 +73,9 @@ class APPSTYLES {
     backgroundColor: WidgetStateProperty.resolveWith<Color>(
       (Set<WidgetState> states) {
         if (states.contains(WidgetState.hovered) || states.contains(WidgetState.focused)) {
-          return APPCOLORS.active;
+          return AppColors.active;
         }
-        return APPCOLORS.link;
+        return AppColors.link;
       },
     ),
     shape: WidgetStateProperty.all<RoundedRectangleBorder>(
@@ -77,8 +85,4 @@ class APPSTYLES {
     ),
   );
 
-}
-
-class STRINGS {
-  static const String appName = 'Bingio';
 }

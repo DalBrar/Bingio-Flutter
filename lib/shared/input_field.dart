@@ -30,7 +30,7 @@ class InputField extends StatefulWidget {
     this.suffixIcon,
     this.paddingHorizontal = 0,
     this.paddingVertical = 0,
-    this.style = APPSTYLES.regularText,
+    this.style = AppStyles.regularText,
     this.obscureText = false,
   });
 
@@ -68,14 +68,14 @@ class _InputFieldState extends State<InputField> {
           },
           decoration: InputDecoration(
             hintText: widget.hintText,
-            hintStyle: APPSTYLES.hintText,
+            hintStyle: AppStyles.hintText,
             prefixIcon: widget.prefixIcon,
             suffixIcon: widget.suffixIcon,
             enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: APPCOLORS.link),
+              borderSide: BorderSide(color: AppColors.link),
             ),
             focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: APPCOLORS.active),
+              borderSide: BorderSide(color: AppColors.active),
             ),
           ),
           textAlign: TextAlign.center,

@@ -8,7 +8,7 @@ void showAppToast(String message, {Toast toastLength = Toast.LENGTH_SHORT, bool 
     toastLength: toastLength,
     timeInSecForIosWeb: (toastLength == Toast.LENGTH_SHORT) ? 2 : 6,
     backgroundColor: Colors.black,
-    textColor: isError ? APPCOLORS.error : Colors.white,
+    textColor: isError ? AppColors.error : Colors.white,
     fontSize: 16.0,
   );
   return;

@@ -19,7 +19,7 @@ class PlainTextButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextButton(
       onPressed: onPressed,
-      style: APPSTYLES.plainTextButtonStyle,
+      style: AppStyles.plainTextButtonStyle,
       child: Text(
         text,
       ),

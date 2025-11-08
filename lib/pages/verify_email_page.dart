@@ -1,6 +1,4 @@
-
 import 'dart:async';
-
 import 'package:bingio/pages/home_page.dart';
 import 'package:bingio/services/auth_service.dart';
 import 'package:bingio/shared/app_toast.dart';
@@ -66,29 +64,31 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
   }
 
   @override
-  Widget build(BuildContext context) => _isEmailVerified
-    ? HomePage()
-    : Scaffold(
-      backgroundColor: APPCOLORS.background,
-      appBar: AppBar(
-        actions: [IconButton(onPressed: logOut, icon: Icon(Icons.logout))],
-      ),
-      body: SafeArea(
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text('Please verify your email to continue.'),
-              PlainTextButton(
-                text: 'Send verification email to ${user!.email}',
-                onPressed: () => _canSendEmail 
-                ? sendVerificationEmail()
-                : showAppToast('Please wait a bit before trying to send again')
-              )
-            ],
-          ),
+  Widget build(BuildContext context) {
+    return _isEmailVerified
+      ? HomePage()
+      : Scaffold(
+        backgroundColor: AppColors.background,
+        appBar: AppBar(
+          actions: [IconButton(onPressed: logOut, icon: Icon(Icons.logout))],
+        ),
+        body: SafeArea(
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text('Please verify your email to continue.'),
+                PlainTextButton(
+                  text: 'Send verification email to ${user!.email}',
+                  onPressed: () => _canSendEmail 
+                  ? sendVerificationEmail()
+                  : showAppToast('Please wait a bit before trying to send again')
+                )
+              ],
+            ),
+          )
         )
-      )
-    );
+      );
+  }
 }

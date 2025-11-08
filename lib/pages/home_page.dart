@@ -15,7 +15,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: APPCOLORS.background,
+      backgroundColor: AppColors.background,
       appBar: AppBar(
         actions: [IconButton(onPressed: logOut, icon: Icon(Icons.logout))],
       ),
