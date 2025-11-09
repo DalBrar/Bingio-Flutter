@@ -14,6 +14,21 @@ import 'package:bingio/shared/profile_pic.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+class ProfileNotifier extends ChangeNotifier {
+  int picNum = 99;
+  int bgColor = 0;
+  int picColor = 1;
+  bool kidsProfile = false;
+
+  void update({int? picNum, int? bgColor, int? picColor, bool? kidsProfile}) {
+    if (picNum != null) this.picNum = picNum;
+    if (bgColor != null) this.bgColor = bgColor;
+    if (picColor != null) this.picColor = picColor;
+    if (kidsProfile != null) this.kidsProfile = kidsProfile;
+    notifyListeners();
+  }
+}
+
 class ProfileEditorPage extends StatefulWidget {
   const ProfileEditorPage({super.key});
 
@@ -22,84 +37,78 @@ class ProfileEditorPage extends StatefulWidget {
 }
 
 class _ProfileEditorPageState extends State<ProfileEditorPage> {
+  static const maxDisplayNameLength = 8;
   final User? user = AuthService().getCurrentUser();
   final TextEditingController txtCntrl = TextEditingController();
   final FocusNode txtFocus = FocusNode();
+  final FocusNode picFocus = FocusNode();
   final double vertSpacing = 10;
+  final profile = ProfileNotifier();
+  bool _isLoading = true;
 
-  List<WidgetButton> get pictureChildren => AppProfileSettings.profilePics.asMap().entries.map((entry) {
-    return WidgetButton(
+  late List<WidgetButton> pictureChildren = List.generate(AppProfileSettings.profilePics.length,
+    (index) => WidgetButton(
       width: 80,
       height: 50,
       borderColor: AppColors.shadow,
       borderRadius: 0,
-      child: Image.asset(entry.value),
-      onPressSelect: () {
-        setState(() {
-          _picNum = entry.key;
-        });
-      },
-    );
-  }).toList();
-  List<WidgetButton> get bgChildren => AppProfileSettings.profileColors.asMap().entries.map((entry) {
-    return WidgetButton(
+      child: Image.asset(AppProfileSettings.profilePics[index]),
+      onPressSelect: () => profile.update(picNum: index),
+    )
+  );
+  late List<WidgetButton> bgChildren = List.generate(AppProfileSettings.profileColors.length,
+    (index) => WidgetButton(
       width: 50,
       height: 50,
-      backgroundColor: entry.value,
-      backgroundColorFocused: entry.value,
+      backgroundColor: AppProfileSettings.profileColors[index],
+      backgroundColorFocused: AppProfileSettings.profileColors[index],
       borderColor: AppColors.shadow,
-      onPressSelect: () {
-        setState(() {
-          _bgColor = entry.key;
-        });
-      },
-    );
-  }).toList();
-  List<WidgetButton> get picColorChildren => AppProfileSettings.profileColors.asMap().entries.map((entry) {
-    return WidgetButton(
+      onPressSelect: () => profile.update(bgColor: index),
+    )
+  );
+  late List<WidgetButton> picColorChildren = List.generate(AppProfileSettings.profileColors.length,
+    (index) => WidgetButton(
       width: 50,
       height: 50,
-      backgroundColor: entry.value,
-      backgroundColorFocused: entry.value,
+      backgroundColor: AppProfileSettings.profileColors[index],
+      backgroundColorFocused: AppProfileSettings.profileColors[index],
       borderColor: AppColors.shadow,
-      onPressSelect: () {
-        setState(() {
-          _picColor = entry.key;
-        });
-      },
-    );
-  }).toList();
+      onPressSelect: () => profile.update(picColor: index),
+    )
+  );
 
   bool _isCreateDisabled = false;
-  bool _kidsProfile = false;
-  int _bgColor = 0;
-  int _picColor = 1;
-  int _picNum = 99;
 
   void _randomize() {
-    setState(() {
-      _bgColor = Random().nextInt(AppProfileSettings.profileColors.length);
-      _picColor = Random().nextInt(AppProfileSettings.profileColors.length);
-      _picNum = Random().nextInt(AppProfileSettings.profilePics.length);
-    });
+    int _picNum = Random().nextInt(AppProfileSettings.profilePics.length);
+    int _bgColor = Random().nextInt(AppProfileSettings.profileColors.length);
+    int _picColor = Random().nextInt(AppProfileSettings.profileColors.length);
+    profile.update(picNum: _picNum, bgColor: _bgColor, picColor: _picColor);
   }
 
   void _saveProfile(BuildContext context) async {
+    if (txtCntrl.text.trim().isEmpty) {
+      showAppError('You must enter a name');
+      return;
+    }
+
     setState(() {
       _isCreateDisabled = true;
     });
-    bool isSuccess = false;
-    String? newDocId =await FirestoreDatabase().createOrUpdate(
+    
+    await FirestoreDatabase().createOrUpdate(
       ProfileModel.collection,
       ProfileModel(
         accountUID: user!.uid,
         displayName: txtCntrl.text.trim(),
-        bgColor: _bgColor,
-        picColor: _picColor,
-        picNumber: _picNum,
-        kidsProfile: _kidsProfile
+        bgColor: profile.bgColor,
+        picColor: profile.picColor,
+        picNumber: profile.picNum,
+        kidsProfile: profile.kidsProfile
       ),
-      onSuccess: () { isSuccess = true; },
+      onSuccess: (docId) {
+        Navigator.of(context).pop(docId);
+      },
       onError: (error) {
         showAppError('Create Profile error: $error');
         setState(() {
@@ -107,19 +116,40 @@ class _ProfileEditorPageState extends State<ProfileEditorPage> {
         });
       }
     );
+  }
 
-    if (isSuccess && context.mounted) Navigator.of(context).pop(newDocId);
+  void delayedLoad() async {
+    await Future.delayed(Duration(seconds: 1));
+    _randomize();
+    if (mounted) {
+      setState(() {
+        _isLoading = false;
+      });
+    }
   }
 
   @override
   void initState() {
     super.initState();
-    txtCntrl.text = 'New User';
-    _randomize();
+    delayedLoad();
+  }
+
+  @override
+  void dispose() {
+    txtFocus.dispose();
+    picFocus.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    if (_isLoading) {
+      return const Scaffold(
+        backgroundColor: AppColors.background,
+        body: Center(child: CircularProgressIndicator()),
+      );
+    }
+
     return Scaffold(
       appBar: MyAppBar(hideLogoutButton: true, showBackButton: true,),
       backgroundColor: AppColors.background,
@@ -128,51 +158,54 @@ class _ProfileEditorPageState extends State<ProfileEditorPage> {
           width: 500,
           child: Column(
             children: [
-              SizedBox(height: vertSpacing * 2),
               GradientText(
                 text: 'New User Profile',
                 style: AppStyles.title2Text,
               ),
 
               SizedBox(height: vertSpacing),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+              Wrap(
                 children: [
                   Column(
                     children: [
                       Text(
-                        'Kids Profile: ${_kidsProfile ? 'On' : 'Off'}',
+                        'Kids Profile: ${profile.kidsProfile ? 'On' : 'Off'}',
                         style: AppStyles.regularText,
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: SizedBox(
-                          width: 150,
-                          height: 50,
-                          child: Switch(
-                            value: _kidsProfile,
-                            activeTrackColor: AppColors.link,
-                            activeThumbColor: AppColors.background,
-                            inactiveThumbColor: AppColors.background,
-                            trackOutlineColor: WidgetStateColor.transparent,
-                            focusColor: AppColors.active.withAlpha(125),
-                            onChanged: (val) => setState(() {
-                              _kidsProfile = val;
-                            }),
+                      ListenableBuilder(
+                        listenable: profile,
+                        builder: (context, child) => Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: SizedBox(
+                            width: 150,
+                            height: 50,
+                            child: Switch(
+                              value: profile.kidsProfile,
+                              activeTrackColor: AppColors.link,
+                              activeThumbColor: AppColors.background,
+                              inactiveThumbColor: AppColors.background,
+                              trackOutlineColor: WidgetStateColor.transparent,
+                              focusColor: AppColors.active.withAlpha(125),
+                              onChanged: (val) => profile.update(kidsProfile: val),
+                            ),
                           ),
                         ),
                       ),
                     ],
                   ),
-                  WidgetButton(
-                    autoFocus: true,
-                    onPressSelect: _randomize,
-                    child: ProfilePic(
-                      width: 100,
-                      height: 100,
-                      bgColor: _bgColor,
-                      picColor: _picColor,
-                      picNum: _picNum,
+                  ListenableBuilder(
+                    listenable: profile,
+                    builder: (context, child) => WidgetButton(
+                      autoFocus: true,
+                      focusNode: picFocus,
+                      onPressSelect: _randomize,
+                      child: ProfilePic(
+                        width: 100,
+                        height: 100,
+                        bgColor: profile.bgColor,
+                        picColor: profile.picColor,
+                        picNum: profile.picNum,
+                      ),
                     ),
                   ),
                   Column(
@@ -189,11 +222,12 @@ class _ProfileEditorPageState extends State<ProfileEditorPage> {
                           child: InputField(
                             controller: txtCntrl,
                             focusNode: txtFocus,
-                            hintText: 'Display Name',
+                            nextFocus: picFocus,
+                            hintText: 'User',
                             textInputType: TextInputType.name,
                             autofillHints: [],
                             style: AppStyles.title2Text,
-                            onChanged: (val) => setState((){ txtCntrl.text = val.substring(0, 8); }),
+                            onChanged: (val) { txtCntrl.text = val.substring(0, maxDisplayNameLength); },
                           ),
                         ),
                       ),
@@ -207,8 +241,7 @@ class _ProfileEditorPageState extends State<ProfileEditorPage> {
                 'Portrait:',
                 style: AppStyles.regularText,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+              Wrap(
                 children: pictureChildren,
               ),
 
@@ -217,7 +250,7 @@ class _ProfileEditorPageState extends State<ProfileEditorPage> {
                 'Background Color:',
                 style: AppStyles.regularText,
               ),
-              Row(
+              Wrap(
                 children: bgChildren,
               ),
 
@@ -226,13 +259,12 @@ class _ProfileEditorPageState extends State<ProfileEditorPage> {
                 'Foreground Color:',
                 style: AppStyles.regularText,
               ),
-              Row(
+              Wrap(
                 children: picColorChildren,
               ),
 
               SizedBox(height: vertSpacing),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+              Wrap(
                 children: [
                   SolidButton(
                     text: _isCreateDisabled ? 'Saving Profile...' : 'Create Profile',
