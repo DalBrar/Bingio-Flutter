@@ -7,23 +7,34 @@ typedef OnErrorCallback = void Function(Object error);
 class FirestoreDatabase {
   FirebaseFirestore db = FirebaseFirestore.instance;
 
-  Future<void> createOrUpdate<FSM extends FirestoreModel>(String collection, FSM profile, {VoidCallback? onSuccess, OnErrorCallback? onError}) async {
-    await db.collection(collection)
-      .doc(profile.id)
-      .set(profile.toMap())
-      .then((_) {
+  Future<String?> createOrUpdate<FSM extends FirestoreModel>(String collection, FSM model, {VoidCallback? onSuccess, OnErrorCallback? onError}) async {
+    if (model.id == null) {
+      try {
+        var docRef = await db.collection(collection).add(model.toMap());
         if (onSuccess != null) onSuccess();
-      })
-      .catchError((error) {
+        return docRef.id;
+      } catch (error) {
         if (onError != null) onError(error);
-      });
+        return null;
+      }
+    }
+    else {
+      try {
+        await db.collection(collection).doc(model.id).set(model.toMap());
+        if (onSuccess != null) onSuccess();
+        return model.id!;
+      } catch (error) {
+        if (onError != null) onError(error);
+        return null;
+      }
+    }
   }
   
-  Future<void> createOrUpdateMany<FSM extends FirestoreModel>(String collection, Iterable<FSM> profiles, {VoidCallback? onSuccess, OnErrorCallback? onError}) async {
+  Future<void> createOrUpdateMany<FSM extends FirestoreModel>(String collection, Iterable<FSM> models, {VoidCallback? onSuccess, OnErrorCallback? onError}) async {
     final batch = db.batch();
     final coll = db.collection(collection);
 
-    for (final profile in profiles) {
+    for (final profile in models) {
       final docRef = profile.id != null
         ? coll.doc(profile.id!) // override existing profile
         : coll.doc(); // create new profile

@@ -88,7 +88,8 @@ class _ProfileEditorPageState extends State<ProfileEditorPage> {
     setState(() {
       _isCreateDisabled = true;
     });
-    await FirestoreDatabase().createOrUpdate(
+    bool isSuccess = false;
+    String? newDocId =await FirestoreDatabase().createOrUpdate(
       ProfileModel.collection,
       ProfileModel(
         accountUID: user!.uid,
@@ -98,7 +99,7 @@ class _ProfileEditorPageState extends State<ProfileEditorPage> {
         picNumber: _picNum,
         kidsProfile: _kidsProfile
       ),
-      onSuccess: () => Navigator.of(context).pop(),
+      onSuccess: () { isSuccess = true; },
       onError: (error) {
         showAppError('Create Profile error: $error');
         setState(() {
@@ -106,6 +107,8 @@ class _ProfileEditorPageState extends State<ProfileEditorPage> {
         });
       }
     );
+
+    if (isSuccess && context.mounted) Navigator.of(context).pop(newDocId);
   }
 
   @override

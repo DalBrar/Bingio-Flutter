@@ -37,7 +37,7 @@ void loadingSpinnerShow(BuildContext context) {
       builder: (dialogContext) {
         spinnerContext = dialogContext;
         return const Center(
-          child: CircularProgressIndicator(color: AppColors.error),
+          child: CircularProgressIndicator(),
         );
       }
     );

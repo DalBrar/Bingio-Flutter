@@ -21,26 +21,14 @@ class ProfilesPage extends StatefulWidget {
 class _ProfilesPageState extends State<ProfilesPage> {
   final User? user = AuthService().getCurrentUser();
   final FocusNode newUserNode = FocusNode();
-  String? _selectProfile;
 
   void setSelectedProfile(String profileID) async {
     await PrefsService.setSelectedProfile(profileID);
-    setState(() {
-      _selectProfile = profileID;
-    });
-  }
-
-  void initSelectedProfile() async {
-    String? sp = await PrefsService.getSelectedProfile();
-    setState(() {
-      _selectProfile = sp;
-    });
   }
 
   @override
   void initState() {
     super.initState();
-    initSelectedProfile();
   }
 
   @override
@@ -68,16 +56,21 @@ class _ProfilesPageState extends State<ProfilesPage> {
                 StreamBuilder(
                   stream: FirestoreDatabase().streamDocsByUID<ProfileModel>(ProfileModel.collection, user!.uid, ProfileModel.keyAccountUID, ProfileModel.fromMap),
                   builder:(context, snapshot) {
+                    if (snapshot.data == null) return CircularProgressIndicator();
                     final profiles = snapshot.data?.toList() ?? List.empty();
                     profiles.sort((a,b) => a.displayName.compareTo(b.displayName));
+                    bool autoFocusAvailable = true;
                     
                     final children = profiles.map((profile) {
+                      bool autoFocus = autoFocusAvailable;
+                      autoFocusAvailable = false;
+
                       return ProfileCard(
                         name: profile.displayName,
                         bgColor: profile.bgColor,
                         picColor: profile.picColor,
                         picNum: profile.picNumber,
-                        autoFocus: _selectProfile == profile.id,
+                        autoFocus: autoFocus,
                         onPressed: () {
                           setSelectedProfile(profile.id!);
                         },
@@ -94,7 +87,7 @@ class _ProfilesPageState extends State<ProfilesPage> {
                         picColor: 0,
                         picNum: 99,
                         focusNode: newUserNode,
-                        autoFocus: _selectProfile == null,
+                        autoFocus: autoFocusAvailable,
                         onPressed: () {
                           Navigator.push(
                             context,
