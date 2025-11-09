@@ -101,6 +101,7 @@ class _WidgetButtonState extends State<WidgetButton> {
     return KeyEventResult.ignored;
   }
 
+  /*
   KeyEventResult _handleDPadNavigation(LogicalKeyboardKey key) {
     if (key == LogicalKeyboardKey.arrowLeft) {
       FocusScope.of(context).focusInDirection(TraversalDirection.left);
@@ -120,6 +121,7 @@ class _WidgetButtonState extends State<WidgetButton> {
     }
     return KeyEventResult.ignored;
   }
+  */
 
   KeyEventResult _handleLongPress(LogicalKeyboardKey key) {
     if (key == LogicalKeyboardKey.select || key == LogicalKeyboardKey.enter || key == LogicalKeyboardKey.gameButtonA) {
