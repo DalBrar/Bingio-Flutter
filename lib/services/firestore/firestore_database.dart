@@ -7,11 +7,11 @@ typedef OnErrorCallback = void Function(Object error);
 class FirestoreDatabase {
   FirebaseFirestore db = FirebaseFirestore.instance;
 
-  Future<String?> createOrUpdate<FSM extends FirestoreModel>(String collection, FSM model, {VoidCallback? onSuccess, OnErrorCallback? onError}) async {
+  Future<String?> createOrUpdate<FSM extends FirestoreModel>(String collection, FSM model, {Function(String)? onSuccess, OnErrorCallback? onError}) async {
     if (model.id == null) {
       try {
         var docRef = await db.collection(collection).add(model.toMap());
-        if (onSuccess != null) onSuccess();
+        if (onSuccess != null) onSuccess(docRef.id);
         return docRef.id;
       } catch (error) {
         if (onError != null) onError(error);
@@ -21,7 +21,7 @@ class FirestoreDatabase {
     else {
       try {
         await db.collection(collection).doc(model.id).set(model.toMap());
-        if (onSuccess != null) onSuccess();
+        if (onSuccess != null) onSuccess(model.id!);
         return model.id!;
       } catch (error) {
         if (onError != null) onError(error);
