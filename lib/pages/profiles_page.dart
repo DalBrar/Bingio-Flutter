@@ -5,7 +5,7 @@ import 'package:bingio/services/preferences_service.dart';
 import 'package:bingio/shared/functions.dart';
 import 'package:bingio/shared/exit_on_back_catcher.dart';
 import 'package:bingio/shared/constants.dart';
-import 'package:bingio/shared/gradient_text.dart';
+import 'package:bingio/shared/my_app_bar.dart';
 import 'package:bingio/shared/profile_card.dart';
 import 'package:bingio/pages/profile_editor_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -50,11 +50,7 @@ class _ProfilesPageState extends State<ProfilesPage> {
   Widget build(BuildContext context) {
     return ExitOnBackCatcher(
       child: Scaffold(
-        appBar: AppBar(
-          title: GradientText(text: AppStrings.appName),
-          centerTitle: true,
-          backgroundColor: AppColors.background,
-        ),
+        appBar: MyAppBar(),
         backgroundColor: AppColors.background,
         body: SafeArea(
           child: Center(

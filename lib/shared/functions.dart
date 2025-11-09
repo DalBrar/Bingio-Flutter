@@ -2,6 +2,10 @@ import 'package:bingio/shared/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
+void closeAllDialogs(BuildContext context) {
+  Navigator.of(context).popUntil((route) => route is PageRoute);
+}
+
 void showAppToast(String message, {Toast toastLength = Toast.LENGTH_SHORT, bool isError = false}) {
   Fluttertoast.showToast(
     msg: message,
@@ -16,4 +20,26 @@ void showAppToast(String message, {Toast toastLength = Toast.LENGTH_SHORT, bool 
 
 void showAppError(String message, {Toast toastLength = Toast.LENGTH_LONG}) {
   showAppToast(message, toastLength: toastLength, isError: true);
+}
+
+BuildContext? spinnerContext;
+void loadingSpinnerHide() {
+  if (spinnerContext != null) {
+    Navigator.of(spinnerContext!).pop();
+    spinnerContext = null;
+  }
+}
+
+void loadingSpinnerShow(BuildContext context) {
+  if (spinnerContext == null) {
+    showDialog(
+      context: context,
+      builder: (dialogContext) {
+        spinnerContext = dialogContext;
+        return const Center(
+          child: CircularProgressIndicator(color: AppColors.error),
+        );
+      }
+    );
+  }
 }

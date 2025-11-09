@@ -31,7 +31,7 @@ class InputField extends StatefulWidget {
     this.suffixIcon,
     this.paddingHorizontal = 0,
     this.paddingVertical = 0,
-    this.style = AppStyles.regularText,
+    this.style = AppStyles.largeText,
     this.obscureText = false,
     this.onChanged,
   });
@@ -74,6 +74,7 @@ class _InputFieldState extends State<InputField> {
             hintStyle: AppStyles.hintText,
             prefixIcon: widget.prefixIcon,
             suffixIcon: widget.suffixIcon,
+            isDense: true,
             enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(color: AppColors.link),
             ),

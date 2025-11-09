@@ -9,6 +9,7 @@ import 'package:bingio/shared/button_widget.dart';
 import 'package:bingio/shared/constants.dart';
 import 'package:bingio/shared/gradient_text.dart';
 import 'package:bingio/shared/input_field.dart';
+import 'package:bingio/shared/my_app_bar.dart';
 import 'package:bingio/shared/profile_pic.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -117,6 +118,7 @@ class _ProfileEditorPageState extends State<ProfileEditorPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: MyAppBar(),
       backgroundColor: AppColors.background,
       body: Center(
         child: SizedBox(

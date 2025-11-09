@@ -33,14 +33,7 @@ class _LoginPageState extends State<LoginPage> {
 
   void logUserIn() async {
     try {
-      showDialog(
-        context: context,
-        builder: (context) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        }
-      );
+      loadingSpinnerShow(context);
       await AuthService().logInWithEmailAndPassword(emailController.text.trim(), passwordController.text.trim());
     }
     on AuthServiceException catch (e) {
@@ -50,7 +43,7 @@ class _LoginPageState extends State<LoginPage> {
       showAppError('Exception: ${e.toString()}');
     }
     finally {
-      Navigator.pop(context);
+      loadingSpinnerHide();
     }
   }
 
@@ -107,7 +100,7 @@ class _LoginPageState extends State<LoginPage> {
                 SizedBox(height: 40),
                 Text(
                   'Please log in to continue.',
-                  style: AppStyles.regularText,
+                  style: AppStyles.largeText,
                 ),
                 
                 FocusScope(

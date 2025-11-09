@@ -96,7 +96,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 SizedBox(height: 40),
                 Text(
                   'Please register to continue.',
-                  style: AppStyles.regularText,
+                  style: AppStyles.largeText,
                 ),
                 
                 FocusScope(
@@ -108,6 +108,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         textInputType: TextInputType.emailAddress,
                         autofillHints: [AutofillHints.email],
                         prefixIcon: Icon(Icons.mail),
+                        suffixIcon: Icon(Icons.mail, color: Colors.transparent),
                         autoFocus: true,
                         controller: emailController,
                         focusNode: emailFocusNode,
@@ -119,6 +120,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       InputField(
                         hintText:  'Password',
                         prefixIcon: Icon(Icons.password),
+                        suffixIcon: Icon(Icons.password, color: Colors.transparent),
                         controller: passwordController,
                         focusNode: passwordFocusNode,
                         nextFocus: confirmPasswordFocusNode,
@@ -130,6 +132,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       InputField(
                         hintText:  'Confirm Password',
                         prefixIcon: Icon(Icons.password),
+                        suffixIcon: Icon(Icons.password, color: Colors.transparent),
                         controller: confirmPasswordController,
                         focusNode: confirmPasswordFocusNode,
                         nextFocus: signUpButtonFocusNode,

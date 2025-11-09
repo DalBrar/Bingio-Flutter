@@ -4,6 +4,7 @@ import 'package:bingio/services/auth_service.dart';
 import 'package:bingio/shared/functions.dart';
 import 'package:bingio/shared/button_plain_text.dart';
 import 'package:bingio/shared/constants.dart';
+import 'package:bingio/shared/my_app_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -20,18 +21,18 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
   bool _canSendEmail = true;
   Timer? timer;
 
-  void logOut() async {
-    await AuthService().logOut();
-  }
-
   void sendVerificationEmail() async {
     try {
       if (user == null) return;
+
+      await checkEmailVerified();
+
+      if (_isEmailVerified) return;
+
       await user!.sendEmailVerification();
-      showAppToast('Email sent, please check your account');
 
       setState(() => _canSendEmail = false);
-      await Future.delayed(Duration(seconds: 10));
+      await Future.delayed(Duration(seconds: 60));
       setState(() => _canSendEmail = true);
     }
     catch (e) {
@@ -40,7 +41,7 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
   }
 
   Future checkEmailVerified() async {
-    user!.reload();
+    await user!.reload();
     setState(() => _isEmailVerified = user!.emailVerified);
 
     if (_isEmailVerified) timer?.cancel();
@@ -49,8 +50,9 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
   @override
   void initState() {
     super.initState();
+    loadingSpinnerHide();
+    sendVerificationEmail();
     _isEmailVerified = user!.emailVerified;
-
     if (!_isEmailVerified) {
       timer = Timer.periodic(Duration(seconds: 3), (_) => checkEmailVerified());
     }
@@ -59,7 +61,6 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
   @override
   void dispose() {
     timer?.cancel();
-
     super.dispose();
   }
 
@@ -69,18 +70,20 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
       ? ProfilesPage()
       : Scaffold(
         backgroundColor: AppColors.background,
-        appBar: AppBar(
-          actions: [IconButton(onPressed: logOut, icon: Icon(Icons.logout))],
-        ),
+        appBar: MyAppBar(),
         body: SafeArea(
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text('Please verify your email to continue.'),
+                Text(
+                  'Please verify your email to continue.',
+                  style: AppStyles.largeText,
+                ),
+                SizedBox(height: 25),
                 PlainTextButton(
-                  text: 'Send verification email to ${user!.email}',
+                  text: _canSendEmail ? 'Send verification email to ${user!.email}' : 'Email sent, please check your account',
                   onPressed: () => _canSendEmail 
                   ? sendVerificationEmail()
                   : showAppToast('Please wait a bit before trying to send again')
