@@ -227,7 +227,7 @@ class _ProfileEditorPageState extends State<ProfileEditorPage> {
                             textInputType: TextInputType.name,
                             autofillHints: [],
                             style: AppStyles.title2Text,
-                            onChanged: (val) { txtCntrl.text = val.substring(0, maxDisplayNameLength); },
+                            onChanged: (val) { txtCntrl.text = val.substring(0, min(val.length, maxDisplayNameLength)); },
                           ),
                         ),
                       ),
