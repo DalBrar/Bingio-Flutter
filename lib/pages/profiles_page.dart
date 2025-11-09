@@ -21,9 +21,18 @@ class ProfilesPage extends StatefulWidget {
 class _ProfilesPageState extends State<ProfilesPage> {
   final User? user = AuthService().getCurrentUser();
   final FocusNode newUserNode = FocusNode();
+  String? _selectedProfile;
 
-  void setSelectedProfile(String profileID) async {
+  void getSelectedProfile() async {
+    final sp = await PrefsService.getSelectedProfile();
+    setState(() { _selectedProfile = sp; });
+  }
+
+  Future<void> setSelectedProfile(String? profileID) async {
     await PrefsService.setSelectedProfile(profileID);
+    setState(() {
+      _selectedProfile = profileID;
+    });
   }
 
   void createNewUser() async {
@@ -33,8 +42,9 @@ class _ProfilesPageState extends State<ProfilesPage> {
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => ProfileEditorPage())
-    ).then((returnValue) {
-      newUserNode.unfocus();
+    ).then((returnValue) async {
+      print('is mounted? $mounted - ${context.mounted}');
+      await setSelectedProfile(returnValue);
       loadingSpinnerHide();
     });
   }
@@ -42,6 +52,7 @@ class _ProfilesPageState extends State<ProfilesPage> {
   @override
   void initState() {
     super.initState();
+    getSelectedProfile();
   }
 
   @override
@@ -72,41 +83,42 @@ class _ProfilesPageState extends State<ProfilesPage> {
                     if (snapshot.data == null) return CircularProgressIndicator();
                     final profiles = snapshot.data?.toList() ?? List.empty();
                     profiles.sort((a,b) => a.displayName.compareTo(b.displayName));
-                    bool autoFocusAvailable = true;
                     
                     final children = profiles.map((profile) {
-                      bool autoFocus = autoFocusAvailable;
-                      autoFocusAvailable = false;
-
                       return ProfileCard(
+                        key: ValueKey(profile.id),
                         name: profile.displayName,
                         bgColor: profile.bgColor,
                         picColor: profile.picColor,
                         picNum: profile.picNumber,
-                        autoFocus: autoFocus,
+                        autoFocus: profile.id == _selectedProfile,
                         onPressed: () {
                           setSelectedProfile(profile.id!);
                         },
                         onLongPressed: () {
-                          FirestoreDatabase().delete(ProfileModel.collection, profile.id!, onSuccess: () => showAppToast('Profile deleted!'), onError: (error) => showAppError('Profile delete error $error'));
+                          FirestoreDatabase().delete(
+                            ProfileModel.collection,
+                            profile.id!,
+                            onSuccess: () async { await setSelectedProfile(null); showAppToast('Profile deleted!'); },
+                            onError: (error) => showAppError('Profile delete error $error')
+                          );
                         },
                       );
                     }).toList();
             
                     if (profiles.length < 5) {
                       children.add(ProfileCard(
-                        name: 'New User',
+                        key: ValueKey('newprofile'),
+                        name: 'New Profile',
                         bgColor: 1,
                         picColor: 0,
                         picNum: 99,
-                        focusNode: newUserNode,
-                        autoFocus: autoFocusAvailable,
+                        autoFocus: _selectedProfile == null,
                         onPressed: createNewUser,
                       ));
                     }
             
-                    return Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                    return Wrap(
                       children: children,
                     );
                   },
