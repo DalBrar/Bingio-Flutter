@@ -1,5 +1,5 @@
 import 'package:bingio/services/auth_service.dart';
-import 'package:bingio/shared/app_toast.dart';
+import 'package:bingio/shared/functions.dart';
 import 'package:bingio/shared/button_plain_text.dart';
 import 'package:bingio/shared/button_solid.dart';
 import 'package:bingio/shared/gradient_text.dart';

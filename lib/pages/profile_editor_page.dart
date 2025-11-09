@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:bingio/services/auth_service.dart';
 import 'package:bingio/services/firestore/firestore_database.dart';
 import 'package:bingio/services/firestore/models/profile_model.dart';
-import 'package:bingio/shared/app_toast.dart';
+import 'package:bingio/shared/functions.dart';
 import 'package:bingio/shared/button_solid.dart';
 import 'package:bingio/shared/button_widget.dart';
 import 'package:bingio/shared/constants.dart';

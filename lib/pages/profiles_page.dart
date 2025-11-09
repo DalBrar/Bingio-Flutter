@@ -2,7 +2,7 @@ import 'package:bingio/services/auth_service.dart';
 import 'package:bingio/services/firestore/firestore_database.dart';
 import 'package:bingio/services/firestore/models/profile_model.dart';
 import 'package:bingio/services/preferences_service.dart';
-import 'package:bingio/shared/app_toast.dart';
+import 'package:bingio/shared/functions.dart';
 import 'package:bingio/shared/exit_on_back_catcher.dart';
 import 'package:bingio/shared/constants.dart';
 import 'package:bingio/shared/gradient_text.dart';
