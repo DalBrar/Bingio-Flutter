@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class AppColors {
   static const Color background = Color(0xFF050505);
-  static const Color shadow = Color(0xFF282828);
+  static const Color shadow = Color(0xFF141414);
   static const Color text = Color(0xFFCDCDCD);
   static const Color hint = Color(0xFF8A8A8A);
   static const Color link = Color(0xFFC8C8FF);
@@ -18,7 +18,7 @@ class AppColors {
 class AppProfileSettings {
   static const List<Color> profileColors = [
     Color.fromARGB(255, 205, 205, 205),
-    Color.fromARGB(255, 5, 5, 5),
+    Color.fromARGB(255, 20, 20, 20),
     Color.fromARGB(255, 244, 67, 54),
     Color.fromARGB(255, 76, 175, 80),
     Color.fromARGB(255, 33, 150, 243),
