@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:bingio/services/auth_service.dart';
 import 'package:bingio/services/firestore/firestore_database.dart';
 import 'package:bingio/services/firestore/models/profile_model.dart';
@@ -9,6 +7,7 @@ import 'package:bingio/shared/exit_on_back_catcher.dart';
 import 'package:bingio/shared/constants.dart';
 import 'package:bingio/shared/gradient_text.dart';
 import 'package:bingio/shared/profile_card.dart';
+import 'package:bingio/pages/profile_editor_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -97,16 +96,8 @@ class _ProfilesPageState extends State<ProfilesPage> {
                         picColor: 0,
                         picNum: 99,
                         focusNode: newUserNode,
-                        autoFocus: (selectProfile == null),
                         onPressed: () {
-                          FirestoreDatabase().createOrUpdate(ProfileModel.collection, ProfileModel(
-                            accountUID: user!.uid,
-                            displayName: 'User-${Random().nextInt(10)+10}',
-                            bgColor: Random().nextInt(10),
-                            picColor: Random().nextInt(10),
-                            picNumber: Random().nextInt(6),
-                          ), onSuccess: () => showAppToast('Create success!'), onError: (error) => showAppError('Create error $error'));
-                          newUserNode.unfocus();
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileEditorPage()));
                         },
                         onLongPressed: () => AuthService().logOut(),
                       ));

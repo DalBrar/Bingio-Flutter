@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class WidgetButton extends StatefulWidget {
-  final Widget child;
+  final Widget? child;
   final VoidCallback? onPressSelect;
   final VoidCallback? onLongPressSelect;
   final VoidCallback? onPressBack;
@@ -27,7 +27,7 @@ class WidgetButton extends StatefulWidget {
 
   const WidgetButton({
     super.key,
-    required this.child,
+    this.child,
     this.onPressSelect,
     this.onLongPressSelect,
     this.onPressBack,

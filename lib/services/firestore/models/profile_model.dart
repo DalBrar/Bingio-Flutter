@@ -7,6 +7,7 @@ class ProfileModel implements FirestoreModel {
   static const String keyBgColor = "bgColor";
   static const String keyPicColor = "picColor";
   static const String keyPicNumber = "picNumber";
+  static const String keyKidsProfile ="kidsProfile";
   
   @override
   final String? id;
@@ -15,6 +16,7 @@ class ProfileModel implements FirestoreModel {
   int bgColor;
   int picColor;
   int picNumber;
+  bool kidsProfile;
 
   ProfileModel({
     this.id,
@@ -23,6 +25,7 @@ class ProfileModel implements FirestoreModel {
     required this.bgColor,
     required this.picColor,
     required this.picNumber,
+    required this.kidsProfile,
   });
 
   @override
@@ -32,7 +35,8 @@ class ProfileModel implements FirestoreModel {
       keyDisplayName: displayName,
       keyBgColor: bgColor,
       keyPicColor: picColor,
-      keyPicNumber: picNumber
+      keyPicNumber: picNumber,
+      keyKidsProfile: kidsProfile
     };
   }
 
@@ -43,10 +47,11 @@ class ProfileModel implements FirestoreModel {
     return ProfileModel(
       id: docId,
       accountUID: map[keyAccountUID] as String? ?? '',
-      displayName: map[keyDisplayName] as String? ?? 'Anonymous',
+      displayName: map[keyDisplayName] as String? ?? 'Anon?',
       bgColor: map[keyBgColor] as int? ?? 2,
       picColor: map[keyPicColor] as int? ?? 5,
       picNumber: map[keyPicNumber] as int? ?? 99,
+      kidsProfile: map[keyKidsProfile] as bool? ?? false,
     );
   }
 }

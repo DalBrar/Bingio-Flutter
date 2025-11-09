@@ -16,6 +16,7 @@ class InputField extends StatefulWidget {
   final double paddingVertical;
   final TextStyle style;
   final bool obscureText;
+  final Function(String)? onChanged;
 
   const InputField({
     super.key,
@@ -32,6 +33,7 @@ class InputField extends StatefulWidget {
     this.paddingVertical = 0,
     this.style = AppStyles.regularText,
     this.obscureText = false,
+    this.onChanged,
   });
 
   @override
@@ -61,6 +63,7 @@ class _InputFieldState extends State<InputField> {
           obscureText: widget.obscureText,
           keyboardType: widget.textInputType,
           autofillHints: widget.autofillHints,
+          onChanged: widget.onChanged,
           onFieldSubmitted: (value) {
             if (widget.nextFocus != null) {
               FocusScope.of(context).requestFocus(widget.nextFocus);
