@@ -8,7 +8,7 @@ class ProfilePic extends StatelessWidget {
   final double? width;
   final double? height;
 
-  const ProfilePic({
+  ProfilePic({
     super.key,
     required this.bgColor,
     required this.picColor,
@@ -17,11 +17,14 @@ class ProfilePic extends StatelessWidget {
     this.height,
   });
 
+  final _colorSize = AppProfileSettings.profileColors.length;
+  final _picsSize = AppProfileSettings.profilePics.length;
+
   @override
   Widget build(BuildContext context) {
-    final bgColor = AppProfileSettings.profileColors[(this.bgColor < 10) ? this.bgColor : 0];
-    final picColor = AppProfileSettings.profileColors[(this.picColor < 10) ? this.picColor : 1];
-    final picture = (picNum < 6) ? AppProfileSettings.profilePics[picNum] : 'assets/images/profile_new.png';
+    final bgColor = AppProfileSettings.profileColors[(this.bgColor < _colorSize) ? this.bgColor : 0];
+    final picColor = (picNum < _picsSize) ? (AppProfileSettings.profileColors[(this.picColor < _colorSize) ? this.picColor : 1]) : AppColors.hint;
+    final picture = (picNum < _picsSize) ? AppProfileSettings.profilePics[picNum] : 'assets/images/profile_new.png';
 
     return Container(
       width: width,
