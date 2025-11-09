@@ -57,6 +57,8 @@ class _WidgetButtonState extends State<WidgetButton> {
   final FocusNode _btnNode = FocusNode();
   final List<LogicalKeyboardKey> _dPadKeys = [LogicalKeyboardKey.arrowLeft, LogicalKeyboardKey.arrowRight, LogicalKeyboardKey.arrowUp, LogicalKeyboardKey.arrowDown];
   Timer? _longPressTimer;
+  // _keyDownReceived: Prevents accidental ShortPresses when KeyDown is popping a page and KeyUp happens on previous page
+  bool _keyDownReceived = false;
   bool _longPressTriggered = false;
   bool _hasFocus = false;
 
@@ -75,6 +77,7 @@ class _WidgetButtonState extends State<WidgetButton> {
     }
     // Ignore the keydown but start timer incase we have a Long Press
     else if (event is KeyDownEvent && _dPadKeys.contains(key) == false) {
+      _keyDownReceived = true;
       _longPressTriggered = false;
 
       _longPressTimer?.cancel();
@@ -87,9 +90,10 @@ class _WidgetButtonState extends State<WidgetButton> {
       return KeyEventResult.ignored;
     }
     // Short/Long Press were handled, clean up the timer.
-    else if (event is KeyUpEvent) {
+    else if (event is KeyUpEvent && _keyDownReceived) {
       _longPressTimer?.cancel();
       _longPressTimer = null;
+      _keyDownReceived = false;
 
       if (!_longPressTriggered) {
         return _handleShortPress(key);
