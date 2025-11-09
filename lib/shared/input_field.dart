@@ -1,5 +1,5 @@
 import 'package:bingio/shared/constants.dart';
-import 'package:bingio/shared/tv_focus.dart';
+import 'package:bingio/shared/input_navigation.dart';
 import 'package:flutter/material.dart';
 
 class InputField extends StatefulWidget {
@@ -51,7 +51,7 @@ class _InputFieldState extends State<InputField> {
   Widget build(BuildContext context) {
     return Padding (
       padding: EdgeInsets.symmetric(horizontal: widget.paddingHorizontal, vertical: widget.paddingVertical),
-      child: TVFocus(
+      child: InputNavigation(
         autofocus: widget.autoFocus,
         focusNode: widget.focusNode,
         childFocus: _textFocusNode,
@@ -79,6 +79,7 @@ class _InputFieldState extends State<InputField> {
             ),
           ),
           textAlign: TextAlign.center,
+          textAlignVertical: TextAlignVertical.center,
           style: widget.style,
         ),
       ),

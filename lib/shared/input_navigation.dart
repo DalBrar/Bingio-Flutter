@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 /// A widget that manages focus for its child and allows for keyboard navigation. Must be wrapped by a 'FocusScope' to work.
-class TVFocus extends StatelessWidget {
+class InputNavigation extends StatelessWidget {
   final FocusNode focusNode;
   final FocusNode childFocus;
   final Widget child;
   final bool autofocus;
 
-  const TVFocus({
+  const InputNavigation({
     super.key,
     required this.focusNode,
     required this.childFocus,

@@ -108,6 +108,7 @@ class _ProfilesPageState extends State<ProfilesPage> {
                           ), onSuccess: () => showAppToast('Create success!'), onError: (error) => showAppError('Create error $error'));
                           newUserNode.unfocus();
                         },
+                        onLongPressed: () => AuthService().logOut(),
                       ));
                     }
             

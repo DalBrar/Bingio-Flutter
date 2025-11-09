@@ -62,10 +62,12 @@ class _WidgetButtonState extends State<WidgetButton> {
 
   KeyEventResult _handleKeyEvents(FocusNode node, KeyEvent event, Duration longPressThreshold) {
     final LogicalKeyboardKey key = event.logicalKey;
+    //print('WidgetButton: ${DateTime.now().millisecond}, Event: ${event is KeyUpEvent ? 'Up' : event is KeyDownEvent ? 'Down' : 'Repeat'}, Key: ${key.keyLabel}, longPressTriggered: $_longPressTriggered');
 
-    // If its just D-Pad movement handle it early on
+    // D-Pad movement is handled automatically on KeyDown so prevent from firing again on KeyUp
     if (event is KeyUpEvent &&  _dPadKeys.contains(key)) {
-      return _handleDPadNavigation(key);
+      // return _handleDPadNavigation(key);
+      return KeyEventResult.handled;
     }
     // Don't allow propagation of keys when held down unless its the D-Pad
     else if (event is KeyRepeatEvent && _dPadKeys.contains(key) == false) {
@@ -101,19 +103,19 @@ class _WidgetButtonState extends State<WidgetButton> {
 
   KeyEventResult _handleDPadNavigation(LogicalKeyboardKey key) {
     if (key == LogicalKeyboardKey.arrowLeft) {
-      FocusScope.of(context).parent?.nearestScope?.focusInDirection(TraversalDirection.left);
+      FocusScope.of(context).focusInDirection(TraversalDirection.left);
       return KeyEventResult.handled;
     }
     else if (key == LogicalKeyboardKey.arrowRight) {
-      FocusScope.of(context).parent?.nearestScope?.focusInDirection(TraversalDirection.right);
+      FocusScope.of(context).focusInDirection(TraversalDirection.right);
       return KeyEventResult.handled;
     }
     else if (key == LogicalKeyboardKey.arrowUp) {
-      FocusScope.of(context).parent?.nearestScope?.focusInDirection(TraversalDirection.up);
+      FocusScope.of(context).focusInDirection(TraversalDirection.up);
       return KeyEventResult.handled;
     }
     else if (key == LogicalKeyboardKey.arrowDown) {
-      FocusScope.of(context).parent?.nearestScope?.focusInDirection(TraversalDirection.down);
+      FocusScope.of(context).focusInDirection(TraversalDirection.down);
       return KeyEventResult.handled;
     }
     return KeyEventResult.ignored;
@@ -191,7 +193,6 @@ class _WidgetButtonState extends State<WidgetButton> {
           focusNode: widget.focusNode,
           autofocus: widget.autoFocus,
           onFocusChange: (hasFocus) {
-            print('Focus Changed: $hasFocus');
             setState(() {
               _hasFocus = hasFocus;
             });

@@ -112,55 +112,57 @@ class _LoginPageState extends State<LoginPage> {
                 
                 FocusScope(
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      InputField(
-                        hintText:  'Email',
-                        textInputType: TextInputType.emailAddress,
-                        autofillHints: [AutofillHints.email],
-                        prefixIcon: Icon(Icons.mail),
-                        autoFocus: true,
-                        controller: emailController,
-                        focusNode: emailFocusNode,
-                        nextFocus: passwordFocusNode,
-                        paddingHorizontal: verticalPadding * 4,
-                        paddingVertical: verticalPadding,
-                      ),
-
-                      InputField(
-                        hintText:  'Password',
-                        prefixIcon: Icon(Icons.password),
-                        controller: passwordController,
-                        focusNode: passwordFocusNode,
-                        nextFocus: loginButtonFocusNode,
-                        paddingHorizontal: verticalPadding * 4,
-                        paddingVertical: verticalPadding,
-                        obscureText: true,
-                      ),
-
-                      SolidButton(
-                        text: 'Log In',
-                        focusNode: loginButtonFocusNode,
-                        onPressed: logUserIn,
-                        paddingVertical: verticalPadding,
-                      ),
-
-                      Text('-- OR --'),
-
-                      SolidButton(
-                        text: 'Sign In with Google',
-                        image: 'assets/images/google_favicon.png',
-                        width: 250,
-                        focusNode: googleSignInButtonFocusNode,
-                        onPressed: googleSignIn,
-                        paddingVertical: verticalPadding,
-                      ),
-
-                      PlainTextButton(
-                        text: 'Sign Up with Email',
-                        onPressed: widget.toggleLoginAndRegisterPages,
-                      ),
-                    ],
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    InputField(
+                      hintText:  'Email',
+                      textInputType: TextInputType.emailAddress,
+                      autofillHints: [AutofillHints.email],
+                      prefixIcon: Icon(Icons.mail),
+                      suffixIcon: Icon(Icons.mail, color: Colors.transparent),
+                      autoFocus: true,
+                      controller: emailController,
+                      focusNode: emailFocusNode,
+                      nextFocus: passwordFocusNode,
+                      paddingHorizontal: verticalPadding * 4,
+                      paddingVertical: verticalPadding,
+                    ),
+                
+                    InputField(
+                      hintText:  'Password',
+                      prefixIcon: Icon(Icons.password),
+                      suffixIcon: Icon(Icons.password, color: Colors.transparent),
+                      controller: passwordController,
+                      focusNode: passwordFocusNode,
+                      nextFocus: loginButtonFocusNode,
+                      paddingHorizontal: verticalPadding * 4,
+                      paddingVertical: verticalPadding,
+                      obscureText: true,
+                    ),
+                
+                    SolidButton(
+                      text: 'Log In',
+                      focusNode: loginButtonFocusNode,
+                      onPressed: logUserIn,
+                      paddingVertical: verticalPadding,
+                    ),
+                
+                    Text('-- OR --'),
+                
+                    SolidButton(
+                      text: 'Sign In with Google',
+                      image: 'assets/images/google_favicon.png',
+                      width: 250,
+                      focusNode: googleSignInButtonFocusNode,
+                      onPressed: googleSignIn,
+                      paddingVertical: verticalPadding,
+                    ),
+                
+                    PlainTextButton(
+                      text: 'Sign Up with Email',
+                      onPressed: widget.toggleLoginAndRegisterPages,
+                    ),
+                  ],
                   ),
                 ),
               ],
