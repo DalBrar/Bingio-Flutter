@@ -136,7 +136,7 @@ class _ProfileEditorPageState extends State<ProfileEditorPage> {
                   Column(
                     children: [
                       Text(
-                        'Kids Profile:',
+                        'Kids Profile: ${_kidsProfile ? 'On' : 'Off'}',
                         style: AppStyles.regularText,
                       ),
                       Padding(
@@ -150,6 +150,7 @@ class _ProfileEditorPageState extends State<ProfileEditorPage> {
                             activeThumbColor: AppColors.background,
                             inactiveThumbColor: AppColors.background,
                             trackOutlineColor: WidgetStateColor.transparent,
+                            focusColor: AppColors.active.withAlpha(125),
                             onChanged: (val) => setState(() {
                               _kidsProfile = val;
                             }),
