@@ -54,17 +54,18 @@ class WidgetButton extends StatefulWidget {
 }
 
 class _WidgetButtonState extends State<WidgetButton> {
+  static const List<LogicalKeyboardKey> _dPadKeys = [LogicalKeyboardKey.arrowLeft, LogicalKeyboardKey.arrowRight, LogicalKeyboardKey.arrowUp, LogicalKeyboardKey.arrowDown];
+  late FocusNode _focusNode;
   final FocusNode _btnNode = FocusNode();
-  final List<LogicalKeyboardKey> _dPadKeys = [LogicalKeyboardKey.arrowLeft, LogicalKeyboardKey.arrowRight, LogicalKeyboardKey.arrowUp, LogicalKeyboardKey.arrowDown];
   Timer? _longPressTimer;
+  bool _ownFocusNode = false;
   // _keyDownReceived: Prevents accidental ShortPresses when KeyDown is popping a page and KeyUp happens on previous page
   bool _keyDownReceived = false;
   bool _longPressTriggered = false;
-  bool _hasFocus = false;
 
   KeyEventResult _handleKeyEvents(FocusNode node, KeyEvent event, Duration longPressThreshold) {
     final LogicalKeyboardKey key = event.logicalKey;
-    //print('WidgetButton: ${DateTime.now().millisecond}, Event: ${event is KeyUpEvent ? 'Up' : event is KeyDownEvent ? 'Down' : 'Repeat'}, Key: ${key.keyLabel}, longPressTriggered: $_longPressTriggered');
+    print('WidgetButton: ${DateTime.now().millisecond}, Event: ${event is KeyUpEvent ? 'Up' : event is KeyDownEvent ? 'Down' : 'Repeat'}, Key: ${key.keyLabel}, longPressTriggered: $_longPressTriggered');
 
     // D-Pad movement is handled automatically on KeyDown so prevent from firing again on KeyUp
     if (event is KeyUpEvent &&  _dPadKeys.contains(key)) {
@@ -105,14 +106,13 @@ class _WidgetButtonState extends State<WidgetButton> {
     return KeyEventResult.ignored;
   }
 
-  /*
   KeyEventResult _handleDPadNavigation(LogicalKeyboardKey key) {
     if (key == LogicalKeyboardKey.arrowLeft) {
-      FocusScope.of(context).focusInDirection(TraversalDirection.left);
+      _focusNode.focusInDirection(TraversalDirection.left);
       return KeyEventResult.handled;
     }
     else if (key == LogicalKeyboardKey.arrowRight) {
-      FocusScope.of(context).focusInDirection(TraversalDirection.right);
+      _focusNode.focusInDirection(TraversalDirection.right);
       return KeyEventResult.handled;
     }
     else if (key == LogicalKeyboardKey.arrowUp) {
@@ -125,7 +125,6 @@ class _WidgetButtonState extends State<WidgetButton> {
     }
     return KeyEventResult.ignored;
   }
-  */
 
   KeyEventResult _handleLongPress(LogicalKeyboardKey key) {
     if (key == LogicalKeyboardKey.select || key == LogicalKeyboardKey.enter || key == LogicalKeyboardKey.gameButtonA) {
@@ -171,20 +170,32 @@ class _WidgetButtonState extends State<WidgetButton> {
     return KeyEventResult.ignored;
   }
 
+  void _handleFocusChange() {
+    setState((){});
+  }
+
   @override
   void initState() {
     super.initState();
-    if (widget.autoFocus) {
-      setState(() {
-        _hasFocus = true;
-      });
+    if (widget.focusNode == null) {
+      _focusNode = FocusNode();
+      _ownFocusNode = true;
+    } else {
+      _focusNode = widget.focusNode!;
     }
+
+    _focusNode.addListener(_handleFocusChange);
   }
 
   @override
   void dispose() {
     _longPressTimer?.cancel();
     _longPressTimer = null;
+    _btnNode.dispose();
+    _focusNode.removeListener(_handleFocusChange);
+    if (_ownFocusNode) {
+      _focusNode.dispose();
+    }
     super.dispose();
   }
 
@@ -196,17 +207,14 @@ class _WidgetButtonState extends State<WidgetButton> {
         width: widget.width,
         height: widget.height,
         child: Focus(
-          focusNode: widget.focusNode,
+          focusNode: _focusNode,
           autofocus: widget.autoFocus,
           onFocusChange: (hasFocus) {
-            setState(() {
-              _hasFocus = hasFocus;
-            });
-            if (widget.onHover != null) {
-              widget.onHover!(hasFocus);
-            }
             if (hasFocus) {
               _btnNode.requestFocus();
+            }
+            if (widget.onHover != null) {
+              widget.onHover!(hasFocus);
             }
           },
           onKeyEvent: (FocusNode node, KeyEvent event) {
@@ -216,10 +224,10 @@ class _WidgetButtonState extends State<WidgetButton> {
             focusNode: _btnNode,
             onPressed: (){},
             style: OutlinedButton.styleFrom(
-              backgroundColor: _hasFocus ? widget.backgroundColorFocused : widget.backgroundColor,
+              backgroundColor: _focusNode.hasFocus ? widget.backgroundColorFocused : widget.backgroundColor,
               foregroundColor: Colors.transparent,
               side: BorderSide(
-                color: _hasFocus ? widget.borderColorFocused : widget.borderColor,
+                color: _focusNode.hasFocus ? widget.borderColorFocused : widget.borderColor,
                 width: widget.borderWidth,
               ),
               shape: RoundedRectangleBorder(
