@@ -26,6 +26,19 @@ class _ProfilesPageState extends State<ProfilesPage> {
     await PrefsService.setSelectedProfile(profileID);
   }
 
+  void createNewUser() async {
+    loadingSpinnerShow(context);
+    await Future.delayed(Duration(seconds: 1));
+    if (!mounted) return;
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => ProfileEditorPage())
+    ).then((returnValue) {
+      newUserNode.unfocus();
+      loadingSpinnerHide();
+    });
+  }
+
   @override
   void initState() {
     super.initState();
@@ -41,7 +54,7 @@ class _ProfilesPageState extends State<ProfilesPage> {
   Widget build(BuildContext context) {
     return ExitOnBackCatcher(
       child: Scaffold(
-        appBar: MyAppBar(),
+        appBar: MyAppBar(hideLogoutButton: true),
         backgroundColor: AppColors.background,
         body: SafeArea(
           child: Center(
@@ -88,14 +101,7 @@ class _ProfilesPageState extends State<ProfilesPage> {
                         picNum: 99,
                         focusNode: newUserNode,
                         autoFocus: autoFocusAvailable,
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => ProfileEditorPage()))
-                            .then((returnValue) {
-                              newUserNode.unfocus();
-                            });
-                        },
+                        onPressed: createNewUser,
                       ));
                     }
             
