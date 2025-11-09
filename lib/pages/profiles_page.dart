@@ -21,16 +21,19 @@ class ProfilesPage extends StatefulWidget {
 class _ProfilesPageState extends State<ProfilesPage> {
   final User? user = AuthService().getCurrentUser();
   final FocusNode newUserNode = FocusNode();
-  String? selectProfile;
+  String? _selectProfile;
 
   void setSelectedProfile(String profileID) async {
     await PrefsService.setSelectedProfile(profileID);
+    setState(() {
+      _selectProfile = profileID;
+    });
   }
 
   void initSelectedProfile() async {
     String? sp = await PrefsService.getSelectedProfile();
     setState(() {
-      selectProfile = sp;
+      _selectProfile = sp;
     });
   }
 
@@ -74,13 +77,12 @@ class _ProfilesPageState extends State<ProfilesPage> {
                         bgColor: profile.bgColor,
                         picColor: profile.picColor,
                         picNum: profile.picNumber,
+                        autoFocus: _selectProfile == profile.id,
                         onPressed: () {
-                          profile.bgColor = 5;
-                          profile.picColor = 4;
-                          FirestoreDatabase().createOrUpdate(ProfileModel.collection, profile, onSuccess: () => showAppToast('Update success!'), onError: (error) => showAppError('Update error $error'));
+                          setSelectedProfile(profile.id!);
                         },
                         onLongPressed: () {
-                          FirestoreDatabase().delete(ProfileModel.collection, profile.id!, onSuccess: () => showAppToast('Delete success!'), onError: (error) => showAppError('Delete error $error'));
+                          FirestoreDatabase().delete(ProfileModel.collection, profile.id!, onSuccess: () => showAppToast('Profile deleted!'), onError: (error) => showAppError('Profile delete error $error'));
                         },
                       );
                     }).toList();
@@ -92,10 +94,15 @@ class _ProfilesPageState extends State<ProfilesPage> {
                         picColor: 0,
                         picNum: 99,
                         focusNode: newUserNode,
+                        autoFocus: _selectProfile == null,
                         onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileEditorPage()));
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => ProfileEditorPage()))
+                            .then((returnValue) {
+                              newUserNode.unfocus();
+                            });
                         },
-                        onLongPressed: () => AuthService().logOut(),
                       ));
                     }
             

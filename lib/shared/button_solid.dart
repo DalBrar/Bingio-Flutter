@@ -10,6 +10,7 @@ class SolidButton extends StatelessWidget {
   final double paddingHorizontal;
   final double paddingVertical;
   final String? image;
+  final bool isDisabled;
 
   const SolidButton({
     super.key,
@@ -21,6 +22,7 @@ class SolidButton extends StatelessWidget {
     this.paddingHorizontal = 0,
     this.paddingVertical = 0,
     this.image,
+    this.isDisabled = false,
   });
 
   @override
@@ -34,8 +36,8 @@ class SolidButton extends StatelessWidget {
         height: height,
         child: ElevatedButton(
           focusNode: focusNode,
-          onPressed: onPressed,
-          style: AppStyles.solidButtonStyle,
+          onPressed: isDisabled ? null : onPressed,
+          style: isDisabled ? AppStyles.solidButtonDisabledStyle : AppStyles.solidButtonStyle,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -48,7 +50,7 @@ class SolidButton extends StatelessWidget {
               if (image != null) Text(' ', style: AppStyles.solidButtonText,),
               Text(
                 text,
-                style: AppStyles.solidButtonText,
+                style: isDisabled ? AppStyles.solidButtonDisabledText : AppStyles.solidButtonText,
               ),
             ],
           ),

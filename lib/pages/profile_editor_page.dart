@@ -118,7 +118,7 @@ class _ProfileEditorPageState extends State<ProfileEditorPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MyAppBar(),
+      appBar: MyAppBar(hideLogoutButton: true, showBackButton: true,),
       backgroundColor: AppColors.background,
       body: Center(
         child: SizedBox(
@@ -231,7 +231,11 @@ class _ProfileEditorPageState extends State<ProfileEditorPage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SolidButton(text: _isCreateDisabled ? 'Saving Profile...' : 'Create Profile', onPressed: () => _isCreateDisabled ? null : _saveProfile(context)),
+                  SolidButton(
+                    text: _isCreateDisabled ? 'Saving Profile...' : 'Create Profile',
+                    onPressed: () => _saveProfile(context),
+                    isDisabled: _isCreateDisabled,
+                  ),
                 ],
               ),
             ],

@@ -85,6 +85,14 @@ class AppStyles {
     fontFamily: 'Futura',
   );
 
+  static const TextStyle solidButtonDisabledText = TextStyle(
+    fontSize: 18,
+    color: AppColors.hint,
+    fontWeight: FontWeight.bold,
+    fontFamily: 'Futura',
+  );
+
+
   static ButtonStyle plainTextButtonStyle = ButtonStyle(
     backgroundColor: WidgetStateProperty.resolveWith<Color>(
       (Set<WidgetState> states) {
@@ -114,6 +122,19 @@ class AppStyles {
           return AppColors.active;
         }
         return AppColors.link;
+      },
+    ),
+    shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+      RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8),
+      ),
+    ),
+  );
+
+  static ButtonStyle solidButtonDisabledStyle = ButtonStyle(
+    backgroundColor: WidgetStateProperty.resolveWith<Color>(
+      (Set<WidgetState> states) {
+        return AppColors.shadow;
       },
     ),
     shape: WidgetStateProperty.all<RoundedRectangleBorder>(
