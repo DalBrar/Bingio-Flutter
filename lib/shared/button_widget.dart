@@ -1,10 +1,18 @@
+import 'dart:async';
 import 'package:bingio/shared/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class WidgetButton extends StatefulWidget {
-  final VoidCallback onPressed;
-  final VoidCallback? onLongPressed;
+  final Widget child;
+  final VoidCallback? onPressSelect;
+  final VoidCallback? onLongPressSelect;
+  final VoidCallback? onPressBack;
+  final VoidCallback? onLongPressBack;
+  final VoidCallback? onPressMenu;
+  final VoidCallback? onLongPressMenu;
   final ValueChanged<bool>? onHover;
+  final Duration longPressThreshold;
   final FocusNode? focusNode;
   final bool autoFocus;
   final double? width;
@@ -16,13 +24,18 @@ class WidgetButton extends StatefulWidget {
   final Color borderColorFocused;
   final double borderWidth;
   final double borderRadius;
-  final Widget child;
 
   const WidgetButton({
     super.key,
-    required this.onPressed,
-    this.onLongPressed,
+    required this.child,
+    this.onPressSelect,
+    this.onLongPressSelect,
+    this.onPressBack,
+    this.onLongPressBack,
+    this.onPressMenu,
+    this.onLongPressMenu,
     this.onHover,
+    this.longPressThreshold = Durations.long2,
     this.focusNode,
     this.autoFocus = false,
     this.width,
@@ -34,7 +47,6 @@ class WidgetButton extends StatefulWidget {
     this.borderColorFocused = AppColors.active,
     this.borderWidth = 2,
     this.borderRadius = 20,
-    required this.child,
   });
 
   @override
@@ -42,7 +54,131 @@ class WidgetButton extends StatefulWidget {
 }
 
 class _WidgetButtonState extends State<WidgetButton> {
+  final FocusNode _btnNode = FocusNode();
+  final List<LogicalKeyboardKey> _dPadKeys = [LogicalKeyboardKey.arrowLeft, LogicalKeyboardKey.arrowRight, LogicalKeyboardKey.arrowUp, LogicalKeyboardKey.arrowDown];
+  Timer? _longPressTimer;
+  bool _longPressTriggered = false;
   bool _hasFocus = false;
+
+  KeyEventResult _handleKeyEvents(FocusNode node, KeyEvent event, Duration longPressThreshold) {
+    final LogicalKeyboardKey key = event.logicalKey;
+
+    // If its just D-Pad movement handle it early on
+    if (event is KeyUpEvent &&  _dPadKeys.contains(key)) {
+      return _handleDPadNavigation(key);
+    }
+    // Don't allow propagation of keys when held down unless its the D-Pad
+    else if (event is KeyRepeatEvent && _dPadKeys.contains(key) == false) {
+      return KeyEventResult.handled;
+    }
+    // Ignore the keydown but start timer incase we have a Long Press
+    else if (event is KeyDownEvent && _dPadKeys.contains(key) == false) {
+      _longPressTriggered = false;
+
+      _longPressTimer?.cancel();
+      _longPressTimer = Timer(longPressThreshold, (){
+        _longPressTriggered = true;
+        _handleLongPress(key);
+      });
+
+      // Ignoring here allows the child ElevatedButton to make it's press sound
+      return KeyEventResult.ignored;
+    }
+    // Short/Long Press were handled, clean up the timer.
+    else if (event is KeyUpEvent) {
+      _longPressTimer?.cancel();
+      _longPressTimer = null;
+
+      if (!_longPressTriggered) {
+        return _handleShortPress(key);
+      }
+
+      return KeyEventResult.handled;
+    }
+
+    return KeyEventResult.ignored;
+  }
+
+  KeyEventResult _handleDPadNavigation(LogicalKeyboardKey key) {
+    if (key == LogicalKeyboardKey.arrowLeft) {
+      FocusScope.of(context).parent?.nearestScope?.focusInDirection(TraversalDirection.left);
+      return KeyEventResult.handled;
+    }
+    else if (key == LogicalKeyboardKey.arrowRight) {
+      FocusScope.of(context).parent?.nearestScope?.focusInDirection(TraversalDirection.right);
+      return KeyEventResult.handled;
+    }
+    else if (key == LogicalKeyboardKey.arrowUp) {
+      FocusScope.of(context).parent?.nearestScope?.focusInDirection(TraversalDirection.up);
+      return KeyEventResult.handled;
+    }
+    else if (key == LogicalKeyboardKey.arrowDown) {
+      FocusScope.of(context).parent?.nearestScope?.focusInDirection(TraversalDirection.down);
+      return KeyEventResult.handled;
+    }
+    return KeyEventResult.ignored;
+  }
+
+  KeyEventResult _handleLongPress(LogicalKeyboardKey key) {
+    if (key == LogicalKeyboardKey.select || key == LogicalKeyboardKey.enter || key == LogicalKeyboardKey.gameButtonA) {
+      if (widget.onLongPressSelect != null) {
+        widget.onLongPressSelect!();
+        return KeyEventResult.handled;
+      }
+    }
+    else if (key == LogicalKeyboardKey.goBack || key == LogicalKeyboardKey.backspace || key == LogicalKeyboardKey.gameButtonB) {
+      if (widget.onLongPressBack != null) {
+        widget.onLongPressBack!();
+        return KeyEventResult.handled;
+      }
+    }
+    else if (key == LogicalKeyboardKey.contextMenu || key == LogicalKeyboardKey.escape || key == LogicalKeyboardKey.gameButtonSelect) {
+      if (widget.onLongPressMenu != null) {
+        widget.onLongPressMenu!();
+        return KeyEventResult.handled;
+      }
+    }
+    return KeyEventResult.ignored;
+  }
+
+  KeyEventResult _handleShortPress(LogicalKeyboardKey key) {
+    if (key == LogicalKeyboardKey.select || key == LogicalKeyboardKey.enter || key == LogicalKeyboardKey.gameButtonA) {
+      if (widget.onPressSelect != null) {
+        widget.onPressSelect!();
+        return KeyEventResult.handled;
+      }
+    }
+    else if (key == LogicalKeyboardKey.goBack || key == LogicalKeyboardKey.backspace || key == LogicalKeyboardKey.gameButtonB) {
+      if (widget.onPressBack != null) {
+        widget.onPressBack!();
+        return KeyEventResult.handled;
+      }
+    }
+    else if (key == LogicalKeyboardKey.contextMenu || key == LogicalKeyboardKey.escape || key == LogicalKeyboardKey.gameButtonSelect) {
+      if (widget.onPressMenu != null) {
+        widget.onPressMenu!();
+        return KeyEventResult.handled;
+      }
+    }
+    return KeyEventResult.ignored;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.autoFocus) {
+      setState(() {
+        _hasFocus = true;
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    _longPressTimer?.cancel();
+    _longPressTimer = null;
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,32 +187,40 @@ class _WidgetButtonState extends State<WidgetButton> {
       child: SizedBox(
         width: widget.width,
         height: widget.height,
-        child: ElevatedButton(
-          autofocus: widget.autoFocus,
+        child: Focus(
           focusNode: widget.focusNode,
-          onPressed: widget.onPressed,
-          onLongPress: widget.onLongPressed,
-          onHover: widget.onHover,
+          autofocus: widget.autoFocus,
           onFocusChange: (hasFocus) {
+            print('Focus Changed: $hasFocus');
             setState(() {
               _hasFocus = hasFocus;
             });
             if (widget.onHover != null) {
               widget.onHover!(hasFocus);
             }
+            if (hasFocus) {
+              _btnNode.requestFocus();
+            }
           },
-          style: OutlinedButton.styleFrom(
-            backgroundColor: _hasFocus ? widget.backgroundColorFocused : widget.backgroundColor,
-            foregroundColor: Colors.transparent,
-            side: BorderSide(
-              color: _hasFocus ? widget.borderColorFocused : widget.borderColor,
-              width: widget.borderWidth,
+          onKeyEvent: (FocusNode node, KeyEvent event) {
+            return _handleKeyEvents(node, event, widget.longPressThreshold);
+          },
+          child: ElevatedButton(
+            focusNode: _btnNode,
+            onPressed: (){},
+            style: OutlinedButton.styleFrom(
+              backgroundColor: _hasFocus ? widget.backgroundColorFocused : widget.backgroundColor,
+              foregroundColor: Colors.transparent,
+              side: BorderSide(
+                color: _hasFocus ? widget.borderColorFocused : widget.borderColor,
+                width: widget.borderWidth,
+              ),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(widget.borderRadius),
+              ),
             ),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(widget.borderRadius),
-            ),
+            child: widget.child,
           ),
-          child: widget.child,
         ),
       ),
     );

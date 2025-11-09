@@ -21,6 +21,7 @@ class ProfilesPage extends StatefulWidget {
 
 class _ProfilesPageState extends State<ProfilesPage> {
   final User? user = AuthService().getCurrentUser();
+  final FocusNode newUserNode = FocusNode();
   String? selectProfile;
 
   void setSelectedProfile(String profileID) async {
@@ -38,6 +39,12 @@ class _ProfilesPageState extends State<ProfilesPage> {
   void initState() {
     super.initState();
     initSelectedProfile();
+  }
+
+  @override
+  void dispose() {
+    newUserNode.dispose();
+    super.dispose();
   }
 
   @override
@@ -82,13 +89,14 @@ class _ProfilesPageState extends State<ProfilesPage> {
                         },
                       );
                     }).toList();
-
+            
                     if (profiles.length < 5) {
                       children.add(ProfileCard(
                         name: 'New User',
                         bgColor: 1,
                         picColor: 0,
                         picNum: 99,
+                        focusNode: newUserNode,
                         autoFocus: (selectProfile == null),
                         onPressed: () {
                           FirestoreDatabase().createOrUpdate(ProfileModel.collection, ProfileModel(
@@ -98,10 +106,11 @@ class _ProfilesPageState extends State<ProfilesPage> {
                             picColor: Random().nextInt(10),
                             picNumber: Random().nextInt(6),
                           ), onSuccess: () => showAppToast('Create success!'), onError: (error) => showAppError('Create error $error'));
+                          newUserNode.unfocus();
                         },
                       ));
                     }
-
+            
                     return Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: children,

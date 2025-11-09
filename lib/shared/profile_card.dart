@@ -12,6 +12,7 @@ class ProfileCard extends StatelessWidget {
   final int picNum;
   final VoidCallback onPressed;
   final VoidCallback? onLongPressed;
+  final FocusNode? focusNode;
   final bool autoFocus;
 
   const ProfileCard({
@@ -22,6 +23,7 @@ class ProfileCard extends StatelessWidget {
     required this.picNum,
     required this.onPressed,
     this.onLongPressed,
+    this.focusNode,
     this.autoFocus = false,
   });
 
@@ -30,9 +32,10 @@ class ProfileCard extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8),
       child: WidgetButton(
+        focusNode: focusNode,
         autoFocus: autoFocus,
-        onPressed: onPressed,
-        onLongPressed: onLongPressed,
+        onPressSelect: onPressed,
+        onLongPressSelect: onLongPressed,
         child: SizedBox(
           width: 80,
           height: 122,
