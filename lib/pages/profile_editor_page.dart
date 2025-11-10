@@ -50,29 +50,32 @@ class _ProfileEditorPageState extends State<ProfileEditorPage> {
     (index) => WidgetButton(
       width: 80,
       height: 50,
-      borderColor: AppColors.shadow,
-      borderRadius: 0,
+      borderColor: Colors.transparent,
       child: Image.asset(AppProfileSettings.profilePics[index]),
       onPressSelect: () => profile.update(picNum: index),
     )
   );
   late List<WidgetButton> bgChildren = List.generate(AppProfileSettings.profileColors.length,
     (index) => WidgetButton(
-      width: 50,
-      height: 50,
+      width: 45,
+      height: 45,
       backgroundColor: AppProfileSettings.profileColors[index],
       backgroundColorFocused: AppProfileSettings.profileColors[index],
-      borderColor: AppColors.shadow,
+      borderColor: Colors.transparent,
+      borderWidth: 3,
+      margin: 2,
       onPressSelect: () => profile.update(bgColor: index),
     )
   );
   late List<WidgetButton> picColorChildren = List.generate(AppProfileSettings.profileColors.length,
     (index) => WidgetButton(
-      width: 50,
-      height: 50,
+      width: 45,
+      height: 45,
       backgroundColor: AppProfileSettings.profileColors[index],
       backgroundColorFocused: AppProfileSettings.profileColors[index],
-      borderColor: AppColors.shadow,
+      borderColor: Colors.transparent,
+      borderWidth: 3,
+      margin: 2,
       onPressSelect: () => profile.update(picColor: index),
     )
   );
