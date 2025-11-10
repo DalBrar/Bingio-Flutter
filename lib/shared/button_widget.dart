@@ -65,7 +65,7 @@ class _WidgetButtonState extends State<WidgetButton> {
 
   KeyEventResult _handleKeyEvents(FocusNode node, KeyEvent event, Duration longPressThreshold) {
     final LogicalKeyboardKey key = event.logicalKey;
-    print('WidgetButton: ${DateTime.now().millisecond}, Event: ${event is KeyUpEvent ? 'Up' : event is KeyDownEvent ? 'Down' : 'Repeat'}, Key: ${key.keyLabel}, longPressTriggered: $_longPressTriggered');
+    //print('WidgetButton: ${DateTime.now().millisecond}, Event: ${event is KeyUpEvent ? 'Up' : event is KeyDownEvent ? 'Down' : 'Repeat'}, Key: ${key.keyLabel}, longPressTriggered: $_longPressTriggered');
 
     // D-Pad movement is handled automatically on KeyDown so prevent from firing again on KeyUp
     if (event is KeyUpEvent &&  _dPadKeys.contains(key)) {

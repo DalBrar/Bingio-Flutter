@@ -80,10 +80,10 @@ class _ProfileEditorPageState extends State<ProfileEditorPage> {
   bool _isCreateDisabled = false;
 
   void _randomize() {
-    int _picNum = Random().nextInt(AppProfileSettings.profilePics.length);
-    int _bgColor = Random().nextInt(AppProfileSettings.profileColors.length);
-    int _picColor = Random().nextInt(AppProfileSettings.profileColors.length);
-    profile.update(picNum: _picNum, bgColor: _bgColor, picColor: _picColor);
+    int picNum = Random().nextInt(AppProfileSettings.profilePics.length);
+    int bgColor = Random().nextInt(AppProfileSettings.profileColors.length);
+    int picColor = Random().nextInt(AppProfileSettings.profileColors.length);
+    profile.update(picNum: picNum, bgColor: bgColor, picColor: picColor);
   }
 
   void _saveProfile(BuildContext context) async {

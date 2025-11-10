@@ -43,7 +43,6 @@ class _ProfilesPageState extends State<ProfilesPage> {
       context,
       MaterialPageRoute(builder: (context) => ProfileEditorPage())
     ).then((returnValue) async {
-      print('is mounted? $mounted - ${context.mounted}');
       await setSelectedProfile(returnValue);
       loadingSpinnerHide();
     });
