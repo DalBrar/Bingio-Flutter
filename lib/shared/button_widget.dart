@@ -24,6 +24,7 @@ class WidgetButton extends StatefulWidget {
   final Color borderColorFocused;
   final double borderWidth;
   final double borderRadius;
+  final AlignmentGeometry alignment;
 
   const WidgetButton({
     super.key,
@@ -47,6 +48,7 @@ class WidgetButton extends StatefulWidget {
     this.borderColorFocused = AppColors.active,
     this.borderWidth = 2,
     this.borderRadius = 20,
+    this.alignment = AlignmentGeometry.center,
   });
 
   @override
@@ -226,6 +228,7 @@ class _WidgetButtonState extends State<WidgetButton> {
             focusNode: _btnNode,
             onPressed: (){},
             style: ElevatedButton.styleFrom(
+              alignment: widget.alignment,
               padding:EdgeInsets.all(2),
               backgroundColor: _focusNode.hasFocus ? widget.backgroundColorFocused : widget.backgroundColor,
               foregroundColor: widget.backgroundColorFocused,

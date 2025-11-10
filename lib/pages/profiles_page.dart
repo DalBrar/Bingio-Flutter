@@ -21,6 +21,7 @@ class ProfilesPage extends StatefulWidget {
 class _ProfilesPageState extends State<ProfilesPage> {
   final User? user = AuthService().getCurrentUser();
   final FocusNode newUserNode = FocusNode();
+  final Map<String, FocusNode> cardFocusNodes = {};
   String? _selectedProfile;
 
   void getSelectedProfile() async {
@@ -51,12 +52,16 @@ class _ProfilesPageState extends State<ProfilesPage> {
   @override
   void initState() {
     super.initState();
+    loadingSpinnerHide();
     getSelectedProfile();
   }
 
   @override
   void dispose() {
     newUserNode.dispose();
+    for (final node in cardFocusNodes.values) {
+      node.dispose();
+    }
     super.dispose();
   }
 
@@ -82,8 +87,11 @@ class _ProfilesPageState extends State<ProfilesPage> {
                     if (snapshot.data == null) return CircularProgressIndicator();
                     final profiles = snapshot.data?.toList() ?? List.empty();
                     profiles.sort((a,b) => a.displayName.compareTo(b.displayName));
-                    
+
                     final children = profiles.map((profile) {
+                      // Create and track FocusNodes
+                      cardFocusNodes.putIfAbsent(profile.id!, () => FocusNode());
+
                       return ProfileCard(
                         key: ValueKey(profile.id),
                         name: profile.displayName,
@@ -91,6 +99,8 @@ class _ProfilesPageState extends State<ProfilesPage> {
                         picColor: profile.picColor,
                         picNum: profile.picNumber,
                         autoFocus: profile.id == _selectedProfile,
+                        focusNode: cardFocusNodes[profile.id],
+                        showOptions: true,
                         onPressed: () {
                           setSelectedProfile(profile.id!);
                         },
@@ -113,6 +123,7 @@ class _ProfilesPageState extends State<ProfilesPage> {
                         picColor: 0,
                         picNum: 99,
                         autoFocus: _selectedProfile == null,
+                        focusNode: newUserNode,
                         onPressed: createNewUser,
                       ));
                     }
