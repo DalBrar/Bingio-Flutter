@@ -65,7 +65,7 @@ class _ProfilesPageState extends State<ProfilesPage> {
   Widget build(BuildContext context) {
     return ExitOnBackCatcher(
       child: Scaffold(
-        appBar: MyAppBar(hideLogoutButton: true),
+        appBar: MyAppBar(hideLogoutButton: false),
         backgroundColor: AppColors.background,
         body: SafeArea(
           child: Center(
@@ -106,7 +106,7 @@ class _ProfilesPageState extends State<ProfilesPage> {
                       );
                     }).toList();
             
-                    if (profiles.length < 5) {
+                    if (profiles.length < AppValues.maxProfiles) {
                       children.add(ProfileCard(
                         key: ValueKey('newprofile'),
                         name: 'New Profile',

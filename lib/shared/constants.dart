@@ -145,3 +145,7 @@ class AppStyles {
   );
 
 }
+
+class AppValues {
+  static const int maxProfiles = 6;
+}

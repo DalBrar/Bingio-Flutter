@@ -14,8 +14,8 @@ class ProfileCard extends StatelessWidget {
   final VoidCallback? onLongPressed;
   final FocusNode? focusNode;
   final bool autoFocus;
-  final double? width;
-  final double? height;
+  final double width;
+  final double height;
 
   const ProfileCard({
     super.key,
@@ -27,8 +27,8 @@ class ProfileCard extends StatelessWidget {
     this.onLongPressed,
     this.focusNode,
     this.autoFocus = false,
-    this.width = 80,
-    this.height = 122,
+    this.width = 125,
+    this.height = 125,
   });
 
   @override
@@ -40,23 +40,25 @@ class ProfileCard extends StatelessWidget {
         autoFocus: autoFocus,
         onPressSelect: onPressed,
         onLongPressSelect: onLongPressed,
-        child: SizedBox(
-          width: width,
-          height: height,
-          child: Column(
-            children: [
-              SizedBox(height: 10),
-              ProfilePic(
-                bgColor: bgColor,
-                picColor: picColor,
-                picNum: picNum,
-              ),
-              ResponsiveText(
-                text: name,
-                style: AppStyles.title2Text,
-              )
-            ],
-          ),
+        width: width,
+        height: height,
+        child: Column(
+          children: [
+            SizedBox(height: 5),
+            ProfilePic(
+              bgColor: bgColor,
+              picColor: picColor,
+              picNum: picNum,
+              width: width * 0.65,
+              height: height * 0.65,
+            ),
+            ResponsiveText(
+              text: name,
+              style: AppStyles.title2Text,
+              width: width * 0.9,
+              height: height * 0.25,
+            )
+          ],
         ),
       ),
     );

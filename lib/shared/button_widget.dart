@@ -225,7 +225,8 @@ class _WidgetButtonState extends State<WidgetButton> {
           child: ElevatedButton(
             focusNode: _btnNode,
             onPressed: (){},
-            style: OutlinedButton.styleFrom(
+            style: ElevatedButton.styleFrom(
+              padding:EdgeInsets.all(2),
               backgroundColor: _focusNode.hasFocus ? widget.backgroundColorFocused : widget.backgroundColor,
               foregroundColor: Colors.transparent,
               side: BorderSide(
