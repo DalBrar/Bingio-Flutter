@@ -1,6 +1,5 @@
-
-import 'package:bingio/shared/button_widget.dart';
 import 'package:bingio/shared/constants.dart';
+import 'package:bingio/shared/focus_wrap.dart';
 import 'package:bingio/shared/functions.dart';
 import 'package:bingio/shared/my_app_bar_button.dart';
 import 'package:bingio/shared/profile_pic.dart';
@@ -88,106 +87,79 @@ class _ProfileCardState extends State<ProfileCard> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8),
-      child: FocusTraversalGroup(
-        policy: null,
-        child: Column(
-          children: [
-            FocusTraversalOrder(
-              order: NumericFocusOrder(0),
-              child: WidgetButton(
-                focusNode: widget.focusNode,
-                autoFocus: widget.autoFocus,
-                onPressSelect: widget.onPressed,
-                onLongPressSelect: widget.onLongPressed,
-                borderColorFocused: Colors.transparent,
-                borderWidth: 0,
-                width: widget.width,
-                height: widget.height,
-                child: Stack(
-                  alignment: AlignmentGeometry.center,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(3),
-                      child: Column(
-                        children: [
-                          SizedBox(height: 5),
-                          ProfilePic(
-                            bgColor: widget.bgColor,
-                            picColor: widget.picColor,
-                            picNum: widget.picNum,
-                            width: widget.width * 0.65,
-                            height: widget.width * 0.65,
-                          ),
-                          ResponsiveText(
-                            text: widget.name,
-                            style: AppStyles.title2Text,
-                            width: widget.width * 0.85,
-                            height: widget.width * 0.25,
-                          )
-                        ],
-                      ),
-                    ),
-                    AnimatedOpacity(
-                      opacity: (widget.focusNode != null && widget.focusNode!.hasFocus) ? 1 : 0,
-                      duration: Duration(milliseconds: 400),
-                      curve: Curves.easeInToLinear,
-                      child: Container(
-                        width: widget.width,
-                        height: widget.width,
-                        decoration: BoxDecoration(
-                          border: BoxBorder.all(
-                            color: AppColors.active,
-                            width: 3,
-                          ),
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: null,
-                      ),
-                    ),
-                  ],
-                ),
+    return FocusTraversalGroup(
+      policy: null,
+      child: Column(
+        children: [
+          FocusTraversalOrder(
+            order: NumericFocusOrder(0),
+            child: FocusWrap(
+              focusNode: widget.focusNode,
+              autoFocus: widget.autoFocus,
+              onPressSelect: widget.onPressed,
+              onLongPressSelect: widget.onLongPressed,
+              width: widget.width,
+              height: widget.height,
+              margin: EdgeInsetsGeometry.all(8),
+              padding: EdgeInsetsGeometry.all(3),
+              child: Column(
+                children: [
+                  SizedBox(height: 5),
+                  ProfilePic(
+                    bgColor: widget.bgColor,
+                    picColor: widget.picColor,
+                    picNum: widget.picNum,
+                    width: widget.width * 0.65,
+                    height: widget.width * 0.65,
+                  ),
+                  ResponsiveText(
+                    text: widget.name,
+                    style: AppStyles.title2Text,
+                    width: widget.width * 0.85,
+                    height: widget.width * 0.25,
+                  )
+                ],
               ),
             ),
-            if (widget.showOptions)
-              AnimatedOpacity(
-                opacity: _isAnyFocused ? 1 : 0,
-                duration: Duration(milliseconds: 750),
-                curve: Curves.easeInOut,
-                child: Column(
-                  children: [
-                    FocusTraversalOrder(
-                      order: NumericFocusOrder(1),
-                      child: Focus(
-                        focusNode: editFocus,
-                        child: MyAppBarButton(
-                          onPressed: (){ showAppToast('Edit not implemented yet'); },
-                          icon: Icon(
-                            Icons.edit_outlined,
-                            color: editFocus.hasFocus ? AppColors.shadow : AppColors.hint,
-                          )
-                        ),
+          ),
+    
+          if (widget.showOptions)
+            AnimatedOpacity(
+              opacity: _isAnyFocused ? 1 : 0,
+              duration: Duration(milliseconds: 750),
+              curve: Curves.easeInOut,
+              child: Column(
+                children: [
+                  FocusTraversalOrder(
+                    order: NumericFocusOrder(1),
+                    child: Focus(
+                      focusNode: editFocus,
+                      child: MyAppBarButton(
+                        onPressed: (){ showAppToast('Edit not implemented yet'); },
+                        icon: Icon(
+                          Icons.edit_outlined,
+                          color: editFocus.hasFocus ? AppColors.shadow : AppColors.hint,
+                        )
                       ),
                     ),
-                    FocusTraversalOrder(
-                      order: NumericFocusOrder(2),
-                      child: Focus(
-                        focusNode: delFocus,
-                        child: MyAppBarButton(
-                          onPressed: (){ showAppToast('Delete not implemented yet'); },
-                          icon: Icon(
-                            Icons.delete_forever_outlined,
-                            color: delFocus.hasFocus ? const Color.fromARGB(255, 255, 0, 0) : AppColors.hint,
-                          )
-                        ),
+                  ),
+                  FocusTraversalOrder(
+                    order: NumericFocusOrder(2),
+                    child: Focus(
+                      focusNode: delFocus,
+                      child: MyAppBarButton(
+                        onPressed: (){ showAppToast('Delete not implemented yet'); },
+                        icon: Icon(
+                          Icons.delete_forever_outlined,
+                          color: delFocus.hasFocus ? const Color.fromARGB(255, 255, 0, 0) : AppColors.hint,
+                        )
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-          ],
-        ),
+            ),
+        ],
       ),
     );
   }
