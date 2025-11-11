@@ -3,9 +3,9 @@ import 'dart:math';
 import 'package:bingio/services/auth_service.dart';
 import 'package:bingio/services/firestore/firestore_database.dart';
 import 'package:bingio/services/firestore/models/profile_model.dart';
+import 'package:bingio/shared/focus_wrap.dart';
 import 'package:bingio/shared/functions.dart';
 import 'package:bingio/shared/button_solid.dart';
-import 'package:bingio/shared/button_widget.dart';
 import 'package:bingio/shared/constants.dart';
 import 'package:bingio/shared/gradient_text.dart';
 import 'package:bingio/shared/input_field.dart';
@@ -46,36 +46,33 @@ class _ProfileEditorPageState extends State<ProfileEditorPage> {
   final profile = ProfileNotifier();
   bool _isLoading = true;
 
-  late List<WidgetButton> pictureChildren = List.generate(AppProfileSettings.profilePics.length,
-    (index) => WidgetButton(
-      width: 80,
-      height: 50,
+  late List<FocusWrap> pictureChildren = List.generate(AppProfileSettings.profilePics.length,
+    (index) => FocusWrap(
+      width: 60,
+      height: 60,
+      borderRadius: BorderRadiusGeometry.all(Radius.circular(50)),
+      margin: EdgeInsetsGeometry.symmetric(horizontal: 10),
+      padding: EdgeInsetsGeometry.all(2),
       borderColor: Colors.transparent,
-      child: Image.asset(AppProfileSettings.profilePics[index]),
       onPressSelect: () => profile.update(picNum: index),
+      child: Image.asset(AppProfileSettings.profilePics[index]),
     )
   );
-  late List<WidgetButton> bgChildren = List.generate(AppProfileSettings.profileColors.length,
-    (index) => WidgetButton(
+  late List<FocusWrap> bgChildren = List.generate(AppProfileSettings.profileColors.length,
+    (index) => FocusWrap(
       width: 45,
       height: 45,
       backgroundColor: AppProfileSettings.profileColors[index],
       backgroundColorFocused: AppProfileSettings.profileColors[index],
-      borderColor: Colors.transparent,
-      borderWidth: 3,
-      margin: 2,
       onPressSelect: () => profile.update(bgColor: index),
     )
   );
-  late List<WidgetButton> picColorChildren = List.generate(AppProfileSettings.profileColors.length,
-    (index) => WidgetButton(
+  late List<FocusWrap> picColorChildren = List.generate(AppProfileSettings.profileColors.length,
+    (index) => FocusWrap(
       width: 45,
       height: 45,
       backgroundColor: AppProfileSettings.profileColors[index],
       backgroundColorFocused: AppProfileSettings.profileColors[index],
-      borderColor: Colors.transparent,
-      borderWidth: 3,
-      margin: 2,
       onPressSelect: () => profile.update(picColor: index),
     )
   );
@@ -198,10 +195,11 @@ class _ProfileEditorPageState extends State<ProfileEditorPage> {
                   ),
                   ListenableBuilder(
                     listenable: profile,
-                    builder: (context, child) => WidgetButton(
+                    builder: (context, child) => FocusWrap(
                       autoFocus: true,
                       focusNode: picFocus,
                       onPressSelect: _randomize,
+                      padding: EdgeInsetsGeometry.all(0),
                       child: ProfilePic(
                         width: 100,
                         height: 100,
