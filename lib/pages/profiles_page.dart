@@ -4,7 +4,7 @@ import 'package:bingio/services/firestore/firestore_database.dart';
 import 'package:bingio/services/firestore/models/profile_model.dart';
 import 'package:bingio/services/preferences_service.dart';
 import 'package:bingio/shared/functions.dart';
-import 'package:bingio/shared/exit_on_back_catcher.dart';
+import 'package:bingio/shared/on_back_catcher.dart';
 import 'package:bingio/shared/constants.dart';
 import 'package:bingio/shared/my_app_bar.dart';
 import 'package:bingio/shared/profile_card.dart';
@@ -30,17 +30,21 @@ class _ProfilesPageState extends State<ProfilesPage> {
     _selectedProfile = sp;
   }
 
-  Future<void> selectedProfile(String? profileID) async {
-    loadingSpinnerShow(context);
-    await PrefsService.setSelectedProfile(profileID);
+  Future<void> setSelectedProfile(String? profileId) async {
+    _selectedProfile = profileId;
+    await PrefsService.setSelectedProfile(profileId);
     setState(() {
-      _selectedProfile = profileID;
+      _selectedProfile = profileId;
     });
+  }
+
+  Future<void> loadProfile(String profileId, String profileName) async {
+    loadingSpinnerShow(context);
     await Future.delayed(Duration(seconds: 1));
     if (!mounted) return;
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) => HomePage())
+      MaterialPageRoute(builder: (context) => HomePage(profileId: profileId, profileName: profileName))
     ).then((returnValue) async {
       loadingSpinnerHide();
     });
@@ -54,7 +58,7 @@ class _ProfilesPageState extends State<ProfilesPage> {
       context,
       MaterialPageRoute(builder: (context) => ProfileEditorPage())
     ).then((returnValue) async {
-      await selectedProfile(returnValue);
+      await setSelectedProfile(returnValue);
       loadingSpinnerHide();
     });
   }
@@ -88,7 +92,7 @@ class _ProfilesPageState extends State<ProfilesPage> {
         FirestoreDB().delete(
           ProfileModel.collection,
           profileId,
-          onSuccess: () async { await selectedProfile(null); showAppToast('Profile deleted!'); },
+          onSuccess: () async { await setSelectedProfile(null); showAppToast('Profile deleted!'); },
           onError: (error) => showAppError('Profile delete error $error')
         );
       }
@@ -153,7 +157,7 @@ class _ProfilesPageState extends State<ProfilesPage> {
                         focusNode: cardFocusNodes[profile.id],
                         showOptions: true,
                         onPressed: () {
-                          selectedProfile(profile.id!);
+                          loadProfile(profile.id!, profile.displayName);
                         },
                         onEdit: () => editProfile(profile.id!),
                         onDelete: () => deleteProfile(profile.id!, profile.displayName),

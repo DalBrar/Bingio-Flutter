@@ -3,7 +3,7 @@ import 'package:bingio/shared/btn_input_field.dart';
 import 'package:bingio/shared/btn_plain_text.dart';
 import 'package:bingio/shared/btn_solid.dart';
 import 'package:bingio/shared/functions.dart';
-import 'package:bingio/shared/exit_on_back_catcher.dart';
+import 'package:bingio/shared/on_back_catcher.dart';
 import 'package:bingio/shared/gradient_text.dart';
 import 'package:bingio/shared/constants.dart';
 import 'package:flutter/material.dart';
