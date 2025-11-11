@@ -57,7 +57,7 @@ class FocusWrap extends StatefulWidget {
     this.borderWidth = 3,
     this.borderRadius,
     this.disableAnimation = false,
-    this.animationDurationMilliseconds = 400,
+    this.animationDurationMilliseconds = 300,
     this.animationCurve = Curves.easeInToLinear,
     this.child,
   });

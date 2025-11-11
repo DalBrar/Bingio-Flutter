@@ -102,6 +102,7 @@ class _ProfileCardState extends State<ProfileCard> {
               height: widget.height,
               margin: EdgeInsetsGeometry.all(8),
               padding: EdgeInsetsGeometry.all(3),
+              animationDurationMilliseconds: 400,
               child: Column(
                 children: [
                   SizedBox(height: 5),
