@@ -1,3 +1,4 @@
+import 'package:bingio/pages/home_page.dart';
 import 'package:bingio/services/auth_service.dart';
 import 'package:bingio/services/firestore/firestore_database.dart';
 import 'package:bingio/services/firestore/models/profile_model.dart';
@@ -24,15 +25,24 @@ class _ProfilesPageState extends State<ProfilesPage> {
   final Map<String, FocusNode> cardFocusNodes = {};
   String? _selectedProfile;
 
-  void getSelectedProfile() async {
+  void loadSelectedProfile() async {
     final sp = await PrefsService.getSelectedProfile();
-    setState(() { _selectedProfile = sp; });
+    _selectedProfile = sp;
   }
 
-  Future<void> setSelectedProfile(String? profileID) async {
+  Future<void> selectedProfile(String? profileID) async {
+    loadingSpinnerShow(context);
     await PrefsService.setSelectedProfile(profileID);
     setState(() {
       _selectedProfile = profileID;
+    });
+    await Future.delayed(Duration(seconds: 1));
+    if (!mounted) return;
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => HomePage())
+    ).then((returnValue) async {
+      loadingSpinnerHide();
     });
   }
 
@@ -44,7 +54,7 @@ class _ProfilesPageState extends State<ProfilesPage> {
       context,
       MaterialPageRoute(builder: (context) => ProfileEditorPage())
     ).then((returnValue) async {
-      await setSelectedProfile(returnValue);
+      await selectedProfile(returnValue);
       loadingSpinnerHide();
     });
   }
@@ -78,7 +88,7 @@ class _ProfilesPageState extends State<ProfilesPage> {
         FirestoreDB().delete(
           ProfileModel.collection,
           profileId,
-          onSuccess: () async { await setSelectedProfile(null); showAppToast('Profile deleted!'); },
+          onSuccess: () async { await selectedProfile(null); showAppToast('Profile deleted!'); },
           onError: (error) => showAppError('Profile delete error $error')
         );
       }
@@ -89,7 +99,7 @@ class _ProfilesPageState extends State<ProfilesPage> {
   void initState() {
     super.initState();
     loadingSpinnerHide();
-    getSelectedProfile();
+    loadSelectedProfile();
   }
 
   @override
@@ -143,7 +153,7 @@ class _ProfilesPageState extends State<ProfilesPage> {
                         focusNode: cardFocusNodes[profile.id],
                         showOptions: true,
                         onPressed: () {
-                          setSelectedProfile(profile.id!);
+                          selectedProfile(profile.id!);
                         },
                         onEdit: () => editProfile(profile.id!),
                         onDelete: () => deleteProfile(profile.id!, profile.displayName),
