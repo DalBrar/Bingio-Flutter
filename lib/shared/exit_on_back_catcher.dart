@@ -3,19 +3,25 @@ import 'package:bingio/shared/functions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class ExitOnBackCatcher extends StatefulWidget {
+class OnBackCatcher extends StatefulWidget {
   final Widget child;
+  final String? text;
+  final VoidCallback? onBack;
+  final bool skipNotification;
 
-  const ExitOnBackCatcher({
+  const OnBackCatcher({
     super.key,
     required this.child,
+    this.text,
+    this.onBack,
+    this.skipNotification = false,
   });
 
   @override
-  State<ExitOnBackCatcher> createState() => _ExitOnBackCatcherState();
+  State<OnBackCatcher> createState() => _OnBackCatcherState();
 }
 
-class _ExitOnBackCatcherState extends State<ExitOnBackCatcher> {
+class _OnBackCatcherState extends State<OnBackCatcher> {
   DateTime lastBackPressTime = DateTime.now();
   
   @override
@@ -26,12 +32,16 @@ class _ExitOnBackCatcherState extends State<ExitOnBackCatcher> {
         if (didPop) return;
 
         DateTime now = DateTime.now();
-        if (now.difference(lastBackPressTime) > const Duration(seconds: 2)) {
+        if (widget.skipNotification == false &&  (now.difference(lastBackPressTime) > const Duration(seconds: 2))) {
           lastBackPressTime = now;
-          showAppToast(AppStrings.pressBackAgainToExit);
+          showAppToast((widget.text == null) ? AppStrings.pressBackAgainToExit : widget.text!);
           return;
         }
-        SystemNavigator.pop();
+        if (widget.onBack == null) {
+          SystemNavigator.pop();
+        } else {
+          widget.onBack!();
+        }
       },
       child: widget.child,
     );
