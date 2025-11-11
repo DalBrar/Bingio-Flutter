@@ -13,6 +13,8 @@ class ProfileCard extends StatefulWidget {
   final int picNum;
   final VoidCallback onPressed;
   final VoidCallback? onLongPressed;
+  final VoidCallback? onEdit;
+  final VoidCallback? onDelete;
   final FocusNode? focusNode;
   final bool autoFocus;
   final double width;
@@ -27,6 +29,8 @@ class ProfileCard extends StatefulWidget {
     required this.picNum,
     required this.onPressed,
     this.onLongPressed,
+    this.onEdit,
+    this.onDelete,
     this.focusNode,
     this.autoFocus = false,
     this.width = 125,
@@ -139,7 +143,7 @@ class _ProfileCardState extends State<ProfileCard> {
                       iconSize: 15,
                       textSize: 14,
                       fixedHeight: 30,
-                      onPressed: (){ showAppToast('Delete not implemented yet'); },
+                      onPressed: widget.onDelete ?? (){ showAppToast('Delete not implemented yet'); },
                     ),
                   ),
                 ],

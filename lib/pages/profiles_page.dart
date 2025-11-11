@@ -104,7 +104,7 @@ class _ProfilesPageState extends State<ProfilesPage> {
                         onPressed: () {
                           setSelectedProfile(profile.id!);
                         },
-                        onLongPressed: () {
+                        onDelete: () {
                           FirestoreDatabase().delete(
                             ProfileModel.collection,
                             profile.id!,
