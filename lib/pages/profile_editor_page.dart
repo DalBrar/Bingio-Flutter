@@ -329,7 +329,7 @@ class _ProfileEditorPageState extends State<ProfileEditorPage> {
               Wrap(
                 children: [
                   SolidBtn(
-                    text: _isCreateDisabled ? AppStrings.userProfileSaving : ((widget.profileId == null) ? AppStrings.userProfileCreate : AppStrings.userProfileSave),
+                    text: _isCreateDisabled ? AppStrings.btnUserProfileSaving : ((widget.profileId == null) ? AppStrings.btnUserProfileCreate : AppStrings.btnUserProfileSave),
                     onPressed: () => _saveProfile(context),
                     isDisabled: _isCreateDisabled,
                   ),

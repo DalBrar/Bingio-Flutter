@@ -84,7 +84,7 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
                 SizedBox(height: 25),
                 PlainTextBtn(
                   autoFocus: true,
-                  text: _canSendEmail ? '${AppStrings.sendVerificationTo} ${user!.email}' : AppStrings.emailSentCheckAccount,
+                  text: _canSendEmail ? '${AppStrings.btnSendVerificationTo} ${user!.email}' : AppStrings.btnEmailSentCheckAccount,
                   onPressed: () => _canSendEmail 
                   ? sendVerificationEmail()
                   : showAppToast(AppStrings.pleaseWaitBeforeTryAgain)

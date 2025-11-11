@@ -135,7 +135,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       ),
 
                       SolidBtn(
-                        text: AppStrings.signUp,
+                        text: AppStrings.btnSignUp,
                         margin: EdgeInsetsGeometry.all(verticalPadding),
                         onPressed: signUp,
                         focusNode: signUpButtonFocusNode,
@@ -145,7 +145,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            AppStrings.alreadyHaveAccount,
+                            AppStrings.btnAlreadyHaveAccount,
                             style: AppStyles.regularText,
                           ),
                           PlainTextBtn(

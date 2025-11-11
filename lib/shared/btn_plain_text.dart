@@ -6,12 +6,16 @@ class PlainTextBtn extends StatefulWidget {
   final bool autoFocus;
   final String text;
   final VoidCallback onPressed;
+  final Color backgroundColor;
+  final Color backgroundColorFocused;
 
   const PlainTextBtn({
     super.key,
     this.autoFocus = false,
     required this.text,
     required this.onPressed,
+    this.backgroundColor = Colors.transparent,
+    this.backgroundColorFocused = AppColors.active,
   });
 
   @override
@@ -26,7 +30,9 @@ class _PlainTextBtnState extends State<PlainTextBtn> {
   Widget build(BuildContext context) {
     return FocusWrap(
       autoFocus: widget.autoFocus,
-      backgroundColorFocused: AppColors.active,
+      borderColor: Colors.transparent,
+      backgroundColor: widget.backgroundColor,
+      backgroundColorFocused: widget.backgroundColorFocused,
       animationDurationMilliseconds: duration,
       onPressSelect: widget.onPressed,
       onFocusChanged: (hasFocus) {

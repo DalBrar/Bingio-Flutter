@@ -124,7 +124,7 @@ class _ProfileCardState extends State<ProfileCard> {
                     order: NumericFocusOrder(1),
                     child: IconBtn(
                       focusNode: editFocus,
-                      text: 'Edit',
+                      text: AppStrings.btnEdit,
                       icon: Icons.edit_outlined,
                       color: AppColors.hint,
                       iconSize: 15,
@@ -137,7 +137,7 @@ class _ProfileCardState extends State<ProfileCard> {
                     order: NumericFocusOrder(2),
                     child: IconBtn(
                       focusNode: delFocus,
-                      text: 'Delete',
+                      text: AppStrings.btnDelete,
                       icon: Icons.delete_forever_outlined,
                       color: delFocus.hasFocus ? AppColors.error : AppColors.hint,
                       iconSize: 15,

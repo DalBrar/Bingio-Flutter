@@ -1,3 +1,4 @@
+import 'package:bingio/shared/btn_plain_text.dart';
 import 'package:bingio/shared/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -20,6 +21,44 @@ void showAppToast(String message, {Toast toastLength = Toast.LENGTH_SHORT, bool 
 
 void showAppError(String message, {Toast toastLength = Toast.LENGTH_LONG}) {
   showAppToast(message, toastLength: toastLength, isError: true);
+}
+
+void showYesNoDialog({
+  required BuildContext context,
+  String? title,
+  Widget? body,
+  String yesText = AppStrings.btnYes,
+  String noText = AppStrings.btnNo,
+  required VoidCallback onYes,
+  VoidCallback? onNo,
+}) {
+  showDialog(
+    context: context,
+    builder: (BuildContext ctx) {
+      return AlertDialog(
+        backgroundColor: AppColors.shadow,
+        title: Text(title ?? AppStrings.dialogConfirm),
+        content: body ?? Text(AppStrings.dialogAreYouSure),
+        actions: <Widget>[
+          PlainTextBtn(
+            autoFocus: true,
+            text: noText,
+            onPressed: () { Navigator.of(ctx).pop(false); },
+          ),
+          PlainTextBtn(
+            text: yesText,
+            onPressed: () { Navigator.of(ctx).pop(true); },
+          ),
+        ]
+      );
+    }
+  ).then((result) {
+    if (result == true) {
+      onYes();
+    } else if (onNo != null) {
+      onNo();
+    }
+  });
 }
 
 BuildContext? spinnerContext;

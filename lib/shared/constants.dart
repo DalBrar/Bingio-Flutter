@@ -43,9 +43,26 @@ class AppProfileSettings {
 class AppStrings {
   static const String appName = 'Bingio';
 
-  static const String alreadyHaveAccount = "Already have an account? ";
-  static const String emailLogIn = 'Email Log In';
-  static const String emailSentCheckAccount = 'Email sent, please check your account';
+  static const String btnAlreadyHaveAccount = "Already have an account? ";
+  static const String btnDelete = 'Delete';
+  static const String btnEdit = 'Edit';
+  static const String btnEmailLogIn = 'Email Log In';
+  static const String btnEmailSentCheckAccount = 'Email sent, please check your account';
+  static const String btnNo = 'No';
+  static const String btnSendVerificationTo = 'Send verification email to';
+  static const String btnSignInWithGoogle = 'Sign In with Google';
+  static const String btnSignUp = 'Sign Up';
+  static const String btnSignUpWithEmail = 'Sign Up with Email';
+  static const String btnUserProfileCreate = 'Create Profile';
+  static const String btnUserProfileSave = 'Save Profile';
+  static const String btnUserProfileSaving = 'Saving Profile...';
+  static const String btnYes = 'Yes';
+  static const String dialogAreYouSure = 'Are you sure?';
+  static const String dialogConfirm = 'Confirm';
+  static const String dialogConfirmDelete = 'Confirm Delete';
+  static const String dialogAboutToDeleteA = 'You are about to delete';
+  static const String dialogAboutToDeleteB = '\'s profile, are you sure?';
+  static const String dialogAboutToDeleteC = 'ALL PROFILE SETTINGS AND CUSTOMIZATIONS WILL BE LOST!\nYou cannot undo this!';
   static const String errAccountDisabled = 'Account disabled';
   static const String errAuthenticationExpired = 'Authentication expired';
   static const String errEmailAlreadyInUse = 'Email address already in use';
@@ -77,21 +94,14 @@ class AppStrings {
   static const String pleaseVerifyEmail = 'Please verify your email to continue.';
   static const String pleaseWaitBeforeTryAgain = 'Please wait a bit before trying again';
   static const String pressBackAgainToExit = 'Press back again to exit';
-  static const String sendVerificationTo = 'Send verification email to';
-  static const String signInWithGoogle = 'Sign In with Google';
-  static const String signUp = 'Sign Up';
-  static const String signUpWithEmail = 'Sign Up with Email';
   static const String switchOn = 'On';
   static const String switchOff = 'Off';
   static const String userProfileBackgroundColor = 'Background Color';
-  static const String userProfileCreate = 'Create Profile';
   static const String userProfileDisplayName = 'Display Name';
   static const String userProfileForegroundColor = 'Foreground Color';
   static const String userProfileEdit = 'Edit User Profile';
   static const String userProfileNew = 'New User Profile';
   static const String userProfileProtrait = 'Portrait';
-  static const String userProfileSave = 'Save Profile';
-  static const String userProfileSaving = 'Saving Profile...';
   static const String welcome = 'Welcome to $appName';
   static const String whosWatching = 'Who\'s binging?';
 }

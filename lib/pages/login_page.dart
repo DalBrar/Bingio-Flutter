@@ -124,7 +124,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                 
                     SolidBtn(
-                      text: AppStrings.emailLogIn,
+                      text: AppStrings.btnEmailLogIn,
                       margin: EdgeInsetsGeometry.all(verticalPadding),
                       onPressed: logUserIn,
                       focusNode: loginButtonFocusNode,
@@ -133,14 +133,14 @@ class _LoginPageState extends State<LoginPage> {
                     Text(AppStrings.orDashed),
                 
                     SolidBtn(
-                      text: AppStrings.signInWithGoogle,
+                      text: AppStrings.btnSignInWithGoogle,
                       image: 'assets/images/google_favicon.png',
                       margin: EdgeInsetsGeometry.all(verticalPadding),
                       onPressed: googleSignIn,
                     ),
                 
                     PlainTextBtn(
-                      text: AppStrings.signUpWithEmail,
+                      text: AppStrings.btnSignUpWithEmail,
                       onPressed: widget.toggleLoginAndRegisterPages,
                     ),
                   ],

@@ -49,16 +49,40 @@ class _ProfilesPageState extends State<ProfilesPage> {
     });
   }
 
-  void editProfile(String id) async {
+  void editProfile(String profileId) async {
     loadingSpinnerShow(context);
     await Future.delayed(Duration(seconds: 1));
     if (!mounted) return;
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => ProfileEditorPage(profileId: id))
+      MaterialPageRoute(builder: (context) => ProfileEditorPage(profileId: profileId))
     ).then((returnValue) async {
       loadingSpinnerHide();
     });
+  }
+
+  void deleteProfile(String profileId, String profileName) {
+    showYesNoDialog(
+      context: context,
+      title: AppStrings.dialogConfirmDelete,
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text('${AppStrings.dialogAboutToDeleteA} $profileName${AppStrings.dialogAboutToDeleteB}\n'),
+          Text(AppStrings.dialogAboutToDeleteC, style: TextStyle(color: AppColors.warn)),
+        ],
+      ),
+      onYes: () {
+        FirestoreDB().delete(
+          ProfileModel.collection,
+          profileId,
+          onSuccess: () async { await setSelectedProfile(null); showAppToast('Profile deleted!'); },
+          onError: (error) => showAppError('Profile delete error $error')
+        );
+      }
+    );
   }
 
   @override
@@ -122,14 +146,7 @@ class _ProfilesPageState extends State<ProfilesPage> {
                           setSelectedProfile(profile.id!);
                         },
                         onEdit: () => editProfile(profile.id!),
-                        onDelete: () {
-                          FirestoreDB().delete(
-                            ProfileModel.collection,
-                            profile.id!,
-                            onSuccess: () async { await setSelectedProfile(null); showAppToast('Profile deleted!'); },
-                            onError: (error) => showAppError('Profile delete error $error')
-                          );
-                        },
+                        onDelete: () => deleteProfile(profile.id!, profile.displayName),
                       );
                     }).toList();
             
