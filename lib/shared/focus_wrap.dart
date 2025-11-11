@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:bingio/shared/constants.dart';
-import 'package:bingio/shared/functions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
