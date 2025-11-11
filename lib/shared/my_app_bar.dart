@@ -7,12 +7,12 @@ import 'package:flutter/material.dart';
 
 class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   final bool hideLogoutButton;
-  final bool showBackButton;
+  final bool showGoBackButton;
 
   const MyAppBar({
     super.key,
     this.hideLogoutButton = false,
-    this.showBackButton = false,
+    this.showGoBackButton = false,
   });
   
   void logOut() async {
@@ -26,6 +26,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       backgroundColor: AppColors.background,
+      automaticallyImplyLeading: false,
       title: Row(
         children: [
           Expanded(
@@ -34,13 +35,13 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
               child: Wrap(
                 children: [
                   if (hideLogoutButton == false) IconBtn(
-                    text: 'Logout',
+                    text: 'Log Out',
                     icon: Icons.logout,
                     onPressed: logOut,
                     flipX: true,
                     offsetX: -1,
                   ),
-                  if (showBackButton) IconBtn(
+                  if (showGoBackButton) IconBtn(
                     text: 'Go Back',
                     icon: Icons.arrow_back_rounded,
                     onPressed: () => Navigator.pop(context),

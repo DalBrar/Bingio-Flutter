@@ -59,8 +59,28 @@ class AppStyles {
     fontFamily: 'Audiowide',
   );
 
+  static const TextStyle title3Text = TextStyle(
+    fontSize: 19,
+    color: AppColors.text,
+    fontWeight: FontWeight.bold,
+    fontFamily: 'Audiowide',
+  );
+
+  static const TextStyle title4Text = TextStyle(
+    fontSize: 16,
+    color: AppColors.text,
+    fontWeight: FontWeight.bold,
+    fontFamily: 'Audiowide',
+  );
+
+
   static const TextStyle largeText = TextStyle(
     fontSize: 22,
+    color: AppColors.text,
+  );
+
+  static const TextStyle mediumText = TextStyle(
+    fontSize: 19,
     color: AppColors.text,
   );
 

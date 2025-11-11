@@ -3,12 +3,12 @@ import 'dart:math';
 import 'package:bingio/services/auth_service.dart';
 import 'package:bingio/services/firestore/firestore_database.dart';
 import 'package:bingio/services/firestore/models/profile_model.dart';
+import 'package:bingio/shared/btn_input_field.dart';
 import 'package:bingio/shared/btn_solid.dart';
 import 'package:bingio/shared/focus_wrap.dart';
 import 'package:bingio/shared/functions.dart';
 import 'package:bingio/shared/constants.dart';
 import 'package:bingio/shared/gradient_text.dart';
-import 'package:bingio/shared/input_field.dart';
 import 'package:bingio/shared/my_app_bar.dart';
 import 'package:bingio/shared/profile_pic.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -37,7 +37,8 @@ class ProfileEditorPage extends StatefulWidget {
 }
 
 class _ProfileEditorPageState extends State<ProfileEditorPage> {
-  static const maxDisplayNameLength = 8;
+  static const double paddingSpace = 2;
+  static const double colorPalletSize = 45;
   final User? user = AuthService().getCurrentUser();
   final TextEditingController txtCntrl = TextEditingController();
   final FocusNode txtFocus = FocusNode();
@@ -46,34 +47,56 @@ class _ProfileEditorPageState extends State<ProfileEditorPage> {
   final profile = ProfileNotifier();
   bool _isLoading = true;
 
-  late List<FocusWrap> pictureChildren = List.generate(AppProfileSettings.profilePics.length,
+  late List<FocusWrap> picPortraitChildren = List.generate(AppProfileSettings.profilePics.length,
     (index) => FocusWrap(
       width: 60,
       height: 60,
       borderRadius: BorderRadiusGeometry.all(Radius.circular(50)),
       margin: EdgeInsetsGeometry.symmetric(horizontal: 10),
-      padding: EdgeInsetsGeometry.all(2),
+      padding: EdgeInsetsGeometry.all(paddingSpace),
       borderColor: Colors.transparent,
       onPressSelect: () => profile.update(picNum: index),
       child: Image.asset(AppProfileSettings.profilePics[index]),
     )
   );
-  late List<FocusWrap> bgChildren = List.generate(AppProfileSettings.profileColors.length,
+  late List<FocusWrap> bgColorChildren = List.generate(AppProfileSettings.profileColors.length,
     (index) => FocusWrap(
-      width: 45,
-      height: 45,
-      backgroundColor: AppProfileSettings.profileColors[index],
-      backgroundColorFocused: AppProfileSettings.profileColors[index],
+      width: colorPalletSize,
+      height: colorPalletSize,
+      padding: EdgeInsetsGeometry.all(paddingSpace),
+      borderRadius: BorderRadius.circular(50),
       onPressSelect: () => profile.update(bgColor: index),
+      child: 
+        Container(
+          width: colorPalletSize,
+          height: colorPalletSize,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            gradient: RadialGradient(
+              center: Alignment.center,
+              radius: 0.8,
+              colors: [AppProfileSettings.profileColors[index], AppProfileSettings.profileColors[index].withAlpha(0)]
+            )
+          ),
+        ),
     )
   );
   late List<FocusWrap> picColorChildren = List.generate(AppProfileSettings.profileColors.length,
     (index) => FocusWrap(
       width: 45,
       height: 45,
-      backgroundColor: AppProfileSettings.profileColors[index],
-      backgroundColorFocused: AppProfileSettings.profileColors[index],
+      padding: EdgeInsetsGeometry.all(paddingSpace),
+      borderRadius: BorderRadius.circular(50),
       onPressSelect: () => profile.update(picColor: index),
+      child: 
+        Container(
+          width: colorPalletSize,
+          height: colorPalletSize,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: AppProfileSettings.profileColors[index],
+          ),
+        ),
     )
   );
 
@@ -138,6 +161,7 @@ class _ProfileEditorPageState extends State<ProfileEditorPage> {
   void dispose() {
     txtFocus.dispose();
     picFocus.dispose();
+    txtCntrl.dispose();
     super.dispose();
   }
 
@@ -151,7 +175,7 @@ class _ProfileEditorPageState extends State<ProfileEditorPage> {
     }
 
     return Scaffold(
-      appBar: MyAppBar(hideLogoutButton: true, showBackButton: true,),
+      appBar: MyAppBar(hideLogoutButton: true, showGoBackButton: true),
       backgroundColor: AppColors.background,
       body: Center(
         child: SizedBox(
@@ -164,75 +188,84 @@ class _ProfileEditorPageState extends State<ProfileEditorPage> {
               ),
 
               SizedBox(height: vertSpacing),
-              Wrap(
+              Row(
                 children: [
-                  Column(
-                    children: [
-                      Text(
-                        'Kids Profile: ${profile.kidsProfile ? 'On' : 'Off'}',
-                        style: AppStyles.regularText,
-                      ),
-                      ListenableBuilder(
+                  Expanded(
+                    child: Align(
+                      alignment: AlignmentGeometry.centerLeft,
+                      child: ListenableBuilder(
                         listenable: profile,
                         builder: (context, child) => Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: SizedBox(
-                            width: 150,
-                            height: 50,
-                            child: Switch(
-                              value: profile.kidsProfile,
-                              activeTrackColor: AppColors.link,
-                              activeThumbColor: AppColors.background,
-                              inactiveThumbColor: AppColors.background,
-                              trackOutlineColor: WidgetStateColor.transparent,
-                              focusColor: AppColors.active.withAlpha(125),
-                              onChanged: (val) => profile.update(kidsProfile: val),
-                            ),
+                          child: Column(
+                            children: [
+                              Text(
+                                'Kids Profile: ${profile.kidsProfile ? 'On' : 'Off'}',
+                                style: AppStyles.regularText,
+                              ),
+                              SizedBox(
+                                width: 150,
+                                height: 50,
+                                child: Switch(
+                                  value: profile.kidsProfile,
+                                  activeTrackColor: AppColors.link,
+                                  activeThumbColor: AppColors.background,
+                                  inactiveThumbColor: AppColors.background,
+                                  trackOutlineColor: WidgetStateColor.transparent,
+                                  focusColor: AppColors.active.withAlpha(125),
+                                  onChanged: (val) => profile.update(kidsProfile: val),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                  ListenableBuilder(
-                    listenable: profile,
-                    builder: (context, child) => FocusWrap(
-                      autoFocus: true,
-                      focusNode: picFocus,
-                      onPressSelect: _randomize,
-                      padding: EdgeInsetsGeometry.all(0),
-                      child: ProfilePic(
-                        width: 100,
-                        height: 100,
-                        bgColor: profile.bgColor,
-                        picColor: profile.picColor,
-                        picNum: profile.picNum,
                       ),
                     ),
                   ),
-                  Column(
-                    children: [
-                      Text(
-                        'Display Name:',
-                        style: AppStyles.regularText,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: SizedBox(
-                          width: 170,
-                          height: 50,
-                          child: InputField(
-                            controller: txtCntrl,
-                            focusNode: txtFocus,
-                            nextFocus: picFocus,
-                            hintText: 'User',
-                            textInputType: TextInputType.name,
-                            autofillHints: [],
-                            style: AppStyles.title2Text,
-                            onChanged: (val) { txtCntrl.text = val.substring(0, min(val.length, maxDisplayNameLength)); },
+                  Expanded(
+                    child: Align(
+                      alignment: AlignmentGeometry.center,
+                      child: ListenableBuilder(
+                        listenable: profile,
+                        builder: (context, child) => FocusWrap(
+                          autoFocus: true,
+                          focusNode: picFocus,
+                          onPressSelect: _randomize,
+                          padding: EdgeInsetsGeometry.all(0),
+                          child: ProfilePic(
+                            width: 100,
+                            height: 100,
+                            bgColor: profile.bgColor,
+                            picColor: profile.picColor,
+                            picNum: profile.picNum,
                           ),
                         ),
                       ),
-                    ],
+                    ),
+                  ),
+                  Expanded(
+                    child: Align(
+                      alignment: AlignmentGeometry.centerRight,
+                      child: Column(
+                        children: [
+                          Text(
+                            'Display Name:',
+                            style: AppStyles.regularText,
+                          ),
+                          InputFieldBtn(
+                            width: 165,
+                            height: 50,
+                            textController: txtCntrl,
+                            focusNode: txtFocus,
+                            hintText: 'User',
+                            textInputType: TextInputType.name,
+                            autofillHints: [],
+                            maxLength: 8,
+                            style: AppStyles.title3Text,
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -243,7 +276,7 @@ class _ProfileEditorPageState extends State<ProfileEditorPage> {
                 style: AppStyles.regularText,
               ),
               Wrap(
-                children: pictureChildren,
+                children: picPortraitChildren,
               ),
 
               SizedBox(height: vertSpacing),
@@ -252,7 +285,7 @@ class _ProfileEditorPageState extends State<ProfileEditorPage> {
                 style: AppStyles.regularText,
               ),
               Wrap(
-                children: bgChildren,
+                children: bgColorChildren,
               ),
 
               SizedBox(height: vertSpacing),

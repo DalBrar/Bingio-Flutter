@@ -26,20 +26,32 @@ class ProfilePic extends StatelessWidget {
     final picColor = (picNum < _picsSize) ? (AppProfileSettings.profileColors[(this.picColor < _colorSize) ? this.picColor : 1]) : AppColors.hint;
     final picture = (picNum < _picsSize) ? AppProfileSettings.profilePics[picNum] : 'assets/images/profile_new.png';
 
-    return Container(
-      width: width,
-      height: height,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(50),
-        color: bgColor,
-      ),
-      child: ShaderMask(
-        blendMode: BlendMode.modulate,
-        shaderCallback: (rect) => LinearGradient(
-          colors: [picColor, picColor]
-        ).createShader(rect),
-        child: Image.asset(picture),
-      ),
+    return Stack(
+      children: [
+        Container(
+          width: width,
+          height: height,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            gradient: RadialGradient(
+              center: Alignment.center,
+              radius: 0.8,
+              colors: [bgColor, bgColor.withAlpha(0)]
+            )
+          ),
+        ),
+        SizedBox(
+          width: width,
+          height: height,
+          child: ShaderMask(
+            blendMode: BlendMode.modulate,
+            shaderCallback: (rect) => LinearGradient(
+              colors: [picColor, picColor]
+            ).createShader(rect),
+            child: Image.asset(picture),
+          ),
+        ),
+      ],
     );
   }
   
