@@ -4,6 +4,7 @@ import 'package:bingio/shared/btn_icon.dart';
 import 'package:bingio/shared/constants.dart';
 import 'package:bingio/shared/gradient_text.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   final bool hideLogoutButton;
@@ -16,6 +17,9 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   });
   
   void logOut() async {
+    try {
+      await GoogleSignIn().signOut();
+    } catch (e) {}
     await AuthService().logOut();
   }
 

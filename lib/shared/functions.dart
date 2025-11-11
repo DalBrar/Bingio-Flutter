@@ -25,8 +25,10 @@ void showAppError(String message, {Toast toastLength = Toast.LENGTH_LONG}) {
 BuildContext? spinnerContext;
 void loadingSpinnerHide() {
   if (spinnerContext != null) {
-    Navigator.of(spinnerContext!).pop();
-    spinnerContext = null;
+    Future.delayed(Duration(milliseconds: 1), (){
+      Navigator.of(spinnerContext!).pop();
+      spinnerContext = null;
+    });
   }
 }
 

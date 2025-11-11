@@ -32,14 +32,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
   void signUp() async {
     try {
-      showDialog(
-        context: context,
-        builder: (context) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        }
-      );
+      loadingSpinnerShow(context);
       if (passwordController.text.trim() == confirmPasswordController.text.trim()) {
         await AuthService().signUpWithEmailAndPassword(emailController.text.trim(), passwordController.text.trim());
         widget.toggleLoginAndRegisterPages();
@@ -55,9 +48,7 @@ class _RegisterPageState extends State<RegisterPage> {
       showAppError('Exception: ${e.toString()}');
     }
     finally {
-      if (mounted) {
-        Navigator.pop(context);
-      }
+      loadingSpinnerHide();
     }
   }
 

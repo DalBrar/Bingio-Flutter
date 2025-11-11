@@ -47,14 +47,7 @@ class _LoginPageState extends State<LoginPage> {
 
   void googleSignIn() async {
     try {
-      showDialog(
-        context: context,
-        builder: (context) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        }
-      );
+      loadingSpinnerShow(context);
       await AuthService().logInWithGoogle();
     }
     on AuthServiceException catch (e) {
@@ -64,9 +57,7 @@ class _LoginPageState extends State<LoginPage> {
       showAppError('Exception: ${e.toString()}');
     }
     finally {
-      if (mounted) {
-        Navigator.pop(context);
-      }
+      loadingSpinnerHide();
     }
   }
 
