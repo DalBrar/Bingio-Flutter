@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'package:bingio/pages/profiles_page.dart';
 import 'package:bingio/services/auth_service.dart';
+import 'package:bingio/shared/btn_plain_text.dart';
 import 'package:bingio/shared/functions.dart';
-import 'package:bingio/shared/button_plain_text.dart';
 import 'package:bingio/shared/constants.dart';
 import 'package:bingio/shared/my_app_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -82,7 +82,7 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
                   style: AppStyles.largeText,
                 ),
                 SizedBox(height: 25),
-                PlainTextButton(
+                PlainTextBtn(
                   text: _canSendEmail ? 'Send verification email to ${user!.email}' : 'Email sent, please check your account',
                   onPressed: () => _canSendEmail 
                   ? sendVerificationEmail()

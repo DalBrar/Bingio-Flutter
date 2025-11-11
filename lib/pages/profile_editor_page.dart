@@ -3,9 +3,9 @@ import 'dart:math';
 import 'package:bingio/services/auth_service.dart';
 import 'package:bingio/services/firestore/firestore_database.dart';
 import 'package:bingio/services/firestore/models/profile_model.dart';
+import 'package:bingio/shared/btn_solid.dart';
 import 'package:bingio/shared/focus_wrap.dart';
 import 'package:bingio/shared/functions.dart';
-import 'package:bingio/shared/button_solid.dart';
 import 'package:bingio/shared/constants.dart';
 import 'package:bingio/shared/gradient_text.dart';
 import 'package:bingio/shared/input_field.dart';
@@ -267,7 +267,7 @@ class _ProfileEditorPageState extends State<ProfileEditorPage> {
               SizedBox(height: vertSpacing),
               Wrap(
                 children: [
-                  SolidButton(
+                  SolidBtn(
                     text: _isCreateDisabled ? 'Saving Profile...' : 'Create Profile',
                     onPressed: () => _saveProfile(context),
                     isDisabled: _isCreateDisabled,

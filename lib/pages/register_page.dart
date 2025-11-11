@@ -1,7 +1,7 @@
 import 'package:bingio/services/auth_service.dart';
+import 'package:bingio/shared/btn_plain_text.dart';
+import 'package:bingio/shared/btn_solid.dart';
 import 'package:bingio/shared/functions.dart';
-import 'package:bingio/shared/button_plain_text.dart';
-import 'package:bingio/shared/button_solid.dart';
 import 'package:bingio/shared/gradient_text.dart';
 import 'package:bingio/shared/constants.dart';
 import 'package:bingio/shared/input_field.dart';
@@ -141,11 +141,11 @@ class _RegisterPageState extends State<RegisterPage> {
                         obscureText: true,
                       ),
 
-                      SolidButton(
+                      SolidBtn(
                         text: 'Sign Up',
-                        focusNode: signUpButtonFocusNode,
+                        margin: EdgeInsetsGeometry.all(verticalPadding),
                         onPressed: signUp,
-                        paddingVertical: verticalPadding,
+                        focusNode: signUpButtonFocusNode,
                       ),
 
                       Row(
@@ -155,7 +155,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             "Already have an account? ",
                             style: AppStyles.regularText,
                           ),
-                          PlainTextButton(
+                          PlainTextBtn(
                             text: 'Log In',
                             onPressed: widget.toggleLoginAndRegisterPages,
                           ),

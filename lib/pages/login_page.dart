@@ -1,7 +1,7 @@
 import 'package:bingio/services/auth_service.dart';
+import 'package:bingio/shared/btn_plain_text.dart';
+import 'package:bingio/shared/btn_solid.dart';
 import 'package:bingio/shared/functions.dart';
-import 'package:bingio/shared/button_plain_text.dart';
-import 'package:bingio/shared/button_solid.dart';
 import 'package:bingio/shared/exit_on_back_catcher.dart';
 import 'package:bingio/shared/gradient_text.dart';
 import 'package:bingio/shared/constants.dart';
@@ -24,7 +24,6 @@ class _LoginPageState extends State<LoginPage> {
   final FocusNode emailFocusNode = FocusNode();
   final FocusNode passwordFocusNode = FocusNode();
   final FocusNode loginButtonFocusNode = FocusNode();
-  final FocusNode googleSignInButtonFocusNode = FocusNode();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
@@ -77,7 +76,6 @@ class _LoginPageState extends State<LoginPage> {
     emailFocusNode.dispose();
     passwordFocusNode.dispose();
     loginButtonFocusNode.dispose();
-    googleSignInButtonFocusNode.dispose();
     emailController.dispose();
     passwordController.dispose();
     super.dispose();
@@ -133,25 +131,23 @@ class _LoginPageState extends State<LoginPage> {
                       obscureText: true,
                     ),
                 
-                    SolidButton(
-                      text: 'Log In',
-                      focusNode: loginButtonFocusNode,
+                    SolidBtn(
+                      text: 'Email Log In',
+                      margin: EdgeInsetsGeometry.all(verticalPadding),
                       onPressed: logUserIn,
-                      paddingVertical: verticalPadding,
+                      focusNode: loginButtonFocusNode,
                     ),
                 
                     Text('-- OR --'),
                 
-                    SolidButton(
+                    SolidBtn(
                       text: 'Sign In with Google',
                       image: 'assets/images/google_favicon.png',
-                      width: 250,
-                      focusNode: googleSignInButtonFocusNode,
+                      margin: EdgeInsetsGeometry.all(verticalPadding),
                       onPressed: googleSignIn,
-                      paddingVertical: verticalPadding,
                     ),
                 
-                    PlainTextButton(
+                    PlainTextBtn(
                       text: 'Sign Up with Email',
                       onPressed: widget.toggleLoginAndRegisterPages,
                     ),
