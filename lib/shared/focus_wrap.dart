@@ -15,7 +15,7 @@ class FocusWrap extends StatefulWidget {
   final VoidCallback? onLongPressMenu;
   final ValueChanged<bool>? onFocusChanged;
   final Duration longPressThreshold;
-  final bool propagateUnhandledBtnPressToChild;
+  final bool preventBtnPressesNotExplicitlyHandled;
   final EdgeInsetsGeometry margin;
   final EdgeInsetsGeometry padding;
   final AlignmentGeometry alignment;
@@ -30,7 +30,7 @@ class FocusWrap extends StatefulWidget {
   final bool disableAnimation;
   final int animationDurationMilliseconds;
   final Curve animationCurve;
-  final Widget child;
+  final Widget? child;
   
   const FocusWrap({
     super.key,
@@ -44,7 +44,7 @@ class FocusWrap extends StatefulWidget {
     this.onLongPressMenu,
     this.onFocusChanged,
     this.longPressThreshold = Durations.long2,
-    this.propagateUnhandledBtnPressToChild = false,
+    this.preventBtnPressesNotExplicitlyHandled = false,
     this.margin = const EdgeInsets.all(0),
     this.padding = const EdgeInsets.symmetric(horizontal: 5),
     this.alignment = AlignmentGeometry.center,
@@ -59,7 +59,7 @@ class FocusWrap extends StatefulWidget {
     this.disableAnimation = false,
     this.animationDurationMilliseconds = 400,
     this.animationCurve = Curves.easeInToLinear,
-    required this.child,
+    this.child,
   });
 
   @override
@@ -126,7 +126,7 @@ class _FocusWrapState extends State<FocusWrap> {
         return KeyEventResult.handled;
       }
     }
-    return widget.propagateUnhandledBtnPressToChild ? KeyEventResult.ignored : KeyEventResult.handled;
+    return widget.preventBtnPressesNotExplicitlyHandled ? KeyEventResult.handled : KeyEventResult.ignored;
   }
 
   KeyEventResult _handleLongPress(LogicalKeyboardKey key) {
@@ -148,7 +148,7 @@ class _FocusWrapState extends State<FocusWrap> {
         return KeyEventResult.handled;
       }
     }
-    return widget.propagateUnhandledBtnPressToChild ? KeyEventResult.ignored : KeyEventResult.handled;
+    return widget.preventBtnPressesNotExplicitlyHandled ? KeyEventResult.handled : KeyEventResult.ignored;
   }
 
   void _handleFocusChange() {
