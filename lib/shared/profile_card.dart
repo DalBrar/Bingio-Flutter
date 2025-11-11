@@ -130,7 +130,7 @@ class _ProfileCardState extends State<ProfileCard> {
                       iconSize: 15,
                       textSize: 14,
                       fixedHeight: 30,
-                      onPressed: (){ showAppToast('Edit not implemented yet'); },
+                      onPressed: widget.onEdit ?? (){ showAppToast('Edit functionality not set.'); },
                     ),
                   ),
                   FocusTraversalOrder(
@@ -143,7 +143,7 @@ class _ProfileCardState extends State<ProfileCard> {
                       iconSize: 15,
                       textSize: 14,
                       fixedHeight: 30,
-                      onPressed: widget.onDelete ?? (){ showAppToast('Delete not implemented yet'); },
+                      onPressed: widget.onDelete ?? (){ showAppToast('Delete functionality not set.'); },
                     ),
                   ),
                 ],
