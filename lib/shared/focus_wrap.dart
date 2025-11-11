@@ -198,26 +198,30 @@ class _FocusWrapState extends State<FocusWrap> {
             child: widget.child,
           ),
         )
-      : AnimatedContainer(
-          alignment: widget.alignment,
-          width: widget.width,
-          height: widget.height,
-          margin: widget.margin,
-          decoration: BoxDecoration(
-            color: _focusNode.hasFocus ? widget.backgroundColorFocused : widget.backgroundColor,
-            borderRadius: widget.borderRadius ?? BorderRadius.circular(20),
-            border: (widget.borderWidth <= 0) ? null : BoxBorder.all(
-              color: _focusNode.hasFocus ? widget.borderColorFocused : widget.borderColor,
-              width: widget.borderWidth,
+      : AnimatedSize(
+        duration: Duration(milliseconds: widget.animationDurationMilliseconds),
+        curve: widget.animationCurve,
+        child: AnimatedContainer(
+            alignment: widget.alignment,
+            width: widget.width,
+            height: widget.height,
+            margin: widget.margin,
+            decoration: BoxDecoration(
+              color: _focusNode.hasFocus ? widget.backgroundColorFocused : widget.backgroundColor,
+              borderRadius: widget.borderRadius ?? BorderRadius.circular(20),
+              border: (widget.borderWidth <= 0) ? null : BoxBorder.all(
+                color: _focusNode.hasFocus ? widget.borderColorFocused : widget.borderColor,
+                width: widget.borderWidth,
+              ),
+            ),
+            duration: Duration(milliseconds: widget.animationDurationMilliseconds),
+            curve: widget.animationCurve,
+            child: Padding(
+              padding: widget.padding,
+              child: widget.child,
             ),
           ),
-          duration: Duration(milliseconds: widget.animationDurationMilliseconds),
-          curve: widget.animationCurve,
-          child: Padding(
-            padding: widget.padding,
-            child: widget.child,
-          ),
-        );
+      );
     
     return Row(
       mainAxisSize: MainAxisSize.min,
