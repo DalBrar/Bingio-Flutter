@@ -1,11 +1,10 @@
+import 'package:bingio/shared/btn_icon.dart';
 import 'package:bingio/shared/constants.dart';
 import 'package:bingio/shared/focus_wrap.dart';
 import 'package:bingio/shared/functions.dart';
-import 'package:bingio/shared/my_app_bar_button.dart';
 import 'package:bingio/shared/profile_pic.dart';
 import 'package:bingio/shared/responsive_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 class ProfileCard extends StatefulWidget {
   final String name;
@@ -55,26 +54,12 @@ class _ProfileCardState extends State<ProfileCard> {
     setState(() {});
   }
 
-  void preventLeftRight(FocusNode node) {
-    node.onKeyEvent = (node, event) {
-      if (event is KeyDownEvent && (
-        event.logicalKey == LogicalKeyboardKey.arrowLeft ||
-        event.logicalKey == LogicalKeyboardKey.arrowRight
-      )) {
-        return KeyEventResult.handled;
-      }
-      return KeyEventResult.ignored;
-    };
-  }
-
   @override
   void initState() {
     super.initState();
     widget.focusNode?.addListener(_updateFocus);
     editFocus.addListener(_updateFocus);
     delFocus.addListener(_updateFocus);
-    preventLeftRight(editFocus);
-    preventLeftRight(delFocus);
   }
 
   @override
@@ -88,7 +73,7 @@ class _ProfileCardState extends State<ProfileCard> {
   @override
   Widget build(BuildContext context) {
     return FocusTraversalGroup(
-      policy: null,
+      policy: ProfileCardTraversalPolicy(allowedNode: widget.focusNode),
       child: Column(
         children: [
           FocusTraversalOrder(
@@ -133,28 +118,28 @@ class _ProfileCardState extends State<ProfileCard> {
                 children: [
                   FocusTraversalOrder(
                     order: NumericFocusOrder(1),
-                    child: Focus(
+                    child: IconBtn(
                       focusNode: editFocus,
-                      child: MyAppBarButton(
-                        onPressed: (){ showAppToast('Edit not implemented yet'); },
-                        icon: Icon(
-                          Icons.edit_outlined,
-                          color: editFocus.hasFocus ? AppColors.shadow : AppColors.hint,
-                        )
-                      ),
+                      text: 'Edit',
+                      icon: Icons.edit_outlined,
+                      color: AppColors.hint,
+                      iconSize: 15,
+                      textSize: 14,
+                      fixedHeight: 30,
+                      onPressed: (){ showAppToast('Edit not implemented yet'); },
                     ),
                   ),
                   FocusTraversalOrder(
                     order: NumericFocusOrder(2),
-                    child: Focus(
+                    child: IconBtn(
                       focusNode: delFocus,
-                      child: MyAppBarButton(
-                        onPressed: (){ showAppToast('Delete not implemented yet'); },
-                        icon: Icon(
-                          Icons.delete_forever_outlined,
-                          color: delFocus.hasFocus ? const Color.fromARGB(255, 255, 0, 0) : AppColors.hint,
-                        )
-                      ),
+                      text: 'Delete',
+                      icon: Icons.delete_forever_outlined,
+                      color: delFocus.hasFocus ? AppColors.error : AppColors.hint,
+                      iconSize: 15,
+                      textSize: 14,
+                      fixedHeight: 30,
+                      onPressed: (){ showAppToast('Delete not implemented yet'); },
                     ),
                   ),
                 ],
@@ -163,5 +148,21 @@ class _ProfileCardState extends State<ProfileCard> {
         ],
       ),
     );
+  }
+}
+
+class ProfileCardTraversalPolicy extends WidgetOrderTraversalPolicy {
+  final FocusNode? allowedNode;
+
+  ProfileCardTraversalPolicy({this.allowedNode});
+
+  @override
+  bool inDirection(FocusNode currentNode, TraversalDirection direction) {
+    if ((direction == TraversalDirection.left || direction == TraversalDirection.right)
+        && currentNode != allowedNode) {
+          // Block left/right traversal for nodes other than the allowed one
+          return false;
+        }
+    return super.inDirection(currentNode, direction);
   }
 }

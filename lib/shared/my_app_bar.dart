@@ -1,8 +1,8 @@
 
 import 'package:bingio/services/auth_service.dart';
+import 'package:bingio/shared/btn_icon.dart';
 import 'package:bingio/shared/constants.dart';
 import 'package:bingio/shared/gradient_text.dart';
-import 'package:bingio/shared/my_app_bar_button.dart';
 import 'package:flutter/material.dart';
 
 class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -25,20 +25,43 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      title: GradientText(text: AppStrings.appName),
-      centerTitle: true,
       backgroundColor: AppColors.background,
-      leading: Row(
+      title: Row(
         children: [
-          if (hideLogoutButton == false) MyAppBarButton(
-            onPressed: logOut,
-            icon: Icon(Icons.logout),
-            flipX: true,
-            offsetX: -1,
+          Expanded(
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Wrap(
+                children: [
+                  if (hideLogoutButton == false) IconBtn(
+                    text: 'Logout',
+                    icon: Icons.logout,
+                    onPressed: logOut,
+                    flipX: true,
+                    offsetX: -1,
+                  ),
+                  if (showBackButton) IconBtn(
+                    text: 'Go Back',
+                    icon: Icons.arrow_back_rounded,
+                    onPressed: () => Navigator.pop(context),
+                  ),
+                ],
+              ),
+            ),
           ),
-          if (showBackButton) MyAppBarButton(
-            onPressed: () => Navigator.pop(context),
-            icon: Icon(Icons.arrow_back_rounded),
+          Expanded(
+            child: Align(
+              alignment: Alignment.center,
+              child: GradientText(text: AppStrings.appName),
+            ),
+          ),
+          Expanded(
+            child: Align(
+              alignment: Alignment.centerRight,
+              child: Wrap(
+                children: [],
+              ),
+            ),
           ),
         ],
       ),
