@@ -36,7 +36,7 @@ class _ProfilesPageState extends State<ProfilesPage> {
     });
   }
 
-  void createNewUser() async {
+  void createNewProfile() async {
     loadingSpinnerShow(context);
     await Future.delayed(Duration(seconds: 1));
     if (!mounted) return;
@@ -45,6 +45,18 @@ class _ProfilesPageState extends State<ProfilesPage> {
       MaterialPageRoute(builder: (context) => ProfileEditorPage())
     ).then((returnValue) async {
       await setSelectedProfile(returnValue);
+      loadingSpinnerHide();
+    });
+  }
+
+  void editProfile(String id) async {
+    loadingSpinnerShow(context);
+    await Future.delayed(Duration(seconds: 1));
+    if (!mounted) return;
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => ProfileEditorPage(profileId: id))
+    ).then((returnValue) async {
       loadingSpinnerHide();
     });
   }
@@ -82,7 +94,12 @@ class _ProfilesPageState extends State<ProfilesPage> {
                 ),
                 SizedBox(height: 50),
                 StreamBuilder(
-                  stream: FirestoreDatabase().streamDocsByUID<ProfileModel>(ProfileModel.collection, user!.uid, ProfileModel.keyAccountUID, ProfileModel.fromMap),
+                  stream: FirestoreDB().streamDocsByKey<ProfileModel>(
+                    collection: ProfileModel.collection,
+                    whereKey: ProfileModel.keyAccountUID,
+                    matchingValue: user!.uid,
+                    fromMap: ProfileModel.fromMap
+                  ),
                   builder:(context, snapshot) {
                     if (snapshot.data == null) return CircularProgressIndicator();
                     final profiles = snapshot.data?.toList() ?? List.empty();
@@ -104,8 +121,9 @@ class _ProfilesPageState extends State<ProfilesPage> {
                         onPressed: () {
                           setSelectedProfile(profile.id!);
                         },
+                        onEdit: () => editProfile(profile.id!),
                         onDelete: () {
-                          FirestoreDatabase().delete(
+                          FirestoreDB().delete(
                             ProfileModel.collection,
                             profile.id!,
                             onSuccess: () async { await setSelectedProfile(null); showAppToast('Profile deleted!'); },
@@ -124,7 +142,7 @@ class _ProfilesPageState extends State<ProfilesPage> {
                         picNum: 99,
                         autoFocus: _selectedProfile == null,
                         focusNode: newUserNode,
-                        onPressed: createNewUser,
+                        onPressed: createNewProfile,
                       ));
                     }
             

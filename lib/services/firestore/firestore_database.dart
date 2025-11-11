@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 typedef OnErrorCallback = void Function(Object error);
 
-class FirestoreDatabase {
+class FirestoreDB {
   FirebaseFirestore db = FirebaseFirestore.instance;
 
   Future<String?> createOrUpdate<FSM extends FirestoreModel>(String collection, FSM model, {Function(String)? onSuccess, OnErrorCallback? onError}) async {
@@ -61,15 +61,42 @@ class FirestoreDatabase {
       });
   }
 
-  Future<List<FSM>> getDocsByUID<FSM extends FirestoreModel>(
-    String collection,
-    String uid,
-    String docKey,
-    FSM Function(String docId, Object data) fromMap,
-    {OnErrorCallback? onError}
+  Future<FSM?> getDocById<FSM extends FirestoreModel>(
+    {
+      required String collection,
+      required String docId,
+      required FSM Function(String docId, Object data) fromMap,
+      OnErrorCallback? onError,
+    }
   ) async {
     try {
-      QuerySnapshot querySnapshot = await db.collection(collection).where(docKey, isEqualTo: uid).get();
+      DocumentSnapshot docRef = await db.collection(collection).doc(docId).get();
+
+      if (docRef.exists) {
+        return fromMap(docId, docRef.data()!);
+      }
+      return null;
+    }
+    catch (error) {
+      if (onError != null) {
+        onError(error);
+        return null;
+      }
+      rethrow;
+    }
+  }
+
+  Future<List<FSM>> getDocsByKey<FSM extends FirestoreModel>(
+    {
+      required String collection,
+      required String whereKey,
+      required String matchingValue,
+      required FSM Function(String docId, Object data) fromMap,
+      OnErrorCallback? onError,
+    }
+  ) async {
+    try {
+      QuerySnapshot querySnapshot = await db.collection(collection).where(whereKey, isEqualTo: matchingValue).get();
 
       return querySnapshot.docs.map((doc) {
         return fromMap(doc.id, doc.data()!);
@@ -84,13 +111,15 @@ class FirestoreDatabase {
     }
   }
 
-  Stream<Iterable<FSM>> streamDocsByUID<FSM extends FirestoreModel>(
-    String collection,
-    String uid,
-    String docKey,
-    FSM Function(String docId, Object data) fromMap
+  Stream<Iterable<FSM>> streamDocsByKey<FSM extends FirestoreModel>(
+    {
+      required String collection,
+      required String whereKey,
+      required String matchingValue,
+      required FSM Function(String docId, Object data) fromMap,
+    }
   ) {
-    return db.collection(collection).where(docKey, isEqualTo: uid).snapshots().map((querySnapshot) {
+    return db.collection(collection).where(whereKey, isEqualTo: matchingValue).snapshots().map((querySnapshot) {
       return querySnapshot.docs.map((doc) {
         return fromMap(doc.id, doc.data());
       });

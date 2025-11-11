@@ -30,7 +30,12 @@ class ProfileNotifier extends ChangeNotifier {
 }
 
 class ProfileEditorPage extends StatefulWidget {
-  const ProfileEditorPage({super.key});
+  final String? profileId;
+
+  const ProfileEditorPage({
+    super.key,
+    this.profileId
+  });
 
   @override
   State<ProfileEditorPage> createState() => _ProfileEditorPageState();
@@ -119,9 +124,10 @@ class _ProfileEditorPageState extends State<ProfileEditorPage> {
       _isCreateDisabled = true;
     });
     
-    await FirestoreDatabase().createOrUpdate(
+    await FirestoreDB().createOrUpdate(
       ProfileModel.collection,
       ProfileModel(
+        id: widget.profileId,
         accountUID: user!.uid,
         displayName: txtCntrl.text.trim(),
         bgColor: profile.bgColor,
@@ -133,7 +139,7 @@ class _ProfileEditorPageState extends State<ProfileEditorPage> {
         Navigator.of(context).pop(docId);
       },
       onError: (error) {
-        showAppError('Create Profile error: $error');
+        showAppError('Save Profile error: $error');
         setState(() {
           _isCreateDisabled = false;
         });
@@ -143,7 +149,29 @@ class _ProfileEditorPageState extends State<ProfileEditorPage> {
 
   void delayedLoad() async {
     await Future.delayed(Duration(seconds: 1));
-    _randomize();
+    if (widget.profileId != null) {
+      final model = await FirestoreDB().getDocById(
+        collection: ProfileModel.collection,
+        docId: widget.profileId!,
+        fromMap: ProfileModel.fromMap,
+        onError: (error) {
+          showAppError('${AppStrings.errTryingToGet} Profile, Id: ${widget.profileId}');
+        },
+      );
+
+      if (model == null && mounted) Navigator.of(context).pop(widget.profileId);
+      final p = model!;
+      profile.update(
+        picNum: p.picNumber,
+        bgColor: p.bgColor,
+        picColor: p.picColor,
+        kidsProfile: p.kidsProfile
+      );
+      txtCntrl.text = p.displayName;
+    } else {
+      _randomize();
+    }
+    
     if (mounted) {
       setState(() {
         _isLoading = false;
@@ -183,7 +211,7 @@ class _ProfileEditorPageState extends State<ProfileEditorPage> {
           child: Column(
             children: [
               GradientText(
-                text: AppStrings.userProfileNew,
+                text: (widget.profileId == null) ? AppStrings.userProfileNew : AppStrings.userProfileEdit,
                 style: AppStyles.title2Text,
               ),
 
@@ -301,7 +329,7 @@ class _ProfileEditorPageState extends State<ProfileEditorPage> {
               Wrap(
                 children: [
                   SolidBtn(
-                    text: _isCreateDisabled ? AppStrings.userProfileSaving : AppStrings.userProfileCreate,
+                    text: _isCreateDisabled ? AppStrings.userProfileSaving : ((widget.profileId == null) ? AppStrings.userProfileCreate : AppStrings.userProfileSave),
                     onPressed: () => _saveProfile(context),
                     isDisabled: _isCreateDisabled,
                   ),

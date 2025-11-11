@@ -60,6 +60,7 @@ class AppStrings {
   static const String errNetworkConnection = 'Network error, check your connection';
   static const String errPasswordMismatch = 'Passwords do not match';
   static const String errTooManyRequests = 'Too many requests, please wait a bit and try again later';
+  static const String errTryingToGet = 'Error trying to get';
   static const String errWeakPassword = 'Weak password, password must be at least 6 characters';
   static const String goBack = 'Go Back';
   static const String hintEmail = 'Email';
