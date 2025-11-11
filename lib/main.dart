@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         brightness: Brightness.dark,
         useMaterial3: true,
-        fontFamily: 'Arial',
+        fontFamily: 'Futura',
       ),
       debugShowCheckedModeBanner: false,
       title: AppStrings.appName,

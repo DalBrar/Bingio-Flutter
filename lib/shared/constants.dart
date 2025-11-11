@@ -61,35 +61,27 @@ class AppStyles {
   static const TextStyle largeText = TextStyle(
     fontSize: 22,
     color: AppColors.text,
-    fontWeight: FontWeight.bold,
-    fontFamily: 'Futura',
   );
 
   static const TextStyle regularText = TextStyle(
     fontSize: 16,
     color: AppColors.text,
-    fontFamily: 'Futura',
   );
 
   static const TextStyle hintText = TextStyle(
     fontSize: 16,
     color: AppColors.hint,
     fontStyle: FontStyle.italic,
-    fontFamily: 'Futura',
   );
 
   static const TextStyle solidButtonText = TextStyle(
     fontSize: 18,
     color: AppColors.background,
-    fontWeight: FontWeight.bold,
-    fontFamily: 'Futura',
   );
 
   static const TextStyle solidButtonDisabledText = TextStyle(
     fontSize: 18,
     color: AppColors.hint,
-    fontWeight: FontWeight.bold,
-    fontFamily: 'Futura',
   );
 
 

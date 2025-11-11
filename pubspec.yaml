@@ -83,7 +83,7 @@ flutter:
         - asset: assets/fonts/Audiowide-Regular.ttf
     - family: Futura
       fonts:
-        - asset: assets/fonts/FuturaCyrillicMedium.ttf
+        - asset: assets/fonts/FuturaCyrillicDemi.ttf
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
