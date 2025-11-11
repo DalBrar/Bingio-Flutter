@@ -49,7 +49,6 @@ class _IconBtnState extends State<IconBtn> {
       height: widget.fixedHeight,
       borderRadius: BorderRadius.circular(50),
       padding: EdgeInsetsGeometry.symmetric(horizontal: 5, vertical: 2),
-      animationDurationMilliseconds: 250,
       animationCurve: Curves.easeInOut,
       onPressSelect: widget.onPressed,
       onFocusChanged: (hasFocus) {
