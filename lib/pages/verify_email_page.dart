@@ -83,6 +83,7 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
                 ),
                 SizedBox(height: 25),
                 PlainTextBtn(
+                  autoFocus: true,
                   text: _canSendEmail ? 'Send verification email to ${user!.email}' : 'Email sent, please check your account',
                   onPressed: () => _canSendEmail 
                   ? sendVerificationEmail()

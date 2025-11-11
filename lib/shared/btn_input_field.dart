@@ -6,8 +6,8 @@ import 'package:flutter/services.dart';
 class InputFieldBtn extends StatefulWidget {
   final FocusNode? focusNode;
   final bool autoFocus;
-  final double? width;
-  final double? height;
+  final double width;
+  final double height;
   final EdgeInsetsGeometry margin;
   final EdgeInsetsGeometry? padding;
   final TextEditingController? textController;
@@ -27,8 +27,8 @@ class InputFieldBtn extends StatefulWidget {
     super.key,
     this.focusNode,
     this.autoFocus = false,
-    this.width,
-    this.height,
+    this.width = 200,
+    this.height = 50,
     this.margin = EdgeInsets.zero,
     this.padding,
     this.textController,

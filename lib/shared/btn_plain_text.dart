@@ -3,11 +3,13 @@ import 'package:bingio/shared/focus_wrap.dart';
 import 'package:flutter/material.dart';
 
 class PlainTextBtn extends StatefulWidget {
+  final bool autoFocus;
   final String text;
   final VoidCallback onPressed;
 
   const PlainTextBtn({
     super.key,
+    this.autoFocus = false,
     required this.text,
     required this.onPressed,
   });
@@ -23,6 +25,7 @@ class _PlainTextBtnState extends State<PlainTextBtn> {
   @override
   Widget build(BuildContext context) {
     return FocusWrap(
+      autoFocus: widget.autoFocus,
       backgroundColorFocused: AppColors.active,
       animationDurationMilliseconds: duration,
       onPressSelect: widget.onPressed,

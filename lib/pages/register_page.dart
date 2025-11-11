@@ -1,10 +1,10 @@
 import 'package:bingio/services/auth_service.dart';
+import 'package:bingio/shared/btn_input_field.dart';
 import 'package:bingio/shared/btn_plain_text.dart';
 import 'package:bingio/shared/btn_solid.dart';
 import 'package:bingio/shared/functions.dart';
 import 'package:bingio/shared/gradient_text.dart';
 import 'package:bingio/shared/constants.dart';
-import 'package:bingio/shared/input_field.dart';
 import 'package:flutter/material.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -103,42 +103,45 @@ class _RegisterPageState extends State<RegisterPage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      InputField(
+                      InputFieldBtn(
                         hintText:  'Email',
+                        width: 800,
+                        height: 55,
+                        margin: EdgeInsetsGeometry.all(verticalPadding),
                         textInputType: TextInputType.emailAddress,
                         autofillHints: [AutofillHints.email],
                         prefixIcon: Icon(Icons.mail),
                         suffixIcon: Icon(Icons.mail, color: Colors.transparent),
                         autoFocus: true,
-                        controller: emailController,
+                        textController: emailController,
                         focusNode: emailFocusNode,
-                        nextFocus: passwordFocusNode,
-                        paddingHorizontal: verticalPadding * 4,
-                        paddingVertical: verticalPadding,
+                        onSubmitted: (val) { passwordFocusNode.requestFocus(); },
                       ),
 
-                      InputField(
+                      InputFieldBtn(
                         hintText:  'Password',
+                        width: 800,
+                        height: 55,
+                        margin: EdgeInsetsGeometry.all(verticalPadding),
                         prefixIcon: Icon(Icons.password),
                         suffixIcon: Icon(Icons.password, color: Colors.transparent),
-                        controller: passwordController,
+                        textController: passwordController,
                         focusNode: passwordFocusNode,
-                        nextFocus: confirmPasswordFocusNode,
-                        paddingHorizontal: verticalPadding * 4,
-                        paddingVertical: verticalPadding,
                         obscureText: true,
+                        onSubmitted: (val) { confirmPasswordFocusNode.requestFocus(); },
                       ),
 
-                      InputField(
+                      InputFieldBtn(
                         hintText:  'Confirm Password',
+                        width: 800,
+                        height: 55,
+                        margin: EdgeInsetsGeometry.all(verticalPadding),
                         prefixIcon: Icon(Icons.password),
                         suffixIcon: Icon(Icons.password, color: Colors.transparent),
-                        controller: confirmPasswordController,
+                        textController: confirmPasswordController,
                         focusNode: confirmPasswordFocusNode,
-                        nextFocus: signUpButtonFocusNode,
-                        paddingHorizontal: verticalPadding * 4,
-                        paddingVertical: verticalPadding,
                         obscureText: true,
+                        onSubmitted: (val) { signUpButtonFocusNode.requestFocus(); },
                       ),
 
                       SolidBtn(
