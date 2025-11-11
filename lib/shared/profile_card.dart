@@ -131,8 +131,8 @@ class _ProfileCardState extends State<ProfileCard> {
                     ),
                     AnimatedOpacity(
                       opacity: (widget.focusNode != null && widget.focusNode!.hasFocus) ? 1 : 0,
-                      duration: Duration(milliseconds: 300),
-                      curve: Curves.easeInOut,
+                      duration: Duration(milliseconds: 400),
+                      curve: Curves.easeInToLinear,
                       child: Container(
                         width: widget.width,
                         height: widget.width,
