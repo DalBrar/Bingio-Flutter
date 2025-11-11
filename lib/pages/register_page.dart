@@ -28,7 +28,6 @@ class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController confirmPasswordController = TextEditingController();
 
-  final String titleText = 'Welcome to ${AppStrings.appName}';
   final double verticalPadding = 10.0;
 
   void signUp() async {
@@ -46,7 +45,7 @@ class _RegisterPageState extends State<RegisterPage> {
         widget.toggleLoginAndRegisterPages();
       }
       else {
-        showAppError('Passwords do not match');
+        showAppError(AppStrings.errPasswordMismatch);
       }
     }
     on AuthServiceException catch (e) {
@@ -91,11 +90,11 @@ class _RegisterPageState extends State<RegisterPage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 SizedBox(height: 25),
-                GradientText(text: titleText),
+                GradientText(text: AppStrings.welcome),
 
                 SizedBox(height: 40),
                 Text(
-                  'Please register to continue.',
+                  AppStrings.pleaseRegisterToContinue,
                   style: AppStyles.largeText,
                 ),
                 
@@ -104,7 +103,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       InputFieldBtn(
-                        hintText:  'Email',
+                        hintText:  AppStrings.hintEmail,
                         width: 800,
                         height: 55,
                         margin: EdgeInsetsGeometry.all(verticalPadding),
@@ -119,7 +118,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       ),
 
                       InputFieldBtn(
-                        hintText:  'Password',
+                        hintText:  AppStrings.hintPassword,
                         width: 800,
                         height: 55,
                         margin: EdgeInsetsGeometry.all(verticalPadding),
@@ -132,7 +131,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       ),
 
                       InputFieldBtn(
-                        hintText:  'Confirm Password',
+                        hintText:  AppStrings.hintPasswordConfirm,
                         width: 800,
                         height: 55,
                         margin: EdgeInsetsGeometry.all(verticalPadding),
@@ -145,7 +144,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       ),
 
                       SolidBtn(
-                        text: 'Sign Up',
+                        text: AppStrings.signUp,
                         margin: EdgeInsetsGeometry.all(verticalPadding),
                         onPressed: signUp,
                         focusNode: signUpButtonFocusNode,
@@ -155,11 +154,11 @@ class _RegisterPageState extends State<RegisterPage> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            "Already have an account? ",
+                            AppStrings.alreadyHaveAccount,
                             style: AppStyles.regularText,
                           ),
                           PlainTextBtn(
-                            text: 'Log In',
+                            text: AppStrings.logIn,
                             onPressed: widget.toggleLoginAndRegisterPages,
                           ),
                         ],

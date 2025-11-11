@@ -77,7 +77,7 @@ class _ProfilesPageState extends State<ProfilesPage> {
               children: [
                 SizedBox(height: 50),
                 Text(
-                  'Who\'s binging?',
+                  AppStrings.whosWatching,
                   style: AppStyles.title2Text,
                 ),
                 SizedBox(height: 50),
@@ -118,7 +118,7 @@ class _ProfilesPageState extends State<ProfilesPage> {
                     if (profiles.length < AppValues.maxProfiles) {
                       children.add(ProfileCard(
                         key: ValueKey('newprofile'),
-                        name: 'New Profile',
+                        name: AppStrings.newProfile,
                         bgColor: 1,
                         picColor: 0,
                         picNum: 99,

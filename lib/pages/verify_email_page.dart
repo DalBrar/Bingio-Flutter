@@ -78,16 +78,16 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  'Please verify your email to continue.',
+                  AppStrings.pleaseVerifyEmail,
                   style: AppStyles.largeText,
                 ),
                 SizedBox(height: 25),
                 PlainTextBtn(
                   autoFocus: true,
-                  text: _canSendEmail ? 'Send verification email to ${user!.email}' : 'Email sent, please check your account',
+                  text: _canSendEmail ? '${AppStrings.sendVerificationTo} ${user!.email}' : AppStrings.emailSentCheckAccount,
                   onPressed: () => _canSendEmail 
                   ? sendVerificationEmail()
-                  : showAppToast('Please wait a bit before trying to send again')
+                  : showAppToast(AppStrings.pleaseWaitBeforeTryAgain)
                 )
               ],
             ),

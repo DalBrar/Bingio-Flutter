@@ -35,14 +35,14 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
               child: Wrap(
                 children: [
                   if (hideLogoutButton == false) IconBtn(
-                    text: 'Log Out',
+                    text: AppStrings.logOut,
                     icon: Icons.logout,
                     onPressed: logOut,
                     flipX: true,
                     offsetX: -1,
                   ),
                   if (showGoBackButton) IconBtn(
-                    text: 'Go Back',
+                    text: AppStrings.goBack,
                     icon: Icons.arrow_back_rounded,
                     onPressed: () => Navigator.pop(context),
                   ),

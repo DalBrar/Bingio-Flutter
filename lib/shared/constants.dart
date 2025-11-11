@@ -42,6 +42,57 @@ class AppProfileSettings {
 
 class AppStrings {
   static const String appName = 'Bingio';
+
+  static const String alreadyHaveAccount = "Already have an account? ";
+  static const String emailLogIn = 'Email Log In';
+  static const String emailSentCheckAccount = 'Email sent, please check your account';
+  static const String errAccountDisabled = 'Account disabled';
+  static const String errAuthenticationExpired = 'Authentication expired';
+  static const String errEmailAlreadyInUse = 'Email address already in use';
+  static const String errEmailAndPasswordRequired = 'Must provide Email and Password';
+  static const String errGoogleCredentialsExpired = 'Credential has expired, try clearing app storage';
+  static const String errGoogleSignInCancelled = 'Google Sign In cancelled';
+  static const String errGoogleAccountExistsDifferentCredential = 'Account exists with different credential, remove from Google Apps & Services';
+  static const String errIncorrectCredentials = 'Incorrect Email or Password';
+  static const String errInvalidEmail = 'Invalid email format';
+  static const String errMethodNotEnabled = 'This method is not enabled';
+  static const String errNameRequired = 'You must enter a name';
+  static const String errNetworkConnection = 'Network error, check your connection';
+  static const String errPasswordMismatch = 'Passwords do not match';
+  static const String errTooManyRequests = 'Too many requests, please wait a bit and try again later';
+  static const String errWeakPassword = 'Weak password, password must be at least 6 characters';
+  static const String goBack = 'Go Back';
+  static const String hintEmail = 'Email';
+  static const String hintPassword = 'Password';
+  static const String hintPasswordConfirm = 'Confirm Password';
+  static const String hintUser = 'User';
+  static const String kidsProfile = 'Kids Profile';
+  static const String logIn = 'Log In';
+  static const String logOut = 'Log Out';
+  static const String newProfile = 'New Profile';
+  static const String orDashed = '-- OR --';
+  static const String pleaseLoginToContinue = 'Please log in to continue.';
+  static const String pleaseRegisterToContinue = 'Please register to continue.';
+  static const String pleaseVerifyEmail = 'Please verify your email to continue.';
+  static const String pleaseWaitBeforeTryAgain = 'Please wait a bit before trying again';
+  static const String pressBackAgainToExit = 'Press back again to exit';
+  static const String sendVerificationTo = 'Send verification email to';
+  static const String signInWithGoogle = 'Sign In with Google';
+  static const String signUp = 'Sign Up';
+  static const String signUpWithEmail = 'Sign Up with Email';
+  static const String switchOn = 'On';
+  static const String switchOff = 'Off';
+  static const String userProfileBackgroundColor = 'Background Color';
+  static const String userProfileCreate = 'Create Profile';
+  static const String userProfileDisplayName = 'Display Name';
+  static const String userProfileForegroundColor = 'Foreground Color';
+  static const String userProfileEdit = 'Edit User Profile';
+  static const String userProfileNew = 'New User Profile';
+  static const String userProfileProtrait = 'Portrait';
+  static const String userProfileSave = 'Save Profile';
+  static const String userProfileSaving = 'Saving Profile...';
+  static const String welcome = 'Welcome to $appName';
+  static const String whosWatching = 'Who\'s binging?';
 }
 
 class AppStyles {

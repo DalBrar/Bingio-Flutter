@@ -1,6 +1,7 @@
 
 import 'dart:async';
 
+import 'package:bingio/shared/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -22,24 +23,24 @@ class AuthService {
     on FirebaseAuthException catch (e) {
       switch(e.code) {
         case 'channel-error':
-          throw AuthServiceException('Must provide Email and Password');
+          throw AuthServiceException(AppStrings.errEmailAndPasswordRequired);
         case 'invalid-email':
-          throw AuthServiceException('Invalid email format');
+          throw AuthServiceException(AppStrings.errInvalidEmail);
         case 'user-not-found':
         case 'wrong-password':
         case 'invalid-credential':
         case 'INVALID_LOGIN_CREDENTIALS':
-          throw AuthServiceException('Incorrect Email or Password');
+          throw AuthServiceException(AppStrings.errIncorrectCredentials);
         case 'user-disabled':
-          throw AuthServiceException('Account disabled');
+          throw AuthServiceException(AppStrings.errAccountDisabled);
         case 'user-token-expired':
-          throw AuthServiceException('User authentication expired');
+          throw AuthServiceException(AppStrings.errAuthenticationExpired);
         case 'operation-not-allowed':
-          throw AuthServiceException('This method is not enabled');
+          throw AuthServiceException(AppStrings.errMethodNotEnabled);
         case 'too-many-requests':
-          throw AuthServiceException('Too many requests, please wait a bit and try again later');
+          throw AuthServiceException(AppStrings.errTooManyRequests);
         case 'network-request-failed':
-          throw AuthServiceException('Network error, check your connection');
+          throw AuthServiceException(AppStrings.errNetworkConnection);
         default:
           throw AuthServiceException('Auth Error: ${e.message}');
       }
@@ -57,21 +58,21 @@ class AuthService {
     on FirebaseAuthException catch (e) {
       switch(e.code) {
         case 'channel-error':
-          throw AuthServiceException('Must provide Email and Password');
+          throw AuthServiceException(AppStrings.errEmailAndPasswordRequired);
         case 'invalid-email':
-          throw AuthServiceException('Invalid email format');
+          throw AuthServiceException(AppStrings.errInvalidEmail);
         case 'email-already-in-use':
-          throw AuthServiceException('Email address already in use');
+          throw AuthServiceException(AppStrings.errEmailAlreadyInUse);
         case 'weak-password':
-          throw AuthServiceException('Weak password, password must be at least 6 characters');
+          throw AuthServiceException(AppStrings.errWeakPassword);
         case 'user-token-expired':
-          throw AuthServiceException('User authentication expired');
+          throw AuthServiceException(AppStrings.errAuthenticationExpired);
         case 'operation-not-allowed':
-          throw AuthServiceException('This method is not enabled');
+          throw AuthServiceException(AppStrings.errMethodNotEnabled);
         case 'too-many-requests':
-          throw AuthServiceException('Too many requests, please wait a bit and try again later');
+          throw AuthServiceException(AppStrings.errTooManyRequests);
         case 'network-request-failed':
-          throw AuthServiceException('Network error, check your connection');
+          throw AuthServiceException(AppStrings.errNetworkConnection);
         default:
           throw AuthServiceException('Auth Error: ${e.message}');
       }
@@ -83,7 +84,7 @@ class AuthService {
     // Begin Log In process
     final GoogleSignInAccount? gSignIn = await GoogleSignIn().signIn();
     if (gSignIn == null) {
-      throw AuthServiceException('Google Sign In cancelled');
+      throw AuthServiceException(AppStrings.errGoogleSignInCancelled);
     }
     // Obtain Auth details from Log In
     final GoogleSignInAuthentication gAuth = await gSignIn.authentication;
@@ -99,19 +100,15 @@ class AuthService {
     on FirebaseAuthException catch (e) {
       switch(e.code) {
         case 'account-exists-with-different-credential':
-          throw AuthServiceException('Account exists with different credential, remove from Google Apps & Services');
+          throw AuthServiceException(AppStrings.errGoogleAccountExistsDifferentCredential);
         case 'invalid-credential':
         case 'invalid-verification-code':
         case 'invalid-verification-id':
-          throw AuthServiceException('Credential has expired, try clearing app storage');
+          throw AuthServiceException(AppStrings.errGoogleCredentialsExpired);
         case 'operation-not-allowed':
-          throw AuthServiceException('This method is not enabled');
+          throw AuthServiceException(AppStrings.errMethodNotEnabled);
         case 'user-disabled':
-          throw AuthServiceException('Account disabled');
-        case 'user-not-found':
-          throw AuthServiceException('There is no User to the corresponding Email');
-        case 'wrong-password':
-          throw AuthServiceException('Invalid or unset password for the Email account');
+          throw AuthServiceException(AppStrings.errAccountDisabled);
         default:
           throw AuthServiceException('Auth Error: ${e.message}');
       }

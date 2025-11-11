@@ -27,7 +27,6 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
-  final String titleText = 'Welcome to ${AppStrings.appName}';
   final double verticalPadding = 10.0;
 
   void logUserIn() async {
@@ -93,11 +92,11 @@ class _LoginPageState extends State<LoginPage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 SizedBox(height: 25),
-                GradientText(text: titleText),
+                GradientText(text: AppStrings.welcome),
 
                 SizedBox(height: 40),
                 Text(
-                  'Please log in to continue.',
+                  AppStrings.pleaseLoginToContinue,
                   style: AppStyles.largeText,
                 ),
                 
@@ -106,7 +105,7 @@ class _LoginPageState extends State<LoginPage> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     InputFieldBtn(
-                      hintText:  'Email',
+                      hintText:  AppStrings.hintEmail,
                       width: 800,
                       height: 55,
                       margin: EdgeInsetsGeometry.all(verticalPadding),
@@ -121,7 +120,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                 
                     InputFieldBtn(
-                      hintText:  'Password',
+                      hintText:  AppStrings.hintPassword,
                       width: 800,
                       height: 55,
                       margin: EdgeInsetsGeometry.all(verticalPadding),
@@ -134,23 +133,23 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                 
                     SolidBtn(
-                      text: 'Email Log In',
+                      text: AppStrings.emailLogIn,
                       margin: EdgeInsetsGeometry.all(verticalPadding),
                       onPressed: logUserIn,
                       focusNode: loginButtonFocusNode,
                     ),
                 
-                    Text('-- OR --'),
+                    Text(AppStrings.orDashed),
                 
                     SolidBtn(
-                      text: 'Sign In with Google',
+                      text: AppStrings.signInWithGoogle,
                       image: 'assets/images/google_favicon.png',
                       margin: EdgeInsetsGeometry.all(verticalPadding),
                       onPressed: googleSignIn,
                     ),
                 
                     PlainTextBtn(
-                      text: 'Sign Up with Email',
+                      text: AppStrings.signUpWithEmail,
                       onPressed: widget.toggleLoginAndRegisterPages,
                     ),
                   ],

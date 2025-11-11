@@ -1,3 +1,4 @@
+import 'package:bingio/shared/constants.dart';
 import 'package:bingio/shared/functions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -27,7 +28,7 @@ class _ExitOnBackCatcherState extends State<ExitOnBackCatcher> {
         DateTime now = DateTime.now();
         if (now.difference(lastBackPressTime) > const Duration(seconds: 2)) {
           lastBackPressTime = now;
-          showAppToast('Press back again to exit');
+          showAppToast(AppStrings.pressBackAgainToExit);
           return;
         }
         SystemNavigator.pop();

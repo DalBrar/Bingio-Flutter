@@ -111,7 +111,7 @@ class _ProfileEditorPageState extends State<ProfileEditorPage> {
 
   void _saveProfile(BuildContext context) async {
     if (txtCntrl.text.trim().isEmpty) {
-      showAppError('You must enter a name');
+      showAppError(AppStrings.errNameRequired);
       return;
     }
 
@@ -183,7 +183,7 @@ class _ProfileEditorPageState extends State<ProfileEditorPage> {
           child: Column(
             children: [
               GradientText(
-                text: 'New User Profile',
+                text: AppStrings.userProfileNew,
                 style: AppStyles.title2Text,
               ),
 
@@ -200,7 +200,7 @@ class _ProfileEditorPageState extends State<ProfileEditorPage> {
                           child: Column(
                             children: [
                               Text(
-                                'Kids Profile: ${profile.kidsProfile ? 'On' : 'Off'}',
+                                '${AppStrings.kidsProfile}: ${profile.kidsProfile ? AppStrings.switchOn : AppStrings.switchOff}',
                                 style: AppStyles.regularText,
                               ),
                               SizedBox(
@@ -249,7 +249,7 @@ class _ProfileEditorPageState extends State<ProfileEditorPage> {
                       child: Column(
                         children: [
                           Text(
-                            'Display Name:',
+                            '${AppStrings.userProfileDisplayName}:',
                             style: AppStyles.regularText,
                           ),
                           InputFieldBtn(
@@ -257,7 +257,7 @@ class _ProfileEditorPageState extends State<ProfileEditorPage> {
                             height: 50,
                             textController: txtCntrl,
                             focusNode: txtFocus,
-                            hintText: 'User',
+                            hintText: AppStrings.hintUser,
                             textInputType: TextInputType.name,
                             autofillHints: [],
                             maxLength: 8,
@@ -272,7 +272,7 @@ class _ProfileEditorPageState extends State<ProfileEditorPage> {
 
               SizedBox(height: vertSpacing),
               Text(
-                'Portrait:',
+                '${AppStrings.userProfileProtrait}:',
                 style: AppStyles.regularText,
               ),
               Wrap(
@@ -281,7 +281,7 @@ class _ProfileEditorPageState extends State<ProfileEditorPage> {
 
               SizedBox(height: vertSpacing),
               Text(
-                'Background Color:',
+                '${AppStrings.userProfileBackgroundColor}:',
                 style: AppStyles.regularText,
               ),
               Wrap(
@@ -290,7 +290,7 @@ class _ProfileEditorPageState extends State<ProfileEditorPage> {
 
               SizedBox(height: vertSpacing),
               Text(
-                'Foreground Color:',
+                '${AppStrings.userProfileForegroundColor}:',
                 style: AppStyles.regularText,
               ),
               Wrap(
@@ -301,7 +301,7 @@ class _ProfileEditorPageState extends State<ProfileEditorPage> {
               Wrap(
                 children: [
                   SolidBtn(
-                    text: _isCreateDisabled ? 'Saving Profile...' : 'Create Profile',
+                    text: _isCreateDisabled ? AppStrings.userProfileSaving : AppStrings.userProfileCreate,
                     onPressed: () => _saveProfile(context),
                     isDisabled: _isCreateDisabled,
                   ),
