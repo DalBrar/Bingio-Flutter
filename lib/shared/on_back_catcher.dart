@@ -8,6 +8,7 @@ class OnBackCatcher extends StatefulWidget {
   final String? text;
   final VoidCallback? onBack;
   final bool skipNotification;
+  final VoidCallback? onAppResume;
 
   const OnBackCatcher({
     super.key,
@@ -15,15 +16,37 @@ class OnBackCatcher extends StatefulWidget {
     this.text,
     this.onBack,
     this.skipNotification = false,
+    this.onAppResume,
   });
 
   @override
   State<OnBackCatcher> createState() => _OnBackCatcherState();
 }
 
-class _OnBackCatcherState extends State<OnBackCatcher> {
+class _OnBackCatcherState extends State<OnBackCatcher> with WidgetsBindingObserver {
   DateTime lastBackPressTime = DateTime.now();
   
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    if (state == AppLifecycleState.resumed) {
+      // send out a signal to any Widgets that wanna listen and update their state
+      if (widget.onAppResume != null) widget.onAppResume!();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return PopScope(
