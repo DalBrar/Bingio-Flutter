@@ -118,6 +118,7 @@ class _ProfilesPageState extends State<ProfilesPage> {
   @override
   Widget build(BuildContext context) {
     return OnBackCatcher(
+      onBack: (ctx){},
       child: Scaffold(
         appBar: MyAppBar(hideLogoutButton: false),
         backgroundColor: AppColors.background,

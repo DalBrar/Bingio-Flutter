@@ -5,6 +5,7 @@ import 'package:bingio/shared/btn_solid.dart';
 import 'package:bingio/shared/functions.dart';
 import 'package:bingio/shared/gradient_text.dart';
 import 'package:bingio/shared/constants.dart';
+import 'package:bingio/shared/on_back_catcher.dart';
 import 'package:flutter/material.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -66,12 +67,8 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   Widget build(BuildContext context) {
-    return PopScope(
-      canPop: false,
-      onPopInvokedWithResult: (bool didPop, dynamic result) {
-        if (didPop) return;
-        widget.toggleLoginAndRegisterPages();
-      },
+    return OnBackCatcher(
+      onBack: (ctx) => widget.toggleLoginAndRegisterPages(),
       child: Scaffold(
         backgroundColor: AppColors.background,
         body: SafeArea(

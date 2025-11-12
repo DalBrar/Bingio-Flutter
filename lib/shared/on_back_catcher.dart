@@ -1,13 +1,15 @@
-import 'package:bingio/shared/constants.dart';
 import 'package:bingio/shared/functions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class OnBackCatcher extends StatefulWidget {
   final Widget child;
+  /// Popup message text. Set as `null` (or unset) to skip popup message.
   final String? text;
-  final VoidCallback? onBack;
-  final bool skipNotification;
+  /// Default behaviour is `Navigator.pop(context)`.
+  /// To exit app use: `SystemNavigator.pop()`.
+  final Function(BuildContext ctx)? onBack;
+  /// Called when App is resumed from a paused state. Can use to `setState((){})` to force a rebuild.
   final VoidCallback? onAppResume;
 
   const OnBackCatcher({
@@ -15,7 +17,6 @@ class OnBackCatcher extends StatefulWidget {
     required this.child,
     this.text,
     this.onBack,
-    this.skipNotification = false,
     this.onAppResume,
   });
 
@@ -55,15 +56,15 @@ class _OnBackCatcherState extends State<OnBackCatcher> with WidgetsBindingObserv
         if (didPop) return;
 
         DateTime now = DateTime.now();
-        if (widget.skipNotification == false &&  (now.difference(lastBackPressTime) > const Duration(seconds: 2))) {
+        if (widget.text != null && (now.difference(lastBackPressTime) > const Duration(seconds: 2))) {
           lastBackPressTime = now;
-          showAppToast((widget.text == null) ? AppStrings.pressBackAgainToExit : widget.text!);
+          showAppToast(widget.text!);
           return;
         }
         if (widget.onBack == null) {
-          SystemNavigator.pop();
+          Navigator.pop(context);
         } else {
-          widget.onBack!();
+          widget.onBack!(context);
         }
       },
       child: widget.child,

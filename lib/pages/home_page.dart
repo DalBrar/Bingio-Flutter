@@ -1,27 +1,33 @@
-import 'package:bingio/services/auth_service.dart';
 import 'package:bingio/shared/constants.dart';
-import 'package:bingio/shared/functions.dart';
 import 'package:bingio/shared/my_app_bar.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:bingio/shared/on_back_catcher.dart';
 import 'package:flutter/material.dart';
 
-class HomePage extends StatelessWidget {
-  HomePage({super.key});
+class HomePage extends StatefulWidget {
+  final String profileId;
+  final String profileName;
 
-  final User? user = AuthService().getCurrentUser();
-
-  void logOut() async {
-    await AuthService().logOut();
-  }
+  const HomePage({
+    super.key,
+    required this.profileId,
+    required this.profileName,
+  });
 
   @override
-  Widget build(BuildContext context) {
-    loadingSpinnerHide();
+  State<HomePage> createState() => _HomePageState();
+}
 
-    return Scaffold(
-      backgroundColor: AppColors.background,
-      appBar: MyAppBar(),
-      body: Center(child: Text('Logged in as ${user?.email}'),)
+class _HomePageState extends State<HomePage> {
+  @override
+  Widget build(BuildContext context) {
+    return OnBackCatcher(
+      onBack: (ctx) { FocusScope.of(context).unfocus(); },
+      onAppResume: () => setState(() {}),
+      child: Scaffold(
+        backgroundColor: AppColors.background,
+        appBar: MyAppBar(),
+        body: Center(child: Text('Logged in as ${widget.profileName}, last updated ${DateTime.now()}'),)
+      ),
     );
   }
 }

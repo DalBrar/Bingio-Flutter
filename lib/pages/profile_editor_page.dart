@@ -10,6 +10,7 @@ import 'package:bingio/shared/functions.dart';
 import 'package:bingio/shared/constants.dart';
 import 'package:bingio/shared/gradient_text.dart';
 import 'package:bingio/shared/my_app_bar.dart';
+import 'package:bingio/shared/on_back_catcher.dart';
 import 'package:bingio/shared/profile_pic.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -202,140 +203,143 @@ class _ProfileEditorPageState extends State<ProfileEditorPage> {
       );
     }
 
-    return Scaffold(
-      appBar: MyAppBar(hideLogoutButton: true, showGoBackButton: true),
-      backgroundColor: AppColors.background,
-      body: Center(
-        child: SizedBox(
-          width: 500,
-          child: Column(
-            children: [
-              GradientText(
-                text: (widget.profileId == null) ? AppStrings.userProfileNew : AppStrings.userProfileEdit,
-                style: AppStyles.title2Text,
-              ),
-
-              SizedBox(height: vertSpacing),
-              Row(
-                children: [
-                  Expanded(
-                    child: Align(
-                      alignment: AlignmentGeometry.centerLeft,
-                      child: ListenableBuilder(
-                        listenable: profile,
-                        builder: (context, child) => Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            children: [
-                              Text(
-                                '${AppStrings.kidsProfile}: ${profile.kidsProfile ? AppStrings.switchOn : AppStrings.switchOff}',
-                                style: AppStyles.regularText,
-                              ),
-                              SizedBox(
-                                width: 150,
-                                height: 50,
-                                child: Switch(
-                                  value: profile.kidsProfile,
-                                  activeTrackColor: AppColors.link,
-                                  activeThumbColor: AppColors.background,
-                                  inactiveThumbColor: AppColors.background,
-                                  trackOutlineColor: WidgetStateColor.transparent,
-                                  focusColor: AppColors.active.withAlpha(125),
-                                  onChanged: (val) => profile.update(kidsProfile: val),
+    return OnBackCatcher(
+      text: AppStrings.pressBackAgainToSelectProfile,
+      child: Scaffold(
+        appBar: MyAppBar(hideLogoutButton: true, showGoBackButton: true),
+        backgroundColor: AppColors.background,
+        body: Center(
+          child: SizedBox(
+            width: 500,
+            child: Column(
+              children: [
+                GradientText(
+                  text: (widget.profileId == null) ? AppStrings.userProfileNew : AppStrings.userProfileEdit,
+                  style: AppStyles.title2Text,
+                ),
+      
+                SizedBox(height: vertSpacing),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Align(
+                        alignment: AlignmentGeometry.centerLeft,
+                        child: ListenableBuilder(
+                          listenable: profile,
+                          builder: (context, child) => Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              children: [
+                                Text(
+                                  '${AppStrings.kidsProfile}: ${profile.kidsProfile ? AppStrings.switchOn : AppStrings.switchOff}',
+                                  style: AppStyles.regularText,
                                 ),
-                              ),
-                            ],
+                                SizedBox(
+                                  width: 150,
+                                  height: 50,
+                                  child: Switch(
+                                    value: profile.kidsProfile,
+                                    activeTrackColor: AppColors.link,
+                                    activeThumbColor: AppColors.background,
+                                    inactiveThumbColor: AppColors.background,
+                                    trackOutlineColor: WidgetStateColor.transparent,
+                                    focusColor: AppColors.active.withAlpha(125),
+                                    onChanged: (val) => profile.update(kidsProfile: val),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                  Expanded(
-                    child: Align(
-                      alignment: AlignmentGeometry.center,
-                      child: ListenableBuilder(
-                        listenable: profile,
-                        builder: (context, child) => FocusWrap(
-                          autoFocus: true,
-                          focusNode: picFocus,
-                          onPressSelect: _randomize,
-                          padding: EdgeInsetsGeometry.all(0),
-                          child: ProfilePic(
-                            width: 100,
-                            height: 100,
-                            bgColor: profile.bgColor,
-                            picColor: profile.picColor,
-                            picNum: profile.picNum,
+                    Expanded(
+                      child: Align(
+                        alignment: AlignmentGeometry.center,
+                        child: ListenableBuilder(
+                          listenable: profile,
+                          builder: (context, child) => FocusWrap(
+                            autoFocus: true,
+                            focusNode: picFocus,
+                            onPressSelect: _randomize,
+                            padding: EdgeInsetsGeometry.all(0),
+                            child: ProfilePic(
+                              width: 100,
+                              height: 100,
+                              bgColor: profile.bgColor,
+                              picColor: profile.picColor,
+                              picNum: profile.picNum,
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                  Expanded(
-                    child: Align(
-                      alignment: AlignmentGeometry.centerRight,
-                      child: Column(
-                        children: [
-                          Text(
-                            '${AppStrings.userProfileDisplayName}:',
-                            style: AppStyles.regularText,
-                          ),
-                          InputFieldBtn(
-                            width: 165,
-                            height: 50,
-                            textController: txtCntrl,
-                            focusNode: txtFocus,
-                            hintText: AppStrings.hintUser,
-                            textInputType: TextInputType.name,
-                            autofillHints: [],
-                            maxLength: 8,
-                            style: AppStyles.title3Text,
-                          ),
-                        ],
+                    Expanded(
+                      child: Align(
+                        alignment: AlignmentGeometry.centerRight,
+                        child: Column(
+                          children: [
+                            Text(
+                              '${AppStrings.userProfileDisplayName}:',
+                              style: AppStyles.regularText,
+                            ),
+                            InputFieldBtn(
+                              width: 165,
+                              height: 50,
+                              textController: txtCntrl,
+                              focusNode: txtFocus,
+                              hintText: AppStrings.hintUser,
+                              textInputType: TextInputType.name,
+                              autofillHints: [],
+                              maxLength: 8,
+                              style: AppStyles.title3Text,
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-
-              SizedBox(height: vertSpacing),
-              Text(
-                '${AppStrings.userProfileProtrait}:',
-                style: AppStyles.regularText,
-              ),
-              Wrap(
-                children: picPortraitChildren,
-              ),
-
-              SizedBox(height: vertSpacing),
-              Text(
-                '${AppStrings.userProfileBackgroundColor}:',
-                style: AppStyles.regularText,
-              ),
-              Wrap(
-                children: bgColorChildren,
-              ),
-
-              SizedBox(height: vertSpacing),
-              Text(
-                '${AppStrings.userProfileForegroundColor}:',
-                style: AppStyles.regularText,
-              ),
-              Wrap(
-                children: picColorChildren,
-              ),
-
-              SizedBox(height: vertSpacing),
-              Wrap(
-                children: [
-                  SolidBtn(
-                    text: _isCreateDisabled ? AppStrings.btnUserProfileSaving : ((widget.profileId == null) ? AppStrings.btnUserProfileCreate : AppStrings.btnUserProfileSave),
-                    onPressed: () => _saveProfile(context),
-                    isDisabled: _isCreateDisabled,
-                  ),
-                ],
-              ),
-            ],
+                  ],
+                ),
+      
+                SizedBox(height: vertSpacing),
+                Text(
+                  '${AppStrings.userProfileProtrait}:',
+                  style: AppStyles.regularText,
+                ),
+                Wrap(
+                  children: picPortraitChildren,
+                ),
+      
+                SizedBox(height: vertSpacing),
+                Text(
+                  '${AppStrings.userProfileBackgroundColor}:',
+                  style: AppStyles.regularText,
+                ),
+                Wrap(
+                  children: bgColorChildren,
+                ),
+      
+                SizedBox(height: vertSpacing),
+                Text(
+                  '${AppStrings.userProfileForegroundColor}:',
+                  style: AppStyles.regularText,
+                ),
+                Wrap(
+                  children: picColorChildren,
+                ),
+      
+                SizedBox(height: vertSpacing),
+                Wrap(
+                  children: [
+                    SolidBtn(
+                      text: _isCreateDisabled ? AppStrings.btnUserProfileSaving : ((widget.profileId == null) ? AppStrings.btnUserProfileCreate : AppStrings.btnUserProfileSave),
+                      onPressed: () => _saveProfile(context),
+                      isDisabled: _isCreateDisabled,
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),
