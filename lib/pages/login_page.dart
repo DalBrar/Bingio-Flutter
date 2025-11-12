@@ -7,6 +7,7 @@ import 'package:bingio/shared/on_back_catcher.dart';
 import 'package:bingio/shared/gradient_text.dart';
 import 'package:bingio/shared/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class LoginPage extends StatefulWidget {
   final Function() toggleLoginAndRegisterPages;
@@ -74,6 +75,8 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return OnBackCatcher(
+      text: AppStrings.pressBackAgainToExit,
+      onBack: (ctx) { SystemNavigator.pop(); },
       child: Scaffold(
         backgroundColor: AppColors.background,
         body: SafeArea(
@@ -134,7 +137,7 @@ class _LoginPageState extends State<LoginPage> {
                 
                     SolidBtn(
                       text: AppStrings.btnSignInWithGoogle,
-                      image: 'assets/images/google_favicon.png',
+                      image: AppImages.googleFavicon,
                       margin: EdgeInsetsGeometry.all(verticalPadding),
                       onPressed: googleSignIn,
                     ),

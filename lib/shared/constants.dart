@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class AppColors {
+  AppColors._();
   static const Color background = Color(0xFF050505);
   static const Color shadow = Color(0xFF141414);
   static const Color text = Color(0xFFCDCDCD);
@@ -16,7 +17,14 @@ class AppColors {
   );
 }
 
+class AppImages {
+  AppImages._();
+  static const String googleFavicon = 'assets/images/google_favicon.png';
+  static const String newProfile = 'assets/images/profile_new.png';
+}
+
 class AppProfileSettings {
+  AppProfileSettings._();
   static const List<Color> profileColors = [
     Color.fromARGB(255, 205, 205, 205),
     Color.fromARGB(255, 20, 20, 20),
@@ -41,6 +49,7 @@ class AppProfileSettings {
 }
 
 class AppStrings {
+  AppStrings._();
   static const String appName = 'Bingio';
 
   static const String btnAlreadyHaveAccount = "Already have an account? ";
@@ -93,7 +102,8 @@ class AppStrings {
   static const String pleaseRegisterToContinue = 'Please register to continue.';
   static const String pleaseVerifyEmail = 'Please verify your email to continue.';
   static const String pleaseWaitBeforeTryAgain = 'Please wait a bit before trying again';
-  static const String pressBackAgainToExit = 'Press back again to exit';
+  static const String pressBackAgainToExit = 'Press back again to exit.';
+  static const String pressBackAgainToSelectProfile = 'Press back again to select a profile.';
   static const String switchOn = 'On';
   static const String switchOff = 'Off';
   static const String userProfileBackgroundColor = 'Background Color';
@@ -107,6 +117,7 @@ class AppStrings {
 }
 
 class AppStyles {
+  AppStyles._();
   static const TextStyle titleText = TextStyle(
     fontSize: 32,
     color: AppColors.text,
@@ -222,5 +233,6 @@ class AppStyles {
 }
 
 class AppValues {
+  AppValues._();
   static const int maxProfiles = 6;
 }

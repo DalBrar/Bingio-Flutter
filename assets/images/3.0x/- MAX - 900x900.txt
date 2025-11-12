@@ -1,0 +1,2 @@
+Copies of images from main folder with higher resolution.
+- should be images that are no larger than: 900x900 px

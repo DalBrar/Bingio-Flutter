@@ -1,0 +1,1 @@
+should be images that are no larger than: 300x300 px

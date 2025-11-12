@@ -24,7 +24,7 @@ class ProfilePic extends StatelessWidget {
   Widget build(BuildContext context) {
     final bgColor = AppProfileSettings.profileColors[(this.bgColor < _colorSize) ? this.bgColor : 0];
     final picColor = (picNum < _picsSize) ? (AppProfileSettings.profileColors[(this.picColor < _colorSize) ? this.picColor : 1]) : AppColors.hint;
-    final picture = (picNum < _picsSize) ? AppProfileSettings.profilePics[picNum] : 'assets/images/profile_new.png';
+    final picture = (picNum < _picsSize) ? AppProfileSettings.profilePics[picNum] : AppImages.newProfile;
 
     return Stack(
       children: [
