@@ -7,11 +7,20 @@ Files `secrets.dart` should look like the following where `MY_SECRET_KEY-PLATFOR
 // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 class GoogleFirebaseApiKeys {
+  GoogleFirebaseApiKeys._();
+  
   static const String web = 'MY_SECRET_KEY-WEB';
   // Dont forget to copy the android api key into "android/app/google-services.json"
   static const String android = 'MY_SECRET_KEY-ANDROID';
   static const String ios = 'MY_SECRET_KEY-IOS';
   static const String macos = 'MY_SECRET_KEY-MACOS';
   static const String windows = 'MY_SECRET_KEY-WINDOWS';
+}
+
+// Obtained from: https://www.themoviedb.org/settings/api
+class MiscApiKeys {
+  MiscApiKeys._();
+
+  static const String tmdbApiKey = 'MY_SECRET_TMDB_API_KEY';
 }
 ```
