@@ -19,7 +19,9 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   void logOut() async {
     try {
       await GoogleSignIn().signOut();
-    } catch (e) {}
+    } catch (e) {
+      // Might not be a google sign in so ignore this
+    }
     await AuthService().logOut();
   }
 
