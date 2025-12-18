@@ -7,7 +7,7 @@ class AppColors {
   static const Color text = Color(0xFFCDCDCD);
   static const Color hint = Color(0xFF8A8A8A);
   static const Color link = Color(0xFFC8C8FF);
-  static const Color active = Color(0xFFA8FFA8);
+  static const Color active = Color(0xFF10AA10);
   static const Color warn = Color(0xFFFFD052);
   static const Color error = Colors.redAccent;
   static const LinearGradient gradient = LinearGradient(

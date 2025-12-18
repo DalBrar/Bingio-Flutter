@@ -57,7 +57,7 @@ class FocusWrap extends StatefulWidget {
     this.borderWidth = 3,
     this.borderRadius,
     this.disableAnimation = false,
-    this.animationDurationMilliseconds = 300,
+    this.animationDurationMilliseconds = 250,
     this.animationCurve = Curves.easeInToLinear,
     this.child,
   });
@@ -242,7 +242,11 @@ class _FocusWrapState extends State<FocusWrap> {
             onLongPress: () {
               if (widget.onLongPressSelect != null) widget.onLongPressSelect!();
             },
-            child: container,
+            child: MouseRegion(
+              onEnter: (_) => { _focusNode.requestFocus() },
+              onExit: (_) => { _focusNode.unfocus() },
+              child: container,
+            ),
           ),
         ),
       ],
