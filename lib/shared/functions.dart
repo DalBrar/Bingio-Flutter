@@ -1,25 +1,45 @@
 import 'package:bingio/shared/btn_plain_text.dart';
 import 'package:bingio/shared/constants.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 void closeAllDialogs(BuildContext context) {
   Navigator.of(context).popUntil((route) => route is PageRoute);
 }
 
-void showAppToast(String message, {Toast toastLength = Toast.LENGTH_SHORT, bool isError = false}) {
-  Fluttertoast.showToast(
-    msg: message,
-    toastLength: toastLength,
-    timeInSecForIosWeb: (toastLength == Toast.LENGTH_SHORT) ? 2 : 6,
-    backgroundColor: Colors.black,
-    textColor: isError ? AppColors.error : Colors.white,
-    fontSize: 16.0,
+void showAppToast(String message, {int toastLength = 3, bool isError = false}) {
+  ScaffoldMessenger.of(navigatorKey.currentContext!).showSnackBar(
+    SnackBar(
+      backgroundColor: Colors.black,
+      duration: Duration(seconds: toastLength),
+      padding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+      content: Column(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Divider(
+            color: isError ? AppColors.error : Colors.white,
+            thickness: 2,          ),
+          Text(
+            message,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: isError ? AppColors.error : Colors.white,
+              fontSize: 20.0,
+            ),
+          ),
+          Divider(
+            color: isError ? AppColors.error : Colors.white,
+            thickness: 2,
+          ),
+        ],
+      ),
+    )
   );
   return;
 }
 
-void showAppError(String message, {Toast toastLength = Toast.LENGTH_LONG}) {
+void showAppError(String message, {int toastLength = 6}) {
   showAppToast(message, toastLength: toastLength, isError: true);
 }
 
@@ -63,12 +83,12 @@ void showYesNoDialog({
 
 BuildContext? spinnerContext;
 void loadingSpinnerHide() {
-  if (spinnerContext != null) {
-    Future.delayed(Duration(milliseconds: 1), (){
+  Future.delayed(Duration(milliseconds: 50), (){
+    if (spinnerContext != null) {
       Navigator.of(spinnerContext!).pop();
       spinnerContext = null;
-    });
-  }
+    }
+  });
 }
 
 void loadingSpinnerShow(BuildContext context) {

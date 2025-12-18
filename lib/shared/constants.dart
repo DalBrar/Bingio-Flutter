@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
 class AppColors {
   AppColors._();
   static const Color background = Color(0xFF050505);
