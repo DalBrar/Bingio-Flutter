@@ -6,7 +6,6 @@
 	<key>GIDClientID</key>
 	<!-- Copied from GoogleService-Info.plist key CLIENT_ID -->
 	<string>224930641005-ted7ebvri88dl1a5edehqcspcf9cm31e.apps.googleusercontent.com</string>
-	<!-- Put me in the [my_project]/ios/Runner/Info.plist file -->
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
