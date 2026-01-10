@@ -7,12 +7,14 @@ echo Welcome to the Build Menu. You can do the following:
 echo     1: Clean up Flutter App and download dependencies
 echo     2: Build Android APK
 echo     3: Build Tizen TPK
+echo     w: Run on Web
 echo     x: Exit
 set /p choice=Please select an option: 
 
 if "%choice%"=="1" goto clean
 if "%choice%"=="2" goto build_apk
 if "%choice%"=="3" goto build_tpk
+if "%choice%"=="w" goto run_web
 if /i "%choice%"=="x" goto exit
 echo.
 echo That is not a valid selection.
@@ -48,6 +50,15 @@ call flutter-tizen build tpk
 echo.
 echo [✓] Tizen TPK build complete.
 goto menu
+
+:run_web
+echo.
+color 09
+echo Running app on Web at https://localhost:5000
+call flutter run -d chrome --web-hostname localhost --web-port 5000
+echo.
+echo [✓] Web app run complete.
+goto exit
 
 :exit
 echo.

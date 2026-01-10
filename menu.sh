@@ -24,6 +24,12 @@ build_tpk() {
     echo -e "\033[32m✅\033[35m Tizen TPK build complete.\033[0m"
 }
 
+run_web() {
+    echo -e "\033[34m📦 Running on Web at https://localhost:5000 ...\033[0m"
+    flutter run -d chrome --web-hostname localhost --web-port 5000
+    echo -e "\033[32m✅\033[35m Run on web complete.\033[0m"
+}
+
 # Main menu loop
 while true; do
     echo ""
@@ -31,6 +37,7 @@ while true; do
     echo -e "\033[35m    1\033[0m: Clean up Flutter App and download dependencies"
     echo -e "\033[35m    2\033[0m: Build Android APK"
     echo -e "\033[35m    3\033[0m: Build Tizen TPK"
+    echo -e "\033[35m    w\033[0m: Run on Web"
     echo -e "\033[35m    x\033[0m: Exit"
     echo -e -n "\033[36mPlease select an option: \033[35m"
     read -r choice
@@ -44,6 +51,10 @@ while true; do
             ;;
         3)
             build_tpk
+            ;;
+        w)
+            run_web
+            break
             ;;
         x)
             echo -e "\033[33m👋 Exiting. Goodbye!\033[0m"
