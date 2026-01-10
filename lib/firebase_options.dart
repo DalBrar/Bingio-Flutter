@@ -64,6 +64,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '224930641005',
     projectId: 'bingio-flutter',
     storageBucket: 'bingio-flutter.firebasestorage.app',
+    androidClientId: '224930641005-m4hb7s2r58lb5ep3enbmuv8rdq30ulsl.apps.googleusercontent.com',
+    iosClientId: '224930641005-ted7ebvri88dl1a5edehqcspcf9cm31e.apps.googleusercontent.com',
     iosBundleId: 'com.dalbrar.bingio',
   );
 
@@ -73,6 +75,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '224930641005',
     projectId: 'bingio-flutter',
     storageBucket: 'bingio-flutter.firebasestorage.app',
+    androidClientId: '224930641005-m4hb7s2r58lb5ep3enbmuv8rdq30ulsl.apps.googleusercontent.com',
+    iosClientId: '224930641005-ted7ebvri88dl1a5edehqcspcf9cm31e.apps.googleusercontent.com',
     iosBundleId: 'com.dalbrar.bingio',
   );
 

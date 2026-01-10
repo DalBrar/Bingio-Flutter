@@ -12,7 +12,20 @@
           "package_name": "com.dalbrar.bingio"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "224930641005-m4hb7s2r58lb5ep3enbmuv8rdq30ulsl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dalbrar.bingio",
+            "certificate_hash": "f8b6bf46b0b52e9e9ca0ab1ffb99667c1c0438aa"
+          }
+        },
+        {
+          "client_id": "224930641005-s5nlkf18bc4kp9ss5bnthdpk1q4f5c32.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "DO-NOT-UPLOAD-THIS-API-KEY-TO-REPO"
@@ -20,7 +33,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "224930641005-s5nlkf18bc4kp9ss5bnthdpk1q4f5c32.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "224930641005-ted7ebvri88dl1a5edehqcspcf9cm31e.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.dalbrar.bingio"
+              }
+            }
+          ]
         }
       }
     }

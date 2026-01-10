@@ -1,4 +1,4 @@
-Files `secrets.dart` should look like the following where `MY_SECRET_KEY-PLATFORM` are the respective platform's Google Firebase API keys:
+File `secrets.dart` should look like the following where `MY_SECRET_KEY-PLATFORM` are the respective platform's Google Firebase API keys:
 - NOTE: You can obtain each platform's respective api key by going to `Firebase Console > Project Settings > {platform app}`.
 
 ```
